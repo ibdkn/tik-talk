@@ -34,3 +34,22 @@
     color: var(--light-transparent);
   }
 }
+
+.password-input {
+  position: relative;
+}
+
+.password-eye-button {
+  position: absolute;
+  top: 50%;
+  right: 12px;
+  transform: translateY(-50%);
+  background-color: transparent;
+  border: none;
+  color: #FFFFFFBF;
+  cursor: pointer;
+}
+
+.password-eye-button.active {
+  color: var(--primary-color);
+}
