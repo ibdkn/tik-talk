@@ -1,0 +1,61 @@
+@import "margins";
+
+:root {
+  --dark-color: #000000;
+  --light-color: #ffffff;
+  --primary-color: #ae7aff;
+  --light-transparent: rgba(255, 255, 255, 0.75);
+}
+
+*, *::before, *::after {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: "JetBrains Mono", sans-serif;
+  background-color: var(--dark-color);
+  color: var(--light-color);
+
+  background-image: url("/assets/images/background.png");
+}
+
+.skill-tag {
+  padding: 4px 8px;
+  font-weight: 700;
+  font-size: 12px;
+  line-height: 133%;
+  border: 1px solid var(--light-color);
+  border-radius: 2px;
+}
+
+.btn {
+  padding: 10px 20px;
+  width: 100%;
+  font-weight: 700;
+  font-size: 14px;
+  color: var(--dark-color);
+  line-height: 171%;
+  border: none;
+  background-color: var(--primary-color);
+  cursor: pointer;
+}
+
+.h1 {
+  font-weight: 800;
+  font-size: 48px;
+  line-height: 117%;
+}
+
+.h6 {
+  font-weight: 800;
+  font-size: 18px;
+  line-height: 133%;
+}
+
+.subtitle {
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 150%;
+}
