@@ -1,0 +1,100 @@
+:host {
+  position: relative;
+  display: block;
+  padding: 20px 12px;
+  background-color: var(--dark-color);
+}
+
+.main-menu-list {
+  display: grid;
+  grid-gap: 8px;
+}
+
+.menu-item {
+  padding: 16px 12px;
+  display: grid;
+  grid-template-columns: 16px 1fr max-content;
+  grid-gap: 12px;
+  align-items: center;
+  width: 100%;
+
+  font-weight: 700;
+  font-size: 14px;
+  line-height: 171%;
+  color: var(--light-color);
+  text-align: left;
+
+  cursor: pointer;
+  border: none;
+  background: none;
+  border-radius: 2px;
+
+  &:hover,
+  &:focus-visible {
+    color: var(--primary-color);
+    background-color: var(--dark-hover-color);
+
+    svg {
+      color: var(--primary-color);
+    }
+  }
+}
+
+.menu-item svg {
+  display: block;
+  width: 16px!important;
+  height: 16px!important;
+  color: var(--light-color);
+}
+
+.to-subscribers {
+  display: flex;
+  gap: 10px;
+}
+
+.to-subscribers-link {
+  font-weight: 500;
+  font-size: 12px;
+  line-height: 133%;
+  color: var(--primary-color);
+  text-decoration: none;
+}
+
+.to-subscribers-icon {
+  width: 18px;
+  height: 18px;
+  color: var(--primary-color);
+}
+
+.sidebar__footer {
+  position: absolute;
+  width: calc(100% - 20px);
+  bottom: 20px;
+
+  padding: 4px 16px;
+  display: grid;
+  align-items: center;
+  grid-template-columns: 32px 1fr 16px;
+  grid-gap: 12px;
+  background-color: var(--dark-hover-color);
+  border-radius: 2px;
+
+  img {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+  }
+
+  .username-text {
+    font-weight: 700;
+    font-size: 14px;
+    line-height: 171%;
+    color: var(--primary-color);
+  }
+
+  .settings-btn svg {
+    width: 14px;
+    height: 14px;
+    fill: var(--primary-color);
+  }
+}

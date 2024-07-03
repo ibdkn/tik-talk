@@ -5,6 +5,8 @@
   --light-color: #ffffff;
   --primary-color: #ae7aff;
   --light-transparent: rgba(255, 255, 255, 0.75);
+  --gray-color: #SF646D;
+  --dark-hover-color: #161616;
 }
 
 *, *::before, *::after {
@@ -14,11 +16,16 @@
 }
 
 body {
+  height: 100dvh;
   font-family: "JetBrains Mono", sans-serif;
   background-color: var(--dark-color);
   color: var(--light-color);
 
   background-image: url("/assets/images/background.png");
+}
+
+ul li {
+  list-style: none;
 }
 
 .skill-tag {

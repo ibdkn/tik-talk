@@ -15,12 +15,12 @@ export class AuthService {
   router = inject(Router);
 
   token: string | null = null;
-  refreshToken: string | null = null;
+  refresh_token: string | null = null;
 
   get isAuth() {
     if (!this.token) {
       this.token = this.cookieService.get('token')
-      this.refreshToken = this.cookieService.get('refreshToken')
+      this.refresh_token = this.cookieService.get('refresh_token')
     }
     return !!this.token;
   }
@@ -39,7 +39,7 @@ export class AuthService {
 
   refreshAuthToken() {
     return this.http.post<TokenResponse>(`${this.baseApiUrl}refresh`, {
-      refresh_Token: this.refreshToken,
+      refresh_token: this.refresh_token,
     }).pipe(
       tap(val => this.saveTokens(val)),
       catchError(err => {
@@ -52,18 +52,18 @@ export class AuthService {
 
   logout() {
     this.cookieService.delete('token');
-    this.cookieService.delete('refreshToken');
+    this.cookieService.delete('refresh_token');
     this.token = null;
-    this.refreshToken = null;
+    this.refresh_token = null;
     this.router.navigate(['/login'])
   }
 
   saveTokens(res: TokenResponse) {
     this.token = res.access_token;
-    this.refreshToken = res.refresh_Token;
+    this.refresh_token = res.refresh_token;
 
     this.cookieService.set('token', this.token);
-    this.cookieService.set('refreshToken', this.refreshToken);
+    this.cookieService.set('refresh_token', this.refresh_token);
   }
 }
 
