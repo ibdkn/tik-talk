@@ -17,9 +17,7 @@ export class LayoutComponent {
   profileService = inject(ProfileService);
 
   ngOnInit() {
-    this.profileService.getMe().subscribe(val => {
-        console.log(val);
-      })
+
   }
 
 }
