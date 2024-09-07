@@ -1,1 +1,48 @@
-<p>profile-page works!</p>
+@if(profile$ | async; as profile) {
+  <header class="profile-page__header">
+    <app-profile-header [profile]="profile"></app-profile-header>
+    <a [routerLink]="['/settings']" class="btn to-setting-btn">
+      <span>Редактировать</span>
+      <svg icon="settings" class="to-setting-icon"></svg>
+    </a>
+  </header>
+
+  <main class="profile-page__body">
+    <app-post-feed></app-post-feed>
+    <div>
+      <!-- TODO вывести число подписчиков-->
+      <h3 class="h6 mb16">Подписчики</h3>
+      <div class="subscribers-wrapper mb32">
+        @for(subscriber of subscribers$ | async; track subscriber.id) {
+          <a class="subscriber-avatar__btn" [routerLink]="['/profile', subscriber.id]">
+            <img [src]="subscriber.avatarUrl | imgUrl" alt="">
+          </a>
+        }
+        <a class="to-subscribers-search" [routerLink]="['/search']"></a>
+      </div>
+      <div class="mb32">
+        <h3 class="h6 mb16">Навыки</h3>
+        <div class="profile-card__tags">
+          @if(profile.stack.length > 0) {
+            @for (skill of profile.stack; track skill) {
+              <div class="skill-tag">{{ skill }}</div>
+            }
+          } @else {
+            <div class="medium-text">Навыки не указаны</div>
+          }
+        </div>
+      </div>
+      <div>
+        <h3 class="h6 mb16">О себе</h3>
+        <div class="medium-text profile">
+          @if(profile.description) {
+            {{profile.description}}
+          } @else {
+            <div>Нет данных</div>
+          }
+        </div>
+      </div>
+    </div>
+  </main>
+}
+

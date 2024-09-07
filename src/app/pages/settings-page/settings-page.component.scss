@@ -1,0 +1,37 @@
+:host {
+  padding: 24px;
+  display: grid;
+  grid-template-columns: 322px 1fr;
+  grid-gap: 48px;
+}
+
+.profile-form__wrapper {
+  padding: 32px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  background-color: var(--dark-color);
+  border: 1px solid var(--light-color);
+  height: calc(100dvh - (24px * 4));
+}
+
+.profile-form {
+  display: grid;
+  grid-gap: 20px;
+}
+
+.two-colums {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-gap: 20px;
+}
+
+.profile-label {
+  font-weight: 500;
+  font-size: 12px;
+  line-height: 133%;
+}
+
+.profile-input {
+
+}

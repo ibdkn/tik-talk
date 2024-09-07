@@ -1,9 +1,9 @@
 <img src="/assets/svg/logo-small.svg" alt="" class="m116 mb20">
 
-<nav>
+<nav class="mb20">
   <ul class="main-menu-list">
     <li *ngFor="let menuItem of menuItems">
-      <a class="menu-item" [href]="menuItem.link">
+      <a class="menu-item" [routerLink]="[menuItem.link]">
         <svg [icon]="menuItem.icon"></svg>
         <span>{{ menuItem.label }}</span>
       </a>
@@ -17,7 +17,7 @@
   <app-subscriber-card [profile]="profile"></app-subscriber-card>
 }
 
-<div class="mt20 to-subscribers">
+<div class="to-subscribers mt20">
   <a [routerLink]="['/subscribers']" class="to-subscribers-link medium-text">Все подписчики</a>
   <svg icon="arrow" class="to-subscribers-icon"></svg>
 </div>

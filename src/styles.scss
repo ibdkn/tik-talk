@@ -17,6 +17,7 @@
 }
 
 body {
+  overflow-x: hidden;
   font-family: "JetBrains Mono", sans-serif;
   background: var(--dark-color);
   color: var(--light-color);
@@ -49,10 +50,22 @@ body {
   line-height: 117%;
 }
 
+.h4 {
+  font-weight: 800;
+  font-size: 24px;
+  line-height: 133%;
+}
+
 .h6 {
   font-weight: 800;
   font-size: 18px;
   line-height: 24px;
+}
+
+.regular {
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 150%;
 }
 
 .subtitle {
@@ -65,6 +78,40 @@ body {
   font-weight: 700;
   font-size: 12px;
   line-height: 133%;
+  color: var(--light-transparent);
+}
+
+.tt-form-input {
+  padding: 12px 0;
+  font-family: "JetBrains Mono", sans-serif;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 150%;
+  color: var(--light-color);
+  background: transparent;
+  border: none;
+  border-bottom: 1px solid var(--light-color);
+  outline: none;
+
+  &:focus {
+    border-bottom: 1px solid var(--primary-color);;
+  }
+}
+
+.tt-form-label {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.tt-form-label-text {
+  font-weight: 500;
+  font-size: 12px;
+  line-height: 133%;
+}
+
+.tt-textarea {
+  resize: none;
 }
 
 .tt-input {
@@ -96,4 +143,11 @@ body {
   font-weight: 500;
   font-size: 12px;
   line-height: 16px;
+}
+
+.profile-card__tags {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  gap: 4px;
 }
