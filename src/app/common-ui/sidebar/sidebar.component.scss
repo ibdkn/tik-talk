@@ -29,6 +29,15 @@
   border-radius: 2px;
   text-decoration: none;
 
+  &.active {
+    background: var(--dark-hover-color);
+    color: var(--primary-color);
+
+    .menu-item svg use {
+      color: var(--primary-color);
+    }
+  }
+
   &:hover,
   &:focus-visible {
     background: var(--dark-hover-color);
