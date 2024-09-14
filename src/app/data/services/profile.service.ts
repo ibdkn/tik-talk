@@ -3,6 +3,7 @@ import {HttpClient} from "@angular/common/http";
 import {Profile} from "../interfaces/profile.interface";
 import {Pageble} from "../interfaces/pageble.interface";
 import {map, tap} from "rxjs";
+import {formatDate} from "@angular/common";
 
 @Injectable({
   providedIn: 'root'
@@ -40,5 +41,14 @@ export class ProfileService {
 
   patchProfile(profile: Partial<Profile>) {
     return this.http.patch<Profile>(`${this.baseApiUrl}account/me`, profile);
+  }
+
+  uploadAvatar(file: File) {
+    const fd = new FormData();
+    fd.append('image', file);
+
+    return this.http.post<Profile>(`${this.baseApiUrl}account/upload_image`,
+      fd
+    );
   }
 }
