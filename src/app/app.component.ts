@@ -7,19 +7,10 @@ import {Profile} from './data/interfaces/profile.interface';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, ProfileCardComponent],
+  imports: [RouterOutlet],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'
 })
 export class AppComponent {
-  title = 'tik-talk';
-  profileService: ProfileService = inject(ProfileService);
-  profiles: Profile[] = [];
 
-  constructor() {
-    this.profileService.getTestAccounts()
-      .subscribe((val: Profile[]): void => {
-        this.profiles = val;
-      })
-  }
 }

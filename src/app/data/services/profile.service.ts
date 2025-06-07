@@ -15,4 +15,8 @@ export class ProfileService {
   getTestAccounts(): Observable<Profile[]> {
     return this.http.get<Profile[]>(`${this.baseApiUrl}/account/test_accounts`)
   }
+
+  getMe(): Observable<Profile> {
+    return this.http.get<Profile>(`${this.baseApiUrl}/account/me`)
+  }
 }

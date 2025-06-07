@@ -1,3 +1,5 @@
+@use "margins";
+
 :root {
   --dark-color: #000000;
   --light-color: #ffffff;
@@ -13,6 +15,7 @@
 body {
   font-family: "JetBrains Mono", monospace;
   background-color: var(--dark-color);
+  background-image: url(/assets/images/background.png);
   color: var(--light-color);
 }
 
@@ -27,13 +30,22 @@ body {
 }
 
 .btn {
+  width: 100%;
   padding: 10px 20px;
   font-weight: 700;
   font-size: 14px;
   line-height: 24px;
   color: var(--dark-color);
   background-color: var(--primary-color);
-  border: none;
+  border: 1px solid var(--dark-color);
+  border-radius: 2px;
+  cursor: pointer;
+}
+
+.h1 {
+  font-weight: 800;
+  font-size: 48px;
+  line-height: 56px;
 }
 
 .h6 {
@@ -45,4 +57,25 @@ body {
 .subtitle {
   font-size: 14px;
   line-height: 20px;
+}
+
+.tt-control-label {
+  display: block;
+  font-weight: 700;
+  font-size: 12px;
+  line-height: 16px;
+}
+
+.tt-input {
+  margin-top: 8px;
+  display: block;
+  width: 100%;
+  padding: 12px 20px;
+  font-family: "JetBrains Mono", monospace;
+  font-size: 14px;
+  line-height: 21px;
+  color: var(--light-color);
+  background-color: var(--dark-color);
+  border: 1px solid var(--light-color);
+  border-radius: 2px;
 }
