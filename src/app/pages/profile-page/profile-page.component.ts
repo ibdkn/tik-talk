@@ -17,7 +17,6 @@ import {PostFeedComponent} from './post-feed/post-feed.component';
     AsyncPipe,
     SvgIconComponent,
     RouterLink,
-    SubscriberCardComponent,
     ImgUrlPipe,
     PostFeedComponent
   ],

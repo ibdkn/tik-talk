@@ -1,0 +1,63 @@
+:host {
+  display: grid;
+  grid-template-columns: 322px 1fr;
+  grid-gap: 48px;
+}
+
+.profile-form__wrapper {
+  padding: 32px;
+  height: calc(100vh - 48px);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  border: 1px solid var(--light-color);
+  background-color: var(--dark-color);
+}
+
+.profile-form {
+  display: grid;
+  grid-gap: 20px;
+}
+
+.two-columns {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-gap: 20px;
+}
+
+.profile-form__actions {
+  display: flex;
+  justify-content: space-between;
+}
+
+.btns__wrapper {
+  display: flex;
+  gap: 20px;
+
+  .btn {
+    max-width: max-content;
+  }
+}
+
+.transparent-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  svg {
+    width: 16px;
+    height: 16px;
+
+    &.trash-icon {
+      color: #ec9698;
+    }
+  }
+}
+
+.move-to-trash-btn,
+.logout-btn {
+  padding: 0;
+  min-width: 44px;
+  width: 44px;
+  height: 44px;
+}
