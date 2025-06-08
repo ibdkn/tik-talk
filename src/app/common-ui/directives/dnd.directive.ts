@@ -5,7 +5,7 @@ import {Directive, EventEmitter, HostBinding, HostListener, Output} from '@angul
 })
 export class DndDirective {
   @Output() fileDropped: EventEmitter<File> = new EventEmitter<File>();
-  
+
   @HostBinding('class.fileover')
   fileover: boolean = false;
 

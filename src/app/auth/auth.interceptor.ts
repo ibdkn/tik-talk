@@ -1,9 +1,9 @@
 import {HttpHandlerFn, HttpInterceptorFn, HttpRequest} from '@angular/common/http';
 import {inject} from '@angular/core';
 import {AuthService} from './auth.service';
-import {catchError, switchMap, throwError} from 'rxjs';
+import {BehaviorSubject, catchError, filter, switchMap, tap, throwError} from 'rxjs';
 
-let isRefreshing = false;
+let isRefreshing$ = new BehaviorSubject<boolean>(false);
 
 export const authTokenInterceptor: HttpInterceptorFn = (req, next) => {
   const authService: AuthService = inject(AuthService);
@@ -13,7 +13,7 @@ export const authTokenInterceptor: HttpInterceptorFn = (req, next) => {
   if (!token) return next(req);
 
   // Если уже идёт обновление - сразу "пришпандориваем" текущий запрос к новому токену
-  if (isRefreshing) {
+  if (isRefreshing$.value) {
     return refreshAndProceed(authService, req, next)
   }
 
@@ -37,20 +37,29 @@ const refreshAndProceed = (
   req: HttpRequest<any>,
   next: HttpHandlerFn
 ) => {
-  if (!isRefreshing) {
-    isRefreshing = true;
+  if (!isRefreshing$.value) {
+    isRefreshing$.next(true);
 
     return authService.refreshAuthToken()
       .pipe(
         switchMap((res) => {
-          // получили новые токены → повторяем исходный запрос
-          return next(addToken(req, res.access_token));
+          return next(addToken(req, res.access_token))
+            .pipe (
+              tap(() => isRefreshing$.next(false))
+            )
         })
       )
   }
 
-  // если уже обновляемся - сразу повторяем с тем, что есть в authService.token
-  return next(addToken(req, authService.token!));
+  if (req.url.includes('refresh')) return next(addToken(req, authService.token!));
+
+  return isRefreshing$
+    .pipe(
+      filter(isRefreshing => !isRefreshing),
+      switchMap(res => {
+        return next(addToken(req, authService.token!));
+      })
+    )
 }
 
 // Функция клонирует запрос и ставит заголовок Authorization
