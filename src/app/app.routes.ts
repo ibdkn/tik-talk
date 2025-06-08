@@ -9,9 +9,10 @@ import {SettingsPageComponent} from './pages/settings-page/settings-page.compone
 export const routes: Routes = [
   {
     path: '', component: LayoutComponent, children: [
-      {path: '', component: SearchPageComponent},
+      {path: '', redirectTo: 'profile/me', pathMatch: 'full'},
       {path: 'profile/:id', component: ProfilePageComponent},
       {path: 'settings', component: SettingsPageComponent},
+      {path: 'search', component: SearchPageComponent},
     ],
     canActivate: [canActivateAuth]
   },

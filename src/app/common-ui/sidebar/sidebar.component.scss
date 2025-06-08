@@ -27,7 +27,8 @@
   border-radius: 2px;
 
   &:hover,
-  &:focus-visible {
+  &:focus-visible,
+  &.active {
     background: var(--dark-hover-color);
     color: var(--primary-color);
 
