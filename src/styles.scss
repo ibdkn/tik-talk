@@ -22,7 +22,7 @@ body {
   color: var(--light-color);
 }
 
-button {
+button, input, textarea {
   font-family: "JetBrains Mono", monospace;
 }
 
@@ -159,4 +159,22 @@ img {
 
 .tt-form-textarea {
   resize: none;
+}
+
+.btn-icon {
+  width: 44px;
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--primary-color);
+
+  svg {
+    color: var(--dark-color);
+  }
+}
+
+.svg16 {
+  width: 16px;
+  height: 16px;
 }

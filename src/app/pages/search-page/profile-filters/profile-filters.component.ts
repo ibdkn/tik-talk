@@ -9,10 +9,8 @@ import {takeUntilDestroyed} from '@angular/core/rxjs-interop';
 @Component({
   selector: 'app-profile-filters',
     imports: [
-        AvatarUploadComponent,
         FormsModule,
         ReactiveFormsModule,
-        SvgIconComponent
     ],
   templateUrl: './profile-filters.component.html',
   styleUrl: './profile-filters.component.scss'

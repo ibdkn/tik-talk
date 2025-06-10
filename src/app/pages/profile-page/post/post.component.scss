@@ -1,0 +1,51 @@
+:host {
+  padding: 20px;
+  display: grid;
+  grid-template-columns: 32px 1fr;
+  gap: 16px;
+  color: var(--light-color);
+  background-color: var(--dark-color);
+  border: 1px solid var(--light-color);
+}
+
+.post-body {
+  display: grid;
+  grid-gap: 12px;
+}
+
+.post__author {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 700;
+  font-size: 14px;
+  line-height: 21px;
+  white-space: nowrap;
+  color: var(--light-color);
+}
+
+.post-created-at {
+  color: var(--light-color-transparrent);
+}
+
+.comment-amount {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+
+  .svg16 {
+    color: var(--primary-color);
+  }
+}
+
+.comments-length {
+  color: var(--primary-color);
+}
+
+.post__comments-wrapper {
+  padding: 8px 0;
+  display: grid;
+  grid-gap: 8px;
+  max-height: 150px;
+  overflow-y: scroll;
+}
