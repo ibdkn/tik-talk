@@ -3,13 +3,21 @@
 }
 
 <textarea class="hidden-textarea" placeholder="Напишите что-нибудь"
-          (input)="onTextAreaInput($event)" [(ngModel)]="postText"
+          (input)="onTextAreaInput($event)" [(ngModel)]="text"
 ></textarea>
 
 <div class="emojis-btn">
   <svg icon="emojis" class="svg16"></svg>
 </div>
 
-<div class="btn-icon" (click)="onCreated()">
+<button class="btn btn-icon" (click)="onCreated()">
   <svg icon="send" class="svg16"></svg>
-</div>
+</button>
+
+<button class="btn btn-save" (click)="onSaved()">
+  Сохранить
+</button>
+
+<button class="btn btn-cancel btn-transparent" (click)="onCanceled()">
+  Отмена
+</button>

@@ -7,6 +7,11 @@ export interface PostCreateDto {
   communityId?: number
 }
 
+export interface PostUpdateDto {
+  title?: string
+  content: string
+}
+
 export interface Post {
   id: number
   title: string

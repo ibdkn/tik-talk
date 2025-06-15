@@ -1,14 +1,36 @@
 @if (post(); as post) {
   <app-avatar-circle [avatarUrl]="post.author.avatarUrl" class="size32"></app-avatar-circle>
 
-  <main class="post-body">
-    <div class="post-header">
-      <strong class="post__author">
-        <span> {{ post.author.firstName }} {{ post.author.lastName }}</span>
-        <span class="post-created-at">{{ post.createdAt | timeAgo }}</span>
-      </strong>
+  <main class="post__content">
+    <div class="post__body">
+      <div>
+        <strong class="post__author">
+          <span> {{ post.author.firstName }} {{ post.author.lastName }}</span>
+          <span class="post-created-at">{{ post.createdAt | timeAgo }}</span>
+        </strong>
+        @if (isEditable) {
+          <app-post-input [profile]="profile()" [content]="post.content" [isEditableInput]="true" (canceled)="isEditable = $event" (saved)="onUpdatePost($event)"></app-post-input>
+        } @else {
+          <p class="medium-text">{{ post.content }}</p>
+        }
+      </div>
+      <button class="btn btn-post-menu" [ngClass]="isShowPostModal ? 'active' : ''" (click)="isShowPostModal = !isShowPostModal">
+        <svg icon="dots" class="svg14"></svg>
+
+        @if (isShowPostModal) {
+          <ul class="post-modal" clickOutside (clickOutside)="isShowPostModal = false">
+            <li class="post-modal-text" (click)="isEditable = !isEditable">
+              <svg icon="settings" class="svg16"></svg>
+              <span>Редактировать</span>
+            </li>
+            <li class="post-modal-text" (click)="onDeletePost()">
+              <svg icon="trash" class="svg16"></svg>
+              <span>Удалить</span>
+            </li>
+          </ul>
+        }
+      </button>
     </div>
-    <p class="medium-text">{{ post.content }}</p>
 
     <div class="post-counters">
       <span class="comment-amount">

@@ -11,6 +11,24 @@
     border-style: dashed;
     border-radius: 2px;
   }
+
+  &.editable {
+    background-color: var(--dark-hover-color);
+    border: none;
+    grid-template-columns: 1fr 40px 118px 92px;
+
+    .size32, .btn-icon {
+      display: none;
+    }
+
+    .btn-save, .btn-cancel {
+      display: block;
+    }
+
+    .hidden-textarea {
+      background-color: var(--dark-hover-color);
+    }
+  }
 }
 
 .hidden-textarea {
@@ -35,4 +53,8 @@
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+.btn-save, .btn-cancel {
+  display: none;
 }

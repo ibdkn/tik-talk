@@ -72,6 +72,16 @@ export class PostFeedComponent implements AfterViewInit {
     await firstValueFrom(this.postService.fetchPosts());
   }
 
+  async onDeletePost(id: number): Promise<void> {
+    await firstValueFrom(this.postService.deletePost(id));
+    await firstValueFrom(this.postService.fetchPosts());
+  }
+
+  async updatePost(id: number, content: string): Promise<void> {
+    await firstValueFrom(this.postService.updatePost(id, {content}));
+    await firstValueFrom(this.postService.fetchPosts());
+  }
+
   async onCreateComment(postId: number, commentText: string): Promise<void> {
     if (!commentText) return;
 

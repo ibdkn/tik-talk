@@ -4,7 +4,7 @@ import {
   HostBinding,
   inject,
   input,
-  InputSignal,
+  InputSignal, OnInit,
   Output,
   Renderer2,
 } from '@angular/core';
@@ -23,29 +23,53 @@ import {Profile} from '../../../data/interfaces/profile.interface';
   templateUrl: './post-input.component.html',
   styleUrl: './post-input.component.scss'
 })
-export class PostInputComponent {
+export class PostInputComponent implements OnInit {
   r2: Renderer2 = inject(Renderer2);
 
-  postText: string = '';
+  text: string = '';
   //@ts-ignore
   profile: InputSignal<Profile | null> = input<Profile>();
   isCommentInput: InputSignal<boolean> = input(false);
+  isEditableInput: InputSignal<boolean> = input(false);
   postId: InputSignal<number> = input<number>(0);
+  content: InputSignal<string> = input<string>('');
 
   @Output() created: EventEmitter<string> = new EventEmitter<string>();
+  @Output() saved: EventEmitter<string> = new EventEmitter<string>();
+  @Output() canceled: EventEmitter<boolean> = new EventEmitter<boolean>();
 
   @HostBinding('class.comment')
   get isComment(): boolean {
     return this.isCommentInput()
   }
 
+  @HostBinding('class.editable')
+  get isEditable(): boolean {
+    return this.isEditableInput()
+  }
+
+  ngOnInit(): void {
+    if (this.content()) {
+      this.text = this.content();
+    }
+  }
+
   onCreated(): void {
-    const text: string = this.postText.trim();
-
+    const text: string = this.text.trim();
     if (!text) return;
+    this.created.emit(this.text);
+    this.text = '';
+  }
 
-    this.created.emit(this.postText);
-    this.postText = '';
+  onSaved(): void {
+    const text: string = this.text.trim();
+    if (!text) return;
+    this.saved.emit(this.text);
+    this.canceled.emit(false);
+  }
+
+  onCanceled(): void {
+    this.canceled.emit(false);
   }
 
   onTextAreaInput(event: Event): void {

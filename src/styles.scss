@@ -5,6 +5,7 @@
   --light-color: #ffffff;
   --light-color-transparrent: #FFFFFFBF;
   --primary-color: #AE7AFF;
+  --primary-hover-color: #9c6de4;
   --dark-hover-color: #161616;
 }
 
@@ -56,6 +57,12 @@ img {
   border: 1px solid var(--dark-color);
   border-radius: 2px;
   cursor: pointer;
+  transition: .2s linear;
+
+  &:hover {
+    background-color: var(--primary-hover-color);
+    transition: .2s linear;
+  }
 }
 
 .transparent-btn {
@@ -162,6 +169,7 @@ img {
 }
 
 .btn-icon {
+  padding: 0;
   width: 44px;
   height: 44px;
   display: flex;
@@ -174,7 +182,23 @@ img {
   }
 }
 
+.btn-transparent {
+  color: var(--light-color-transparrent);
+  border: 1px solid var(--light-color-transparrent);
+  background-color: var(--dark-color);
+
+  &:hover {
+    color: var(--dark-color);
+    border: 1px solid var(--dark-color);
+  }
+}
+
 .svg16 {
   width: 16px;
   height: 16px;
+}
+
+.svg14 {
+  width: 14px;
+  height: 14px;
 }
