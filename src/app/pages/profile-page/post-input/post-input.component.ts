@@ -1,10 +1,17 @@
-import {Component, EventEmitter, HostBinding, inject, input, InputSignal, Output, Renderer2} from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  HostBinding,
+  inject,
+  input,
+  InputSignal,
+  Output,
+  Renderer2,
+} from '@angular/core';
 import {AvatarCircleComponent} from "../../../common-ui/avatar-circle/avatar-circle.component";
-import {ProfileService} from '../../../data/services/profile.service';
 import {SvgIconComponent} from '../../../common-ui/svg-icon/svg-icon.component';
-import {PostService} from '../../../data/services/post.service';
 import {FormsModule} from '@angular/forms';
-import {firstValueFrom} from 'rxjs';
+import {Profile} from '../../../data/interfaces/profile.interface';
 
 @Component({
   selector: 'app-post-input',
@@ -17,48 +24,28 @@ import {firstValueFrom} from 'rxjs';
   styleUrl: './post-input.component.scss'
 })
 export class PostInputComponent {
-  r2 = inject(Renderer2);
-  profile = inject(ProfileService).me;
-  postService: PostService = inject(PostService);
+  r2: Renderer2 = inject(Renderer2);
 
   postText: string = '';
+  //@ts-ignore
+  profile: InputSignal<Profile | null> = input<Profile>();
   isCommentInput: InputSignal<boolean> = input(false);
   postId: InputSignal<number> = input<number>(0);
 
-  @Output() created = new EventEmitter();
+  @Output() created: EventEmitter<string> = new EventEmitter<string>();
 
   @HostBinding('class.comment')
   get isComment(): boolean {
     return this.isCommentInput()
   }
 
-  onCreatedPost(): void {
-    if (!this.postText) return;
+  onCreated(): void {
+    const text: string = this.postText.trim();
 
-    if (this.isCommentInput()) {
-      firstValueFrom(
-        this.postService.createComments({
-          text: this.postText,
-          authorId: this.profile()!.id,
-          postId: this.postId()
-        })
-      ).then(() => {
-        this.postText = '';
-        this.created.emit();
-      })
+    if (!text) return;
 
-      return;
-    }
-
-    firstValueFrom(
-      this.postService.createPost({
-        title: 'Клевый пост',
-        content: this.postText,
-        authorId: this.profile()!.id
-      })
-    ).then(() => {
-      this.postText = '';
-    })
+    this.created.emit(this.postText);
+    this.postText = '';
   }
 
   onTextAreaInput(event: Event): void {

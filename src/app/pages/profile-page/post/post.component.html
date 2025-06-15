@@ -5,7 +5,7 @@
     <div class="post-header">
       <strong class="post__author">
         <span> {{ post.author.firstName }} {{ post.author.lastName }}</span>
-        <span class="post-created-at">{{ post.createdAt | date: 'dd.MM.yyyy HH:MM' }}</span>
+        <span class="post-created-at">{{ post.createdAt | timeAgo }}</span>
       </strong>
     </div>
     <p class="medium-text">{{ post.content }}</p>
@@ -23,6 +23,6 @@
       }
     </div>
 
-    <app-post-input [isCommentInput]="true" [postId]="post.id" (created)="onCreated()"></app-post-input>
+    <app-post-input [profile]="profile()" [isCommentInput]="true" [postId]="post.id" (created)="onCreateComment($event)"></app-post-input>
   </main>
 }

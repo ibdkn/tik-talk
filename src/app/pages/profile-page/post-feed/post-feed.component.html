@@ -1,8 +1,8 @@
-<app-post-input></app-post-input>
+<app-post-input [profile]="profile()" (created)="onCreatePost($event)"></app-post-input>
 
 <div #feedWrapper class="post-feed__wrapper">
   @for (post of feed(); track post.id) {
-    <app-post [post]="post"></app-post>
+    <app-post #postComp [profile]="profile()" [post]="post" (commentCreated)="onCreateComment($event.postId, $event.commentText)"></app-post>
   }
 </div>
 
