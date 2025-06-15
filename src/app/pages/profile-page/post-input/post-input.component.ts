@@ -12,9 +12,10 @@ import {AvatarCircleComponent} from "../../../common-ui/avatar-circle/avatar-cir
 import {SvgIconComponent} from '../../../common-ui/svg-icon/svg-icon.component';
 import {FormsModule} from '@angular/forms';
 import {Profile} from '../../../data/interfaces/profile.interface';
+import {ProfileService} from '../../../data/services/profile.service';
 
 @Component({
-  selector: 'app-post-input',
+  selector: 'app-common-input',
   imports: [
     AvatarCircleComponent,
     SvgIconComponent,
@@ -25,10 +26,11 @@ import {Profile} from '../../../data/interfaces/profile.interface';
 })
 export class PostInputComponent implements OnInit {
   r2: Renderer2 = inject(Renderer2);
+  me = inject(ProfileService).me;
 
   text: string = '';
   //@ts-ignore
-  profile: InputSignal<Profile | null> = input<Profile>();
+  profile: InputSignal<Profile | null | undefined> = input<Profile>();
   isCommentInput: InputSignal<boolean> = input(false);
   isEditableInput: InputSignal<boolean> = input(false);
   postId: InputSignal<number> = input<number>(0);

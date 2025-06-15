@@ -9,7 +9,7 @@
           <span class="post-created-at">{{ post.createdAt | timeAgo }}</span>
         </strong>
         @if (isEditable) {
-          <app-post-input [profile]="profile()" [content]="post.content" [isEditableInput]="true" (canceled)="isEditable = $event" (saved)="onUpdatePost($event)"></app-post-input>
+          <app-common-input [profile]="profile()" [content]="post.content" [isEditableInput]="true" (canceled)="isEditable = $event" (saved)="onUpdatePost($event)"></app-common-input>
         } @else {
           <p class="medium-text">{{ post.content }}</p>
         }
@@ -45,6 +45,6 @@
       }
     </div>
 
-    <app-post-input [profile]="profile()" [isCommentInput]="true" [postId]="post.id" (created)="onCreateComment($event)"></app-post-input>
+    <app-common-input [profile]="profile()" [isCommentInput]="true" [postId]="post.id" (created)="onCreateComment($event)"></app-common-input>
   </main>
 }

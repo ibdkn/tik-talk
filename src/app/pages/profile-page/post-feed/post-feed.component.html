@@ -1,4 +1,4 @@
-<app-post-input [profile]="profile()" (created)="onCreatePost($event)"></app-post-input>
+<app-common-input [profile]="profile()" (created)="onCreatePost($event)"></app-common-input>
 
 <div #feedWrapper class="post-feed__wrapper">
   @for (post of feed(); track post.id) {

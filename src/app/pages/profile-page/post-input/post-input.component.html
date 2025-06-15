@@ -2,6 +2,10 @@
   <app-avatar-circle class="size32" [avatarUrl]="profile.avatarUrl"></app-avatar-circle>
 }
 
+@if (me(); as profile) {
+  <app-avatar-circle class="size32" [avatarUrl]="profile.avatarUrl"></app-avatar-circle>
+}
+
 <textarea class="hidden-textarea" placeholder="Напишите что-нибудь"
           (input)="onTextAreaInput($event)" [(ngModel)]="text"
 ></textarea>
