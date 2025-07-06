@@ -1,8 +1,4 @@
-@if (profile(); as profile) {
-  <app-avatar-circle class="size32" [avatarUrl]="profile.avatarUrl"></app-avatar-circle>
-}
-
-@if (me(); as profile) {
+@if (currentProfile(); as profile) {
   <app-avatar-circle class="size32" [avatarUrl]="profile.avatarUrl"></app-avatar-circle>
 }
 

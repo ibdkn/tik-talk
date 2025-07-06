@@ -2,6 +2,7 @@
   display: grid;
   padding: 16px 20px;
   grid-template-rows: 1fr min-content;
+  height: calc(100% - 82px);
 }
 
 .messages-wrapper {
@@ -9,4 +10,5 @@
   flex-direction: column;
   gap: 12px;
   margin-bottom: 12px;
+  overflow-y: auto;
 }

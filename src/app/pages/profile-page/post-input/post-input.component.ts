@@ -1,12 +1,12 @@
 import {
-  Component,
+  Component, computed,
   EventEmitter,
   HostBinding,
   inject,
   input,
   InputSignal, OnInit,
   Output,
-  Renderer2,
+  Renderer2, Signal, WritableSignal,
 } from '@angular/core';
 import {AvatarCircleComponent} from "../../../common-ui/avatar-circle/avatar-circle.component";
 import {SvgIconComponent} from '../../../common-ui/svg-icon/svg-icon.component';
@@ -26,13 +26,14 @@ import {ProfileService} from '../../../data/services/profile.service';
 })
 export class PostInputComponent implements OnInit {
   r2: Renderer2 = inject(Renderer2);
-  me = inject(ProfileService).me;
+  me: WritableSignal<Profile | null> = inject(ProfileService).me;
 
   text: string = '';
   //@ts-ignore
   profile: InputSignal<Profile | null | undefined> = input<Profile>();
   isCommentInput: InputSignal<boolean> = input(false);
   isEditableInput: InputSignal<boolean> = input(false);
+  isChatInput: InputSignal<boolean> = input(false);
   postId: InputSignal<number> = input<number>(0);
   content: InputSignal<string> = input<string>('');
 
@@ -49,6 +50,8 @@ export class PostInputComponent implements OnInit {
   get isEditable(): boolean {
     return this.isEditableInput()
   }
+
+  currentProfile: Signal<Profile | null | undefined> = computed(() => this.isChatInput() ? this.me() : this.profile());
 
   ngOnInit(): void {
     if (this.content()) {

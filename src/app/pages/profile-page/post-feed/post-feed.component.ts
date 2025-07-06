@@ -48,7 +48,6 @@ export class PostFeedComponent implements AfterViewInit {
       .pipe(debounceTime(500), takeUntilDestroyed())
       .subscribe(() => {
         this.resizeFeed();
-        console.log(123)
       })
   }
 

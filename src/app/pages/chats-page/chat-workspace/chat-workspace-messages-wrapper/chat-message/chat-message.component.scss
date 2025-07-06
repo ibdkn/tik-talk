@@ -16,6 +16,15 @@
       .message-text {
         color: var(--dark-color);
         background-color: var(--primary-color);
+
+        &:before {
+          right: 0;
+          left: auto;
+          border-style: solid;
+          border-width: 0 10px 10px 0;
+          border-color: transparent var(--dark-color) transparent transparent;
+          transform: rotate(0deg);
+        }
       }
     }
   }
@@ -27,20 +36,26 @@
 }
 
 .message-text {
+  position: relative;
   padding: 8px 16px;
-  width: max-content;
+  max-width: max-content;
+  width: 600px;
   font-weight: 500;
   font-size: 14px;
+  word-wrap: break-word;
   color: var(--light-color);
   background-color: var(--message-bg-color);
 
-  mask:
-    linear-gradient(#000 0 0),
-    linear-gradient(-135deg, #000 50%, #0000 0);
-  mask-size: 100% 100%, 200% 200%;
-  mask-repeat: no-repeat;
-
-  mask-composite: exclude;
-
-  mask-position: 10% 94%;
+  &:before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 0;
+    height: 0;
+    border-style: solid;
+    border-width: 10px 10px 0 0;
+    border-color: var(--dark-color) transparent transparent transparent;
+    transform: rotate(0deg);
+  }
 }
