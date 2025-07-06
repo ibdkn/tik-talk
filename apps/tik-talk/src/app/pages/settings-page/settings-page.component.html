@@ -1,0 +1,70 @@
+<app-profile-header></app-profile-header>
+
+<form class="profile-form__wrapper" [formGroup]="form">
+  <div class="profile-form">
+    <div class="two-columns">
+      <label class="tt-form-label">
+        <span class="tt-form-label-text">Имя</span>
+        <input
+          type="text"
+          class="tt-form-input"
+          placeholder="Введите данные"
+          formControlName="firstName"
+        />
+      </label>
+      <label class="tt-form-label">
+        <span class="tt-form-label-text">Фамилия</span>
+        <input
+          type="text"
+          class="tt-form-input"
+          placeholder="Введите данные"
+          formControlName="lastName"
+        />
+      </label>
+    </div>
+    <label class="tt-form-label">
+      <span class="tt-form-label-text">Telegram username</span>
+      <input
+        type="text"
+        class="tt-form-input"
+        placeholder="Введите данные"
+        formControlName="username"
+      />
+    </label>
+    <label class="tt-form-label">
+      <span class="tt-form-label-text">О себе</span>
+      <textarea
+        class="tt-form-textarea"
+        placeholder="Введите данные"
+        formControlName="description"
+      ></textarea>
+    </label>
+    <label class="tt-form-label">
+      <span class="tt-form-label-text">Аватар</span>
+      <app-avatar-upload></app-avatar-upload>
+    </label>
+    <label class="tt-form-label">
+      <span class="tt-form-label-text">Навыки</span>
+      <input
+        type="text"
+        class="tt-form-input"
+        placeholder="Введите данные"
+        formControlName="stack"
+      />
+    </label>
+  </div>
+  <div class="profile-form__actions">
+    <div class="btns__wrapper">
+      <button class="btn transparent-btn move-to-trash-btn">
+        <svg icon="trash" class="trash-icon"></svg>
+      </button>
+      <button class="btn transparent-btn logout-btn">
+        <svg icon="logout" class="logout-icon"></svg>
+      </button>
+    </div>
+    <div class="btns__wrapper">
+      <button class="btn transparent-btn">Отмена</button>
+      <button class="btn save-btn" (click)="onSave()">Сохранить</button>
+    </div>
+  </div>
+</form>

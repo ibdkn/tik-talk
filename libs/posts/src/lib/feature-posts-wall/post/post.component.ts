@@ -1,0 +1,87 @@
+import {
+  Component,
+  EventEmitter,
+  inject,
+  input,
+  InputSignal,
+  OnInit,
+  Output,
+  signal,
+  WritableSignal,
+} from '@angular/core';
+import { firstValueFrom } from 'rxjs';
+import { NgClass } from '@angular/common';
+import {AvatarCircleComponent, ClickOutsideDirective, SvgIconComponent, TimeAgoPipe} from '@tt/common-ui';
+import {CommentComponent, PostInputComponent } from '../../ui';
+import { Post, PostComment, PostService } from '../../data';
+
+@Component({
+  selector: 'app-post',
+  imports: [
+    AvatarCircleComponent,
+    SvgIconComponent,
+    PostInputComponent,
+    CommentComponent,
+    TimeAgoPipe,
+    NgClass,
+    ClickOutsideDirective,
+  ],
+  templateUrl: './post.component.html',
+  styleUrl: './post.component.scss',
+})
+export class PostComponent implements OnInit {
+  //@ts-ignore
+  profile: InputSignal<Profile | null> = input<Profile>();
+  post: InputSignal<Post | undefined> = input<Post>();
+
+  comments: WritableSignal<PostComment[]> = signal<PostComment[]>([]);
+
+  postService: PostService = inject(PostService);
+  isShowPostModal: boolean = false;
+  isEditable: boolean = false;
+
+  @Output() commentCreated: EventEmitter<{
+    postId: number;
+    commentText: string;
+  }> = new EventEmitter<{ postId: number; commentText: string }>();
+  @Output() commentUpdated: EventEmitter<{
+    postId: number;
+    commentText: string;
+  }> = new EventEmitter<{ postId: number; commentText: string }>();
+  @Output() postDeleted: EventEmitter<{ postId: number }> = new EventEmitter<{
+    postId: number;
+  }>();
+  @Output() postUpdated: EventEmitter<{ postId: number; text: string }> =
+    new EventEmitter<{ postId: number; text: string }>();
+
+  async ngOnInit(): Promise<void> {
+    this.comments.set(this.post()!.comments);
+  }
+
+  async updateComments(): Promise<void> {
+    const comments: PostComment[] = await firstValueFrom(
+      this.postService.getCommentsByPostId(this.post()!.id)
+    );
+    this.comments.set(comments);
+  }
+
+  onCreateComment(commentText: string): void {
+    this.commentCreated.emit({ postId: this.post()!.id, commentText });
+  }
+
+  onUpdateComment(commentText: string): void {
+    // this.commentUpdated.emit({ postId: this.post()!.id, commentText })
+  }
+
+  onDeleteComment(): void {
+    // this.commentDeleted.emit({ postId: this.post()!.id })
+  }
+
+  onDeletePost(): void {
+    this.postDeleted.emit({ postId: this.post()!.id });
+  }
+
+  onUpdatePost(text: string) {
+    this.postUpdated.emit({ postId: this.post()!.id, text });
+  }
+}
