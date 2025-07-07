@@ -14,7 +14,8 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { PostInputComponent } from '../../ui';
 import { PostComponent } from '../post/post.component';
 import {Post, PostService } from '../../data';
-import {Profile, ProfileService} from '@tt/profile';
+import {Profile} from '@tt/interfaces/profile';
+import {GlobalStoreService} from '@tt/shared';
 
 @Component({
   selector: 'app-post-feed',
@@ -23,7 +24,7 @@ import {Profile, ProfileService} from '@tt/profile';
   styleUrl: './post-feed.component.scss',
 })
 export class PostFeedComponent implements AfterViewInit {
-  profile: WritableSignal<Profile | null> = inject(ProfileService).me;
+  profile: WritableSignal<Profile | null> = inject(GlobalStoreService).me;
   postService: PostService = inject(PostService);
   r2: Renderer2 = inject(Renderer2);
   feed: WritableSignal<Post[]> = this.postService.posts;

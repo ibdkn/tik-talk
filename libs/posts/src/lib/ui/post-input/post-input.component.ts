@@ -13,8 +13,9 @@ import {
   WritableSignal,
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import {Profile, ProfileService} from '@tt/profile';
 import {AvatarCircleComponent, SvgIconComponent} from '@tt/common-ui';
+import {Profile} from '@tt/interfaces/profile';
+import {GlobalStoreService} from '@tt/shared';
 
 @Component({
   selector: 'app-common-input',
@@ -24,7 +25,7 @@ import {AvatarCircleComponent, SvgIconComponent} from '@tt/common-ui';
 })
 export class PostInputComponent implements OnInit {
   r2: Renderer2 = inject(Renderer2);
-  me: WritableSignal<Profile | null> = inject(ProfileService).me;
+  me: WritableSignal<Profile | null> = inject(GlobalStoreService).me;
 
   text: string = '';
   //@ts-ignore
