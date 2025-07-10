@@ -14,6 +14,7 @@ import { NgClass } from '@angular/common';
 import {AvatarCircleComponent, ClickOutsideDirective, SvgIconComponent, TimeAgoPipe} from '@tt/common-ui';
 import {CommentComponent, PostInputComponent } from '../../ui';
 import { Post, PostComment, PostService } from '../../data';
+import {Profile} from '@tt/interfaces/profile';
 
 @Component({
   selector: 'app-post',
@@ -30,7 +31,7 @@ import { Post, PostComment, PostService } from '../../data';
   styleUrl: './post.component.scss',
 })
 export class PostComponent implements OnInit {
-  //@ts-ignore
+  // @ts-ignore
   profile: InputSignal<Profile | null> = input<Profile>();
   post: InputSignal<Post | undefined> = input<Post>();
 
@@ -67,14 +68,6 @@ export class PostComponent implements OnInit {
 
   onCreateComment(commentText: string): void {
     this.commentCreated.emit({ postId: this.post()!.id, commentText });
-  }
-
-  onUpdateComment(commentText: string): void {
-    // this.commentUpdated.emit({ postId: this.post()!.id, commentText })
-  }
-
-  onDeleteComment(): void {
-    // this.commentDeleted.emit({ postId: this.post()!.id })
   }
 
   onDeletePost(): void {

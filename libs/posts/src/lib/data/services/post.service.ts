@@ -18,20 +18,12 @@ export class PostService {
 
   posts = signal<Post[]>([]);
 
-  createPost(payload: PostCreateDto): Observable<Post[]> {
-    return this.http.post<Post>(`${this.baseApiUrl}/post/`, payload).pipe(
-      switchMap(() => {
-        return this.fetchPosts();
-      })
-    );
+  createPost(payload: PostCreateDto): Observable<Post> {
+    return this.http.post<Post>(`${this.baseApiUrl}/post/`, payload);
   }
 
-  updatePost(id: number, payload: PostUpdateDto): Observable<Post[]> {
-    return this.http.patch<Post>(`${this.baseApiUrl}/post/${id}`, payload).pipe(
-      switchMap(() => {
-        return this.fetchPosts();
-      })
-    );
+  updatePost(id: number, payload: PostUpdateDto): Observable<Post> {
+    return this.http.patch<Post>(`${this.baseApiUrl}/post/${id}`, payload);
   }
 
   fetchPosts() {
@@ -40,12 +32,8 @@ export class PostService {
       .pipe(tap((res: Post[]) => this.posts.set(res)));
   }
 
-  deletePost(id: number): Observable<Post[]> {
-    return this.http.delete<Post>(`${this.baseApiUrl}/post/${id}`).pipe(
-      switchMap(() => {
-        return this.fetchPosts();
-      })
-    );
+  deletePost(id: number): Observable<Post> {
+    return this.http.delete<Post>(`${this.baseApiUrl}/post/${id}`);
   }
 
   createComments(payload: CommentCreateDto): Observable<PostComment> {

@@ -1,7 +1,7 @@
-import { Component, inject } from '@angular/core';
+import {Component, inject, OnInit} from '@angular/core';
 import { FormBuilder, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { debounceTime, startWith } from 'rxjs';
-import {profileActions} from '@tt/profile';
+import {profileActions, selectProfileFilters} from '@tt/profile';
 import {Store} from '@ngrx/store';
 
 @Component({
@@ -10,7 +10,7 @@ import {Store} from '@ngrx/store';
   templateUrl: './profile-filters.component.html',
   styleUrl: './profile-filters.component.scss',
 })
-export class ProfileFiltersComponent {
+export class ProfileFiltersComponent implements OnInit {
   fd = inject(FormBuilder);
   store: Store = inject(Store);
 
@@ -28,6 +28,20 @@ export class ProfileFiltersComponent {
       )
       .subscribe(formValue => {
         this.store.dispatch(profileActions.filterEvents({filters: formValue}))
+      });
+  }
+
+  ngOnInit() {
+    const filters = this.store.selectSignal(selectProfileFilters)();
+    this.searchForm.patchValue(filters);
+
+    this.searchForm.valueChanges
+      .pipe(
+        startWith(this.searchForm.value),
+        debounceTime(300),
+      )
+      .subscribe(formValue => {
+        this.store.dispatch(profileActions.filterEvents({ filters: formValue }));
       });
   }
 }

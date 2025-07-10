@@ -2,7 +2,7 @@ import {
   AfterViewInit,
   Component,
   ElementRef,
-  inject,
+  inject, OnInit,
   QueryList,
   Renderer2,
   ViewChild,
@@ -16,6 +16,9 @@ import { PostComponent } from '../post/post.component';
 import {Post, PostService } from '../../data';
 import {Profile} from '@tt/interfaces/profile';
 import {GlobalStoreService} from '@tt/shared';
+import {Store} from '@ngrx/store';
+import {postActions} from '../../data/store/actions';
+import {selectPosts} from '../../data/store/selectors';
 
 @Component({
   selector: 'app-post-feed',
@@ -23,19 +26,20 @@ import {GlobalStoreService} from '@tt/shared';
   templateUrl: './post-feed.component.html',
   styleUrl: './post-feed.component.scss',
 })
-export class PostFeedComponent implements AfterViewInit {
+export class PostFeedComponent implements AfterViewInit, OnInit {
+  store = inject(Store);
   profile: WritableSignal<Profile | null> = inject(GlobalStoreService).me;
   postService: PostService = inject(PostService);
   r2: Renderer2 = inject(Renderer2);
-  feed: WritableSignal<Post[]> = this.postService.posts;
+  feed = this.store.selectSignal(selectPosts);
 
   @ViewChild('feedWrapper', { static: true, read: ElementRef<HTMLDivElement> })
   feedWrapperRef!: ElementRef<HTMLDivElement>;
 
   @ViewChildren('postComp') postComponents!: QueryList<PostComponent>;
 
-  constructor() {
-    firstValueFrom(this.postService.fetchPosts());
+  ngOnInit() {
+    this.store.dispatch(postActions.filterEvents({ filters: {} }));
   }
 
   ngAfterViewInit(): void {
@@ -61,25 +65,21 @@ export class PostFeedComponent implements AfterViewInit {
   async onCreatePost(postText: string): Promise<void> {
     if (!postText) return;
 
-    await firstValueFrom(
-      this.postService.createPost({
+    this.store.dispatch(postActions.createPost({
+      post: {
         title: 'Клевый пост',
         content: postText,
         authorId: this.profile()!.id,
-      })
-    );
-
-    await firstValueFrom(this.postService.fetchPosts());
+      }
+    }));
   }
 
   async onDeletePost(id: number): Promise<void> {
-    await firstValueFrom(this.postService.deletePost(id));
-    await firstValueFrom(this.postService.fetchPosts());
+    this.store.dispatch(postActions.deletePost({id}))
   }
 
   async updatePost(id: number, content: string): Promise<void> {
-    await firstValueFrom(this.postService.updatePost(id, { content }));
-    await firstValueFrom(this.postService.fetchPosts());
+    this.store.dispatch(postActions.updatePost({ id, post: { content } }));
   }
 
   async onCreateComment(postId: number, commentText: string): Promise<void> {

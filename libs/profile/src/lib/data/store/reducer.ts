@@ -21,6 +21,12 @@ export const profileFeature = createFeature({
         ...state,
         profiles: payload.profiles
       }
+    }),
+    on(profileActions.filterEvents, (state, payload) => {
+      return {
+        ...state,
+        profileFilters: payload.filters
+      }
     })
   )
 })
