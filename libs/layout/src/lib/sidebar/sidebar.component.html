@@ -11,6 +11,9 @@
       >
         <svg [icon]="manuItem.icon"></svg>
         <span>{{ manuItem.label }}</span>
+        @if (manuItem.label === 'Чаты' && (unreadMessageCount() && unreadMessageCount() > 0)) {
+          <app-unread-message-badge [unreadMessageCount]="unreadMessageCount"/>
+        }
       </a>
     </li>
     }

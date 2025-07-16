@@ -1,13 +1,19 @@
 @if (chat(); as chat) {
-<app-avatar-circle
-  [avatarUrl]="chat.userFrom.avatarUrl"
-  class="size32"
-></app-avatar-circle>
+  <app-avatar-circle
+    [avatarUrl]="chat.userFrom.avatarUrl"
+    class="size32"
+  ></app-avatar-circle>
 
-<div class="last-message__wrapper">
-  <p class="medium-text chat-user">
-    {{ chat.userFrom.firstName }} {{ chat.userFrom.lastName }}
-  </p>
-  <p class="medium-text">{{ chat.message || '...' }}</p>
-</div>
+  <div class="last-message__wrapper">
+    <p class="medium-text chat-user">
+      <span class="username">{{ chat.userFrom.firstName }} {{ chat.userFrom.lastName }}</span>
+      <span class="date-message">{{ chat.createdAt | date: 'd.m.y' }}</span>
+    </p>
+    <p class="medium-text message-info">
+      <span class="message-text">{{ chat.message || 'start chatting...' }}</span>
+      @if (unreadMessageCount() && unreadMessageCount() > 0) {
+        <app-unread-message-badge [unreadMessageCount]="unreadMessageCount"/>
+      }
+    </p>
+  </div>
 }

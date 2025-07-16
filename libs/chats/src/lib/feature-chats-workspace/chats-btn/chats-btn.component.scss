@@ -24,5 +24,22 @@
 }
 
 .chat-user {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
   color: var(--light-color-transparrent);
+}
+
+.message-info {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.message-count {
+  padding: 1px 6px;
+  color: var(--dark-color);
+  background-color: var(--primary-color);
 }

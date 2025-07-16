@@ -43,15 +43,15 @@ export class ChatWorkspaceMessagesWrapperComponent implements AfterViewInit {
 
   resizeChatWorkspaceWrapper(): void {
     const { top } = this.chatWrapper.nativeElement.getBoundingClientRect();
-    console.log(window.innerHeight);
-    const height: number = window.innerHeight - top - 24;
+    const height: number = window.innerHeight - top - 130;
     this.r2.setStyle(this.chatWrapper.nativeElement, 'height', `${height}px`);
   }
 
   async onSendMessage(messageText: string): Promise<void> {
-    await firstValueFrom(
-      this.chatService.sendMessage(this.chat().id, messageText)
-    );
+    this.chatService.wsAdapter.sendMessage(messageText, this.chat().id)
+    // await firstValueFrom(
+    //   this.chatService.sendMessage(this.chat().id, messageText)
+    // );
 
     await firstValueFrom(this.chatService.getChatById(this.chat().id));
   }

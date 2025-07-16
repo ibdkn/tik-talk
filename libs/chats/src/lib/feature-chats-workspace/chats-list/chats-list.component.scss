@@ -6,5 +6,10 @@
 .chats-filters-input__wrapper {
   height: 80px;
   padding: 16px 20px;
+  border: none;
   border-bottom: 1px solid var(--light-color);
+}
+
+.chat-list-wrapper {
+  overflow-y: scroll;
 }

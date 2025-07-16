@@ -1,10 +1,11 @@
-import {Component, inject, OnInit} from '@angular/core';
+import {Component, inject, OnInit, WritableSignal} from '@angular/core';
 import { RouterLink, RouterLinkActive } from '@angular/router';
 import { SubscriberCardComponent } from './subscriber-card/subscriber-card.component';
 import { AsyncPipe } from '@angular/common';
 import { firstValueFrom } from 'rxjs';
-import {ImgUrlPipe, SvgIconComponent} from '@tt/common-ui';
+import {ImgUrlPipe, SvgIconComponent, UnreadMessageBadgeComponent} from '@tt/common-ui';
 import {ProfileService} from '@tt/profile';
+import {ChatService} from '@tt/chats';
 
 @Component({
   selector: 'app-sidebar',
@@ -15,6 +16,7 @@ import {ProfileService} from '@tt/profile';
     AsyncPipe,
     ImgUrlPipe,
     RouterLinkActive,
+    UnreadMessageBadgeComponent,
   ],
   standalone: true,
   templateUrl: './sidebar.component.html',
@@ -23,6 +25,7 @@ import {ProfileService} from '@tt/profile';
 export class SidebarComponent implements OnInit {
   profileService: ProfileService = inject(ProfileService);
   subscribers$ = this.profileService.getSubscribersShortList();
+  unreadMessageCount: WritableSignal<number> = inject(ChatService).unreadMessage;
 
   me = this.profileService.me;
 

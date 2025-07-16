@@ -9,11 +9,13 @@
   </label>
 </div>
 
-@for (chat of chats$ | async; track chat.id) {
-<button
-  [routerLink]="[chat.id]"
-  routerLinkActive="active"
-  chats
-  [chat]="chat"
-></button>
-}
+<div class="chat-list-wrapper" #chatListWrapper>
+  @for (chat of chats$ | async; track chat.id) {
+    <button
+      [routerLink]="[chat.id]"
+      routerLinkActive="active"
+      chats
+      [chat]="chat"
+    ></button>
+  }
+</div>

@@ -1,11 +1,12 @@
-import { Component, inject } from '@angular/core';
+import {AfterViewInit, Component, ElementRef, inject, Renderer2, ViewChild} from '@angular/core';
 import { ChatsBtnComponent } from '../chats-btn/chats-btn.component';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { AsyncPipe } from '@angular/common';
 import { RouterLink, RouterLinkActive } from '@angular/router';
-import { map, Observable, startWith, switchMap } from 'rxjs';
+import {debounceTime, fromEvent, map, Observable, startWith, switchMap} from 'rxjs';
 import { LastMessageResponse } from '../../data/interfaces/chat.interface';
 import { ChatService } from '../../data';
+import {takeUntilDestroyed} from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-chats-list',
@@ -19,8 +20,9 @@ import { ChatService } from '../../data';
   templateUrl: './chats-list.component.html',
   styleUrl: './chats-list.component.scss',
 })
-export class ChatsListComponent {
+export class ChatsListComponent implements AfterViewInit {
   chatsService: ChatService = inject(ChatService);
+  r2: Renderer2 = inject(Renderer2);
   filterChatsControl = new FormControl('');
   chats$: Observable<LastMessageResponse[]> = this.chatsService
     .getMyChats()
@@ -36,4 +38,23 @@ export class ChatsListComponent {
         );
       })
     );
+
+  @ViewChild('chatListWrapper', { static: true, read: ElementRef<HTMLDivElement> })
+  chatListWrapper!: ElementRef<HTMLDivElement>;
+
+  ngAfterViewInit(): void {
+    this.resizeChatWorkspaceWrapper();
+
+    fromEvent(window, 'resize')
+      .pipe(debounceTime(500), takeUntilDestroyed())
+      .subscribe(() => {
+        this.resizeChatWorkspaceWrapper();
+      });
+  }
+
+  resizeChatWorkspaceWrapper(): void {
+    const { top } = this.chatListWrapper.nativeElement.getBoundingClientRect();
+    const height: number = window.innerHeight - top - 24;
+    this.r2.setStyle(this.chatListWrapper.nativeElement, 'height', `${height}px`);
+  }
 }
