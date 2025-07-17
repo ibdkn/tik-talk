@@ -1,18 +1,16 @@
-import {Component, inject, input, WritableSignal} from '@angular/core';
+import {Component, input} from '@angular/core';
 import {
   LastMessageResponse,
 } from '../../data/interfaces/chat.interface';
-import {AvatarCircleComponent, UnreadMessageBadgeComponent} from '@tt/common-ui';
+import {AvatarCircleComponent} from '@tt/common-ui';
 import {DatePipe} from '@angular/common';
-import {ChatService} from '@tt/chats';
 
 @Component({
   selector: 'button[chats]',
-  imports: [AvatarCircleComponent, DatePipe, UnreadMessageBadgeComponent, UnreadMessageBadgeComponent],
+  imports: [AvatarCircleComponent, DatePipe],
   templateUrl: './chats-btn.component.html',
   styleUrl: './chats-btn.component.scss',
 })
 export class ChatsBtnComponent {
-  unreadMessageCount: WritableSignal<number> = inject(ChatService).unreadMessage;
   chat = input<LastMessageResponse>();
 }

@@ -33,4 +33,3 @@ export class ChatWsRxjsService implements ChatWsService {
     this.#socket?.complete();
   };
 }
-

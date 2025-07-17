@@ -11,8 +11,8 @@
     </p>
     <p class="medium-text message-info">
       <span class="message-text">{{ chat.message || 'start chatting...' }}</span>
-      @if (unreadMessageCount() && unreadMessageCount() > 0) {
-        <app-unread-message-badge [unreadMessageCount]="unreadMessageCount"/>
+      @if (chat.unreadMessages) {
+        <span class="message-count">{{chat.unreadMessages}}</span>
       }
     </p>
   </div>

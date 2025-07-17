@@ -1,15 +1,15 @@
 @if (message(); as message) {
-<app-avatar-circle
-  [avatarUrl]="message.user?.avatarUrl"
-  class="size32"
-></app-avatar-circle>
-<div class="message-container">
-  <strong class="medium-text">
-    {{ message.user?.firstName }} {{ message.user?.lastName }}
-    <span>{{ message.createdAt | date : 'hh:mm' }}</span>
-  </strong>
-  <div class="message-text">
-    {{ message.text }}
+  <app-avatar-circle
+    [avatarUrl]="message.user?.avatarUrl"
+    class="size32"
+  ></app-avatar-circle>
+  <div class="message-container">
+    <strong class="medium-text">
+      {{ message.user?.firstName }} {{ message.user?.lastName }}
+      <span>{{ message.createdAt | date : 'hh:mm' }}</span>
+    </strong>
+    <div class="message-text">
+      {{ message.text }}
+    </div>
   </div>
-</div>
 }

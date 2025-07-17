@@ -1,6 +1,10 @@
-<div #chatWrapper class="messages-wrapper">
-  @for (message of messages(); track message.id) {
-  <app-chat-message [message]="message"></app-chat-message>
+<div #scrollToBottom #chatWrapper class="messages-wrapper">
+  @for (dateAndMessages of dateAndMessages(); track $index) {
+    <app-message-date-group [messageData]="dateAndMessages.date" class="date-message-group"></app-message-date-group>
+
+    @for (message of dateAndMessages.messages; track message.id) {
+      <app-chat-message class="mb12" [message]="message"></app-chat-message>
+    }
   }
 </div>
 

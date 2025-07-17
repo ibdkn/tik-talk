@@ -20,6 +20,7 @@ export class ChatWorkspaceComponent {
   route: ActivatedRoute = inject(ActivatedRoute);
   router: Router = inject(Router);
   chatService: ChatService = inject(ChatService);
+  messages = this.chatService.activeChatMessages;
 
   activeChat$ = this.route.params.pipe(
     switchMap(({ id }) => {

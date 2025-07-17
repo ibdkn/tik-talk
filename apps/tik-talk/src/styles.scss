@@ -205,3 +205,11 @@ img {
   width: 14px;
   height: 14px;
 }
+
+.message-count {
+  padding: 1px 6px;
+  min-width: 26px;
+  text-align: center;
+  color: var(--dark-color);
+  background-color: var(--primary-color);
+}

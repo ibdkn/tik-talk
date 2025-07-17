@@ -1,11 +1,13 @@
-import {Component, inject, OnInit, WritableSignal} from '@angular/core';
+import {Component, DestroyRef, inject, OnInit, WritableSignal} from '@angular/core';
 import { RouterLink, RouterLinkActive } from '@angular/router';
 import { SubscriberCardComponent } from './subscriber-card/subscriber-card.component';
 import { AsyncPipe } from '@angular/common';
-import { firstValueFrom } from 'rxjs';
-import {ImgUrlPipe, SvgIconComponent, UnreadMessageBadgeComponent} from '@tt/common-ui';
+import {firstValueFrom, Subscription, timer} from 'rxjs';
+import {ImgUrlPipe, SvgIconComponent} from '@tt/common-ui';
 import {ProfileService} from '@tt/profile';
 import {ChatService} from '@tt/chats';
+import {takeUntilDestroyed} from '@angular/core/rxjs-interop';
+import {isErrorMessage} from '../../../../chats/src/lib/data/interfaces/type-guards';
 
 @Component({
   selector: 'app-sidebar',
@@ -16,16 +18,20 @@ import {ChatService} from '@tt/chats';
     AsyncPipe,
     ImgUrlPipe,
     RouterLinkActive,
-    UnreadMessageBadgeComponent,
   ],
   standalone: true,
   templateUrl: './sidebar.component.html',
   styleUrl: './sidebar.component.scss',
 })
 export class SidebarComponent implements OnInit {
+  chatService: ChatService = inject(ChatService);
   profileService: ProfileService = inject(ProfileService);
+  destroyRef = inject(DestroyRef);
+
+  wsSubscribe!: Subscription;
   subscribers$ = this.profileService.getSubscribersShortList();
-  unreadMessageCount: WritableSignal<number> = inject(ChatService).unreadMessage;
+
+  unreadMessageCount: WritableSignal<number> = this.chatService.unreadMessageCount;
 
   me = this.profileService.me;
 
@@ -47,7 +53,30 @@ export class SidebarComponent implements OnInit {
     },
   ];
 
+  async reconnect() {
+    console.log('reconnecting...');
+    await firstValueFrom(this.profileService.getMe());
+    await firstValueFrom(timer(2000))
+    this.connectWs();
+  }
+
+  connectWs() {
+    this.wsSubscribe?.unsubscribe();
+    this.wsSubscribe = this.chatService
+      .connectWs()
+      .pipe(
+        takeUntilDestroyed(this.destroyRef)
+      )
+      .subscribe((message) => {
+        if(isErrorMessage(message)) {
+          console.log('Неверный токен')
+          this.reconnect();
+        }
+      })
+  }
+
   ngOnInit() {
     firstValueFrom(this.profileService.getMe());
+    this.connectWs();
   }
 }
