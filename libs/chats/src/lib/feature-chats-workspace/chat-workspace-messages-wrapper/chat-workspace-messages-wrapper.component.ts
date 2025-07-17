@@ -1,5 +1,5 @@
 import {
-  AfterViewInit,
+  AfterViewInit, ChangeDetectionStrategy,
   Component,
   ElementRef,
   inject, Input,
@@ -22,6 +22,7 @@ import { ChatMessageComponent } from '../chat-message/chat-message.component';
   imports: [ChatMessageComponent, PostInputComponent, MessageDateGroupComponent],
   templateUrl: './chat-workspace-messages-wrapper.component.html',
   styleUrl: './chat-workspace-messages-wrapper.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ChatWorkspaceMessagesWrapperComponent implements AfterViewInit, OnChanges {
   chatService: ChatService = inject(ChatService);

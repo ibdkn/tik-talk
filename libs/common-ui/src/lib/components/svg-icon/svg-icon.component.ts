@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import {ChangeDetectionStrategy, Component, Input} from '@angular/core';
 
 @Component({
   selector: 'svg[icon]',
@@ -6,6 +6,7 @@ import { Component, Input } from '@angular/core';
   imports: [],
   template: '<svg:use [attr.href]="href"></svg:use>',
   styles: [''],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class SvgIconComponent {
   @Input() icon: string = '';

@@ -1,4 +1,4 @@
-import { Component, input, InputSignal } from '@angular/core';
+import {ChangeDetectionStrategy, Component, input, InputSignal} from '@angular/core';
 import { DatePipe } from '@angular/common';
 import {AvatarCircleComponent} from '@tt/common-ui';
 import { PostComment } from '../../data';
@@ -8,6 +8,7 @@ import { PostComment } from '../../data';
   imports: [AvatarCircleComponent, DatePipe],
   templateUrl: './comment.component.html',
   styleUrl: './comment.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class CommentComponent {
   comment: InputSignal<PostComment | undefined> = input<PostComment>();

@@ -1,4 +1,4 @@
-import {Component, input, OnInit, signal} from '@angular/core';
+import {ChangeDetectionStrategy, Component, input, OnInit, signal} from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 @Component({
@@ -6,6 +6,7 @@ import { CommonModule } from '@angular/common';
   imports: [CommonModule],
   templateUrl: './message-date-group.component.html',
   styleUrl: './message-date-group.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class MessageDateGroupComponent implements OnInit {
   messageData = input<string>();

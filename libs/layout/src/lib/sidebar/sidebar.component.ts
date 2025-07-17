@@ -1,4 +1,4 @@
-import {Component, DestroyRef, inject, OnInit, WritableSignal} from '@angular/core';
+import {ChangeDetectionStrategy, Component, DestroyRef, inject, OnInit, WritableSignal} from '@angular/core';
 import { RouterLink, RouterLinkActive } from '@angular/router';
 import { SubscriberCardComponent } from './subscriber-card/subscriber-card.component';
 import { AsyncPipe } from '@angular/common';
@@ -22,6 +22,7 @@ import {isErrorMessage} from '../../../../chats/src/lib/data/interfaces/type-gua
   standalone: true,
   templateUrl: './sidebar.component.html',
   styleUrl: './sidebar.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class SidebarComponent implements OnInit {
   chatService: ChatService = inject(ChatService);
