@@ -4,12 +4,16 @@ import {profileActions} from './actions';
 
 export interface ProfileState {
   profiles: Profile[],
-  profileFilters: Record<string, any>
+  profileFilters: Record<string, any>,
+  page: number,
+  size: number
 }
 
 export const initialState: ProfileState = {
   profiles: [],
-  profileFilters: {}
+  profileFilters: {},
+  page: 1,
+  size: 10
 }
 
 export const profileFeature = createFeature({
