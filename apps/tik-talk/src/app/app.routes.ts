@@ -13,6 +13,7 @@ import {provideState} from '@ngrx/store';
 import {provideEffects} from '@ngrx/effects';
 import {postFeature} from '../../../../libs/posts/src/lib/data/store/reducer';
 import {PostEffects} from '../../../../libs/posts/src/lib/data/store/effects';
+import {TripsComponent} from '@tt/trips';
 
 export const routes: Routes = [
   {
@@ -39,6 +40,9 @@ export const routes: Routes = [
       {
         path: 'chats',
         loadChildren: () => chatsRoutes,
+      },
+      {
+        path: 'trips', component: TripsComponent,
       },
     ],
     canActivate: [canActivateAuth],
