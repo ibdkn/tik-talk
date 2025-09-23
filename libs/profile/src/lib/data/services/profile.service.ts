@@ -9,7 +9,7 @@ import { Profile } from '@tt/interfaces/profile';
 })
 export class ProfileService {
   http: HttpClient = inject(HttpClient);
-  baseApiUrl: string = 'https://icherniakov.ru/yt-course';
+  baseApiUrl: string = '/yt-course';
   #globalStoreService: GlobalStoreService = inject(GlobalStoreService);
 
   me = signal<Profile | null>(null);

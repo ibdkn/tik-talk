@@ -13,7 +13,7 @@ export class AuthService {
   http: HttpClient = inject(HttpClient);
   router: Router = inject(Router);
   cookieService: CookieService = inject(CookieService);
-  baseApiUrl: string = 'https://icherniakov.ru/yt-course/auth';
+  baseApiUrl: string = '/yt-course';
 
   token: string | null = null;
   refreshToken: string | null = null;
@@ -32,13 +32,13 @@ export class AuthService {
     fd.append('password', payload.password);
 
     return this.http
-      .post<TokenResponse>(`${this.baseApiUrl}/token`, fd)
+      .post<TokenResponse>(`${this.baseApiUrl}/auth/token`, fd)
       .pipe(tap((val: TokenResponse): void => this.saveTokens(val)));
   }
 
   refreshAuthToken() {
     return this.http
-      .post<TokenResponse>(`${this.baseApiUrl}/refresh`, {
+      .post<TokenResponse>(`${this.baseApiUrl}/auth/refresh`, {
         refresh_token: this.refreshToken,
       })
       .pipe(

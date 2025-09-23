@@ -14,7 +14,7 @@ import { map, Observable, switchMap, tap } from 'rxjs';
 })
 export class PostService {
   http: HttpClient = inject(HttpClient);
-  baseApiUrl: string = 'https://icherniakov.ru/yt-course';
+  baseApiUrl: string = '/yt-course';
 
   posts = signal<Post[]>([]);
 

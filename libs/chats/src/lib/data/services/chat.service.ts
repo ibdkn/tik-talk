@@ -20,9 +20,8 @@ export class ChatService {
   http: HttpClient = inject(HttpClient);
   authService: AuthService = inject(AuthService);
   me = inject(ProfileService).me;
-  baseApiUrl: string = 'https://icherniakov.ru/yt-course';
-
-  chatsUrl = 'https://icherniakov.ru/yt-course/chat/';
+  baseApiUrl: string = '/yt-course';
+  chatsUrl: string = '/yt-course';
   wsAdapter: ChatWsService = new ChatWsRxjsService();
 
   activeChatMessages = signal<Message[]>([]);
@@ -31,7 +30,7 @@ export class ChatService {
 
   connectWs() {
     return this.wsAdapter.connect({
-      url: `${this.chatsUrl}ws`,
+      url: `${this.chatsUrl}/chat/ws`,
       token: this.authService.token ?? '',
       handleMessage: this.handleWSMessage
     }) as Observable<ChatWSMessage>;
