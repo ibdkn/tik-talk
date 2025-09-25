@@ -24,7 +24,10 @@
       "@tt/posts": ["libs/posts/src/index.ts"],
       "@tt/profile": ["libs/profile/src/index.ts"],
       "@tt/shared": ["libs/shared/src/index.ts"],
-      "@tt/trips": ["libs/trips/src/index.ts"]
+      "@tt/trips": ["libs/trips/src/index.ts"],
+      "@tt/infinite-scroll-trigger": [
+        "libs/common-ui/components/infinite-scroll-trigger/src/index.ts"
+      ]
     },
     "baseUrl": ".",
     "rootDir": "."
