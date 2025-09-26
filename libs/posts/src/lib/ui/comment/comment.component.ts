@@ -1,7 +1,7 @@
 import {ChangeDetectionStrategy, Component, input, InputSignal} from '@angular/core';
 import { DatePipe } from '@angular/common';
 import {AvatarCircleComponent} from '@tt/common-ui';
-import { PostComment } from '../../data';
+import { PostComment } from '../../../../../data-access/src/lib/posts';
 
 @Component({
   selector: 'app-comment',

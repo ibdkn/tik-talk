@@ -1,7 +1,7 @@
 import {ChangeDetectionStrategy, Component, inject, OnInit} from '@angular/core';
 import { FormBuilder, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { debounceTime, startWith } from 'rxjs';
-import {profileActions, selectProfileFilters} from '@tt/profile';
+import {profileActions, selectProfileFilters} from '@tt/data-access';
 import {Store} from '@ngrx/store';
 
 @Component({

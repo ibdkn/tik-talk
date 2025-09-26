@@ -12,8 +12,8 @@ import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { AsyncPipe } from '@angular/common';
 import { RouterLink, RouterLinkActive } from '@angular/router';
 import {debounceTime, fromEvent, map, Observable, startWith, switchMap} from 'rxjs';
-import { LastMessageResponse } from '../../data/interfaces/chat.interface';
-import { ChatService } from '../../data';
+import { LastMessageResponse } from '../../../../../data-access/src/lib/chats/interfaces/chat.interface';
+import { ChatService } from '../../../../../data-access/src/lib/chats';
 import {takeUntilDestroyed} from '@angular/core/rxjs-interop';
 
 @Component({

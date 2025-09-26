@@ -14,8 +14,8 @@ import { firstValueFrom } from 'rxjs';
 import { NgClass } from '@angular/common';
 import {AvatarCircleComponent, ClickOutsideDirective, SvgIconComponent, TimeAgoPipe} from '@tt/common-ui';
 import {CommentComponent, PostInputComponent } from '../../ui';
-import { Post, PostComment, PostService } from '../../data';
-import {Profile} from '@tt/interfaces/profile';
+import { Post, PostComment, PostService } from '../../../../../data-access/src/lib/posts';
+import {Profile} from '@tt/data-access';
 
 @Component({
   selector: 'app-post',

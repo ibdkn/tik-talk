@@ -1,7 +1,7 @@
 import {ChangeDetectionStrategy, Component, inject, OnInit} from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { ChatsListComponent } from '../chats-list/chats-list.component';
-import {ChatService} from '@tt/chats';
+import {ChatService} from '@tt/data-access';
 import {takeUntilDestroyed} from '@angular/core/rxjs-interop';
 
 @Component({

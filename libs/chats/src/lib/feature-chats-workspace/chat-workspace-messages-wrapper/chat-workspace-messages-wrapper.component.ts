@@ -9,11 +9,11 @@ import {
   ViewChild,
   WritableSignal,
 } from '@angular/core';
-import { Chat, Message } from '../../data/interfaces/chat.interface';
+import { Chat, Message } from '../../../../../data-access/src/lib/chats/interfaces/chat.interface';
 import {debounceTime, firstValueFrom, fromEvent} from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import {PostInputComponent} from '@tt/posts';
-import { ChatService } from '../../data';
+import { ChatService } from '../../../../../data-access/src/lib/chats';
 import { MessageDateGroupComponent } from '../message-date-group/message-date-group.component';
 import { ChatMessageComponent } from '../chat-message/chat-message.component';
 

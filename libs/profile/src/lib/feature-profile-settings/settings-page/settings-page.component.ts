@@ -7,7 +7,7 @@ import {
 } from '@angular/forms';
 import {firstValueFrom} from 'rxjs';
 import {AvatarUploadComponent} from '../../ui/avatar-upload/avatar-upload.component';
-import {ProfileService} from '@tt/profile';
+import {ProfileService} from '@tt/data-access';
 import {SvgIconComponent} from '@tt/common-ui';
 
 @Component({

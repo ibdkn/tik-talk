@@ -2,7 +2,7 @@ import {ChangeDetectionStrategy, Component, inject} from '@angular/core';
 import { ProfileCardComponent } from '../../ui/profile-card/profile-card.component';
 import { ProfileFiltersComponent } from '../profile-filters/profile-filters.component';
 import {Store} from '@ngrx/store';
-import {profileActions, selectFilteredProfiles, selectProfileFilters} from '../../data';
+import {profileActions, selectFilteredProfiles, selectProfileFilters} from '../../../../../data-access/src/lib/profile';
 import {InfiniteScrollTriggerComponent} from '@tt/common-ui';
 
 @Component({

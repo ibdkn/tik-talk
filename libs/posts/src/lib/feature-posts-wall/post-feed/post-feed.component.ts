@@ -13,12 +13,12 @@ import { debounceTime, firstValueFrom, fromEvent } from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { PostInputComponent } from '../../ui';
 import { PostComponent } from '../post/post.component';
-import {Post, PostService } from '../../data';
-import {Profile} from '@tt/interfaces/profile';
-import {GlobalStoreService} from '@tt/shared';
+import {Post, PostService } from '../../../../../data-access/src/lib/posts';
+import {Profile} from '@tt/data-access';
+import {GlobalStoreService} from '@tt/data-access';
 import {Store} from '@ngrx/store';
-import {postActions} from '../../data/store/actions';
-import {selectPosts} from '../../data/store/selectors';
+import {postActions} from '../../../../../data-access/src/lib/posts/store/actions';
+import {selectPosts} from '../../../../../data-access/src/lib/posts/store/selectors';
 
 @Component({
   selector: 'app-post-feed',

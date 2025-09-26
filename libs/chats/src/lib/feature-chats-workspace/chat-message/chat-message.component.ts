@@ -1,5 +1,5 @@
 import {ChangeDetectionStrategy, Component, HostBinding, input, InputSignal} from '@angular/core';
-import { Message } from '../../data/interfaces/chat.interface';
+import { Message } from '../../../../../data-access/src/lib/chats/interfaces/chat.interface';
 import { DatePipe } from '@angular/common';
 import {AvatarCircleComponent} from '@tt/common-ui';
 

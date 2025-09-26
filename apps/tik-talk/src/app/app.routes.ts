@@ -4,6 +4,8 @@ import {canActivateAuth, LoginPageComponent} from '@tt/auth';
 import {
   ProfileEffects,
   profileFeature,
+} from '@tt/data-access';
+import {
   ProfilePageComponent,
   SearchPageComponent,
   SettingsPageComponent
@@ -11,8 +13,8 @@ import {
 import {LayoutComponent} from '@tt/layout';
 import {provideState} from '@ngrx/store';
 import {provideEffects} from '@ngrx/effects';
-import {postFeature} from '../../../../libs/posts/src/lib/data/store/reducer';
-import {PostEffects} from '../../../../libs/posts/src/lib/data/store/effects';
+import {postFeature} from '../../../../libs/data-access/src/lib/posts/store/reducer';
+import {PostEffects} from '../../../../libs/data-access/src/lib/posts/store/effects';
 import {TripsComponent} from '@tt/trips';
 
 export const routes: Routes = [

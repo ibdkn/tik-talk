@@ -4,10 +4,10 @@ import { SubscriberCardComponent } from './subscriber-card/subscriber-card.compo
 import { AsyncPipe } from '@angular/common';
 import {firstValueFrom, Subscription, timer} from 'rxjs';
 import {ImgUrlPipe, SvgIconComponent} from '@tt/common-ui';
-import {ProfileService} from '@tt/profile';
-import {ChatService} from '@tt/chats';
+import {ProfileService} from '@tt/data-access';
+import {ChatService} from '@tt/data-access';
 import {takeUntilDestroyed} from '@angular/core/rxjs-interop';
-import {isErrorMessage} from '../../../../chats/src/lib/data/interfaces/type-guards';
+import {isErrorMessage} from '../../../../data-access/src/lib/chats/interfaces/type-guards';
 
 @Component({
   selector: 'app-sidebar',

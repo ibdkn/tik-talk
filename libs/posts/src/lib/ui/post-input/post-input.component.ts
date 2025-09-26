@@ -15,8 +15,8 @@ import {
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import {AvatarCircleComponent, SvgIconComponent} from '@tt/common-ui';
-import {Profile} from '@tt/interfaces/profile';
-import {GlobalStoreService} from '@tt/shared';
+import {Profile} from '@tt/data-access';
+import {GlobalStoreService} from '@tt/data-access';
 
 @Component({
   selector: 'app-common-input',
