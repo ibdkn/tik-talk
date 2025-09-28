@@ -25,7 +25,6 @@
       "@tt/layout": ["libs/layout/src/index.ts"],
       "@tt/posts": ["libs/posts/src/index.ts"],
       "@tt/profile": ["libs/profile/src/index.ts"],
-      "@tt/trips": ["libs/trips/src/index.ts"],
       "@tt/data-access": ["libs/data-access/src/index.ts"]
     },
     "baseUrl": ".",

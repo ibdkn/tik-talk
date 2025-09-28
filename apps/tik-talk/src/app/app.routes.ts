@@ -7,7 +7,7 @@ import {
 } from '@tt/data-access';
 import {
   ProfilePageComponent,
-  SearchPageComponent,
+  ProfileSearchPageComponent,
   SettingsPageComponent
 } from '@tt/profile';
 import {LayoutComponent} from '@tt/layout';
@@ -15,7 +15,6 @@ import {provideState} from '@ngrx/store';
 import {provideEffects} from '@ngrx/effects';
 import {postFeature} from '../../../../libs/data-access/src/lib/posts/store/reducer';
 import {PostEffects} from '../../../../libs/data-access/src/lib/posts/store/effects';
-import {TripsComponent} from '@tt/trips';
 
 export const routes: Routes = [
   {
@@ -33,7 +32,7 @@ export const routes: Routes = [
       {path: 'settings', component: SettingsPageComponent},
       {
         path: 'search',
-        component: SearchPageComponent,
+        component: ProfileSearchPageComponent,
         providers: [
           provideState(profileFeature),
           provideEffects(ProfileEffects)
@@ -42,9 +41,6 @@ export const routes: Routes = [
       {
         path: 'chats',
         loadChildren: () => chatsRoutes,
-      },
-      {
-        path: 'trips', component: TripsComponent,
       },
     ],
     canActivate: [canActivateAuth],
