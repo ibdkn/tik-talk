@@ -1,0 +1,35 @@
+@if (data) {
+  <div class="preview-card">
+    <tt-avatar-name
+      [avatarUrl]="data.avatarUrl"
+      [title]="data.title"
+      [subtitle]="data.subtitle"
+    />
+
+    @if (data.description) {
+      <div class="preview-card__description">
+        {{ data.description }}
+      </div>
+    }
+
+    <div class="preview-card__tags">
+      @for (tag of data.tags; track tag) {
+        <div class="skill-tag">{{ tag }}</div>
+      }
+    </div>
+
+    <div class="preview-card__action-btns">
+      @if (data.primaryLabel) {
+        <button class="btn">
+          <span>{{ data.primaryLabel }}</span>
+          <svg [icon]="'subscribe'" class="svg16"></svg>
+        </button>
+      }
+      @if (data.secondaryLink) {
+        <a class="btn btn-icon" [routerLink]="data.secondaryLink">
+          <svg [icon]="'arrow-link'" class="svg16"></svg>
+        </a>
+      }
+    </div>
+  </div>
+}

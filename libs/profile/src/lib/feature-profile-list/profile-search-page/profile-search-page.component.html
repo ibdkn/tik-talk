@@ -1,7 +1,7 @@
 <div class="profile-search-page">
   <app-profile-filter></app-profile-filter>
   <div class="profile-search-page__cards">
-    @for (profile of profiles(); track profile.id; let last = $last) {
+    @for (profile of previewProfiles(); track profile.id; let last = $last) {
       @if (last) {
         @defer (on viewport) {
           <tt-infinite-scroll-trigger
@@ -12,7 +12,7 @@
         }
       }
 
-      <app-profile-card [profile]="profile"></app-profile-card>
+      <tt-preview-card [data]="profile"></tt-preview-card>
     }
   </div>
 </div>

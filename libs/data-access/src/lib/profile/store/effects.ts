@@ -1,8 +1,8 @@
 import {inject, Injectable} from '@angular/core';
-import {ProfileService, selectFilteredProfiles, selectProfileFilters, selectProfilePageable} from '@tt/data-access';
+import {ProfileService, selectProfileFilters, selectProfilePageable} from '@tt/data-access';
 import {Actions, createEffect, ofType} from '@ngrx/effects';
 import {profileActions} from './actions';
-import {map, switchMap, withLatestFrom} from 'rxjs';
+import { map, switchMap, withLatestFrom } from 'rxjs';
 import {Store} from '@ngrx/store';
 
 @Injectable({

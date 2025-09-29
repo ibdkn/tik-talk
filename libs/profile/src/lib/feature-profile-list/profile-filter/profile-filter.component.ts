@@ -3,9 +3,8 @@ import { FormBuilder, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { debounceTime, startWith } from 'rxjs';
 import { profileActions, SearchFilter, selectProfileFilters } from '@tt/data-access';
 import {Store} from '@ngrx/store';
-import {
-  SearchFilterComponent
-} from '../../../../../common-ui/src/lib/components/search-filter/search-filter.component';
+import { SearchFilterComponent } from '@tt/common-ui';
+
 
 @Component({
   selector: 'app-profile-filter',

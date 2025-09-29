@@ -1,0 +1,21 @@
+<div class="avatar-name">
+  @if (avatarUrl) {
+    <img
+      [src]="avatarUrl | imgUrl"
+      alt="avatar"
+      class="avatar-name__image"
+    />
+  } @else {
+    <img
+      src="/assets/images/avatar-placeholder.png"
+      alt="avatar"
+      class="preview-card__avatar"
+    />
+  }
+  <div class="avatar-name__info">
+    <strong class="h6">{{ title }}</strong>
+    @if (subtitle) {
+      <span class="subtitle">{{ subtitle }}</span>
+    }
+  </div>
+</div>

@@ -19,13 +19,13 @@
       "@tt/auth": ["libs/auth/src/index.ts"],
       "@tt/chats": ["libs/chats/src/index.ts"],
       "@tt/common-ui": ["libs/common-ui/src/index.ts"],
+      "@tt/data-access": ["libs/data-access/src/index.ts"],
       "@tt/infinite-scroll-trigger": [
         "libs/common-ui/components/infinite-scroll-trigger/src/index.ts"
       ],
       "@tt/layout": ["libs/layout/src/index.ts"],
       "@tt/posts": ["libs/posts/src/index.ts"],
-      "@tt/profile": ["libs/profile/src/index.ts"],
-      "@tt/data-access": ["libs/data-access/src/index.ts"]
+      "@tt/profile": ["libs/profile/src/index.ts"]
     },
     "baseUrl": ".",
     "rootDir": "."
