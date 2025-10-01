@@ -21,19 +21,19 @@ export class ProfileFilterComponent implements OnInit {
     {
       labelText: 'Имя пользователя',
       formControlName: 'firstName',
-      placeholder: 'Выберите',
+      placeholder: 'Введите',
       icon: 'search',
     },
     {
       labelText: 'Фамилия пользователя',
       formControlName: 'lastName',
-      placeholder: 'Выберите',
+      placeholder: 'Введите',
       icon: 'search',
     },
     {
       labelText: 'Навыки',
       formControlName: 'stack',
-      placeholder: 'Выберите',
+      placeholder: 'Введите',
       icon: 'search',
     },
   ];

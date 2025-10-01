@@ -1,0 +1,57 @@
+.list-input-control {
+  &__wrapper {
+    padding: 12px 0;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 6px;
+    border-bottom: 1px solid var(--light-color);
+    background-color: var(--dark-color);
+
+    &.with-icon {
+      padding-right: 20px;
+    }
+
+    &:focus-within {
+      border-bottom-color: var(--primary-color);
+
+      svg {
+        color: var(--primary-color);
+      }
+    }
+  }
+
+  &__item {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+  }
+
+  &__btn {
+    border: none;
+    background: transparent;
+    cursor: pointer;
+
+    svg {
+      color: var(--light-color);
+    }
+  }
+
+  &__ghost-input {
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 14px;
+    color: var(--light-color);
+    border: none;
+    background: none;
+    outline: none;
+  }
+}
+
+:host.disabled {
+  .stack-control {
+    pointer-events: none;
+    opacity: .5;
+  }
+}

@@ -1,16 +1,17 @@
 import { ChangeDetectionStrategy, Component, computed, inject } from '@angular/core';
 import {Store} from '@ngrx/store';
-import {
-  Profile,
-  profileActions,
-  selectFilteredProfiles,
-  selectProfileFilters
-} from '../../../../../data-access/src/lib/profile';
+
 import {
   InfiniteScrollTriggerComponent, PreviewCardComponent
 } from '@tt/common-ui';
 import { ProfileFilterComponent } from '../profile-filter/profile-filter.component';
-import { PreviewCardData } from '@tt/data-access';
+import {
+  PreviewCardData,
+  Profile,
+  profileActions,
+  selectFilteredProfiles,
+  selectProfileFilters
+} from '@tt/data-access';
 
 @Component({
   selector: 'app-search-page',

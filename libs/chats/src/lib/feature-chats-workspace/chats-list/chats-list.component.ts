@@ -12,9 +12,8 @@ import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { AsyncPipe } from '@angular/common';
 import { RouterLink, RouterLinkActive } from '@angular/router';
 import {debounceTime, fromEvent, map, Observable, startWith, switchMap} from 'rxjs';
-import { LastMessageResponse } from '../../../../../data-access/src/lib/chats/interfaces/chat.interface';
-import { ChatService } from '../../../../../data-access/src/lib/chats';
 import {takeUntilDestroyed} from '@angular/core/rxjs-interop';
+import { ChatService, LastMessageResponse } from '@tt/data-access';
 
 @Component({
   selector: 'app-chats-list',
@@ -27,7 +26,7 @@ import {takeUntilDestroyed} from '@angular/core/rxjs-interop';
   ],
   templateUrl: './chats-list.component.html',
   styleUrl: './chats-list.component.scss',
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ChatsListComponent implements AfterViewInit {
   chatsService: ChatService = inject(ChatService);
@@ -48,7 +47,10 @@ export class ChatsListComponent implements AfterViewInit {
       })
     );
 
-  @ViewChild('chatListWrapper', { static: true, read: ElementRef<HTMLDivElement> })
+  @ViewChild('chatListWrapper', {
+    static: true,
+    read: ElementRef<HTMLDivElement>,
+  })
   chatListWrapper!: ElementRef<HTMLDivElement>;
 
   ngAfterViewInit(): void {
@@ -64,6 +66,10 @@ export class ChatsListComponent implements AfterViewInit {
   resizeChatWorkspaceWrapper(): void {
     const { top } = this.chatListWrapper.nativeElement.getBoundingClientRect();
     const height: number = window.innerHeight - top - 24;
-    this.r2.setStyle(this.chatListWrapper.nativeElement, 'height', `${height}px`);
+    this.r2.setStyle(
+      this.chatListWrapper.nativeElement,
+      'height',
+      `${height}px`
+    );
   }
 }

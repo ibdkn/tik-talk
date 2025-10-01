@@ -4,5 +4,7 @@ export * from './lib/components/svg-icon/svg-icon.component';
 export * from './lib/components/infinite-scroll-trigger/infinite-scroll-trigger.component';
 export * from './lib/components/preview-card/preview-card.component';
 export * from './lib/components/search-filter/search-filter.component';
+export * from './lib/components/list-input-control/list-input-control.component';
+export * from './lib/components/text-input-control/text-input-control.component';
 export * from './lib/pipes';
 export * from './lib/directives';

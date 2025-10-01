@@ -8,7 +8,7 @@ import {
 import {firstValueFrom} from 'rxjs';
 import {AvatarUploadComponent} from '../../ui/avatar-upload/avatar-upload.component';
 import {ProfileService} from '@tt/data-access';
-import {SvgIconComponent} from '@tt/common-ui';
+import { ListInputControlComponent, SvgIconComponent } from '@tt/common-ui';
 
 @Component({
   selector: 'app-settings-page',
@@ -17,10 +17,11 @@ import {SvgIconComponent} from '@tt/common-ui';
     ReactiveFormsModule,
     SvgIconComponent,
     AvatarUploadComponent,
+    ListInputControlComponent,
   ],
   templateUrl: './settings-page.component.html',
   styleUrl: './settings-page.component.scss',
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SettingsPageComponent {
   fb: FormBuilder = inject(FormBuilder);
@@ -31,7 +32,7 @@ export class SettingsPageComponent {
   form = this.fb.group({
     firstName: ['', Validators.required],
     lastName: ['', Validators.required],
-    username: [{value: '', disabled: true}, Validators.required],
+    username: [{ value: '', disabled: true }, Validators.required],
     description: [''],
     stack: [''],
   });
@@ -41,8 +42,6 @@ export class SettingsPageComponent {
       //@ts-ignore
       this.form.patchValue({
         ...this.profileService.me(),
-        //@ts-ignore
-        stack: this.mergeStack(this.profileService.me()?.stack),
       });
     });
   }
@@ -63,24 +62,7 @@ export class SettingsPageComponent {
       //@ts-ignore
       this.profileService.patchProfile({
         ...this.form.value,
-        stack: this.splitStack(this.form.value.stack),
       })
     );
-  }
-
-  splitStack(stack: string | null | string[] | undefined): string[] {
-    if (!stack) return [];
-
-    if (Array.isArray(stack)) return stack;
-
-    return stack.split(',');
-  }
-
-  mergeStack(stack: string | null | string[] | undefined): string {
-    if (!stack) return '';
-
-    if (Array.isArray(stack)) return stack.join(',');
-
-    return stack;
   }
 }

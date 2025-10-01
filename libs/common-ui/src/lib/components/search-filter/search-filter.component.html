@@ -1,20 +1,21 @@
 <div class="search-filter">
   <form class="search-filter__form" [formGroup]="formGroupData">
     @for (data of searchFilterData; track data.formControlName) {
-      <label class="tt-form-label" [class.with-icon]="!!data.icon">
-        <span class="tt-form-label-text">{{ data.labelText }}</span>
-        <input
-          type="text"
-          class="tt-form-input"
+      @if (['stack', 'tag'].includes(data.formControlName)) {
+        <tt-list-input-control
+          [labelText]="data.labelText"
+          [icon]="data.icon"
           [placeholder]="data.placeholder"
           [formControlName]="data.formControlName"
         />
-        @if (data.icon) {
-          <span class="tt-form-icon">
-             <svg [icon]="data.icon"></svg>
-          </span>
-        }
-      </label>
+      } @else {
+        <tt-text-input-control
+          [labelText]="data.labelText"
+          [icon]="data.icon"
+          [placeholder]="data.placeholder"
+          [formControlName]="data.formControlName"
+        />
+      }
     }
   </form>
 </div>
