@@ -1,7 +1,7 @@
 <div class="search-filter">
   <form class="search-filter__form" [formGroup]="formGroupData">
     @for (data of searchFilterData; track data.formControlName) {
-      @if (['stack', 'tag'].includes(data.formControlName)) {
+      @if (['stack', 'tags'].includes(data.formControlName)) {
         <tt-list-input-control
           [labelText]="data.labelText"
           [icon]="data.icon"

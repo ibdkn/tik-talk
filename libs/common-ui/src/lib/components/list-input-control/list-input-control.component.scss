@@ -16,7 +16,7 @@
     &:focus-within {
       border-bottom-color: var(--primary-color);
 
-      svg {
+      .tt-form-icon svg {
         color: var(--primary-color);
       }
     }
