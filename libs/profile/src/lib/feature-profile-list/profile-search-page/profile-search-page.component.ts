@@ -8,7 +8,7 @@ import { ProfileFilterComponent } from '../profile-filter/profile-filter.compone
 import {
   PreviewCardData,
   Profile,
-  profileActions,
+  profileActions, ProfileService,
   selectFilteredProfiles,
   selectProfileFilters
 } from '@tt/data-access';
@@ -26,21 +26,32 @@ import {
 })
 export class ProfileSearchPageComponent {
   store: Store = inject(Store);
+  profileService: ProfileService = inject(ProfileService);
   profiles = this.store.selectSignal(selectFilteredProfiles);
   filters = this.store.selectSignal(selectProfileFilters);
+  me = this.profileService.me;
+  meId = computed(() => this.me()?.id ?? null);
 
-  private mapProfile = (p: Profile): PreviewCardData => ({
+  private mapProfile = (p: Profile, myId: number): PreviewCardData => ({
     id: p.id,
     avatarUrl: p.avatarUrl,
     title: `${p.firstName ?? ''} ${p.lastName ?? ''}`.trim() || '',
     subtitle: p.username,
     description: p.description ?? '',
     tags: p.stack ?? [],
-    primaryLabel: 'Подписаться',
+    primaryLabel: 'Подписаться', // todo реализовать тернарник (подписаться или отписаться)
+    icon: 'subscribe', // todo аналогично реализовать тернарник
     secondaryLink: `/profile/${p.id}`,
+    isJoined: false,
+    isMine: p.id === myId
   });
 
-  previewProfiles = computed(() => this.profiles().map(this.mapProfile));
+  previewProfiles = computed(() => {
+    const myId = this.meId();
+    if (myId == null) return [];
+    console.log(this.profiles());
+    return this.profiles().map(c => this.mapProfile(c, myId));
+  });
 
   timeToFetch(): void {
     this.store.dispatch(profileActions.setPage({}));

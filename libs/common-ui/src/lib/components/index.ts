@@ -6,6 +6,7 @@ import { SearchFilterComponent } from './search-filter/search-filter.component';
 import { ListInputControlComponent } from './list-input-control/list-input-control.component';
 import { SvgIconComponent } from "./svg-icon/svg-icon.component";
 import { TextInputControlComponent } from './text-input-control/text-input-control.component';
+import { SelectControlComponent } from './select-control/select-control.component';
 
 export {
   AvatarCircleComponent,
@@ -15,5 +16,6 @@ export {
   PreviewCardComponent,
   SearchFilterComponent,
   ListInputControlComponent,
-  TextInputControlComponent
+  TextInputControlComponent,
+  SelectControlComponent
 }

@@ -1,5 +1,5 @@
 @if (data) {
-  <div class="preview-card">
+  <div [ngClass]="['preview-card', data.isMine ? 'mine' : '']">
     <tt-avatar-name
       [avatarUrl]="data.avatarUrl"
       [title]="data.title"
@@ -19,14 +19,14 @@
     </div>
 
     <div class="preview-card__action-btns">
-      @if (data.primaryLabel) {
-        <button class="btn">
+      @if (!data.isMine && data.primaryLabel) {
+        <button [ngClass]="['btn', data.isJoined ? 'btn-light-transparent' : '']" (click)="subscribeHandler(data.id)">
           <span>{{ data.primaryLabel }}</span>
-          <svg [icon]="'subscribe'" class="svg16"></svg>
+          <svg [icon]="data.icon" class="svg16"></svg>
         </button>
       }
       @if (data.secondaryLink) {
-        <a class="btn btn-icon" [routerLink]="data.secondaryLink">
+        <a [ngClass]="['btn btn-icon', data.isJoined ? 'btn-primary-transparent' : '']" [routerLink]="data.secondaryLink">
           <svg [icon]="'arrow-link'" class="svg16"></svg>
         </a>
       }

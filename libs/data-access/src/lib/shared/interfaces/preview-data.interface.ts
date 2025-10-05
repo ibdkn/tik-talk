@@ -6,5 +6,8 @@ export interface PreviewCardData {
   description?: string;
   tags: string[];
   primaryLabel?: string;
+  icon: string;
   secondaryLink?: string;
+  isJoined: boolean;
+  isMine: boolean
 }

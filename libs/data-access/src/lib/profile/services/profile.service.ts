@@ -1,22 +1,20 @@
 import {inject, Injectable, signal} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {map, Observable, tap} from 'rxjs';
-import {GlobalStoreService, Pageable} from '@tt/data-access';
-import { Profile } from '@tt/data-access';
+import { GlobalStoreService } from '../../shared/services/global-store.service';
+import { Profile } from '../interfaces/profile.interface';
+import { Pageable } from '../../shared/interfaces/pageable.interface';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ProfileService {
   http: HttpClient = inject(HttpClient);
-  baseApiUrl: string = '/yt-course';
+  baseApiUrl = '/yt-course';
   #globalStoreService: GlobalStoreService = inject(GlobalStoreService);
 
   me = signal<Profile | null>(null);
   filteredProfiles = signal<Profile[]>([]);
-
-  constructor() {
-  }
 
   getTestAccounts(): Observable<Profile[]> {
     return this.http.get<Profile[]>(`${this.baseApiUrl}/account/test_accounts`);

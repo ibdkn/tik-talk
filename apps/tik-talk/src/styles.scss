@@ -103,14 +103,41 @@ svg {
   }
 }
 
-.btn-transparent {
+.btn-light-transparent {
   color: var(--light-color-transparrent);
   border: 1px solid var(--light-color-transparrent);
   background-color: var(--dark-color);
 
+  svg {
+    color: var(--light-color);
+  }
+
   &:hover {
     color: var(--dark-color);
     border: 1px solid var(--dark-color);
+
+    svg {
+      color: var(--dark-color);
+    }
+  }
+}
+
+.btn-primary-transparent {
+  color: var(--primary-color);
+  border: 1px solid var(--primary-color);
+  background-color: var(--dark-color);
+
+  svg {
+    color: var(--primary-color);
+  }
+
+  &:hover {
+    color: var(--dark-color);
+    border: 1px solid var(--dark-color);
+
+    svg {
+      color: var(--dark-color);
+    }
   }
 }
 

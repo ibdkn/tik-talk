@@ -8,6 +8,13 @@
           [placeholder]="data.placeholder"
           [formControlName]="data.formControlName"
         />
+      } @else if (['themes'].includes(data.formControlName)) {
+        <tt-select-control
+          [labelText]="data.labelText"
+          [icon]="data.icon"
+          [placeholder]="data.placeholder"
+          [formControlName]="data.formControlName"
+        />
       } @else {
         <tt-text-input-control
           [labelText]="data.labelText"

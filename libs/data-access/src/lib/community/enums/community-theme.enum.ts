@@ -1,0 +1,7 @@
+export enum CommunityTheme {
+  PROGRAMMING = 'PROGRAMMING',
+  TECHNOLOGY = 'TECHNOLOGY',
+  EDUCATION = 'EDUCATION',
+  SPORT = 'SPORT',
+  OTHER = 'OTHER',
+}

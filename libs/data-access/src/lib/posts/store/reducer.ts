@@ -1,13 +1,13 @@
-import {Post} from '@tt/data-access';
 import {createFeature, createReducer, on} from '@ngrx/store';
 import {postActions} from './actions';
+import { Post } from '../interfaces/post.interface';
 
 export interface PostState {
   posts: Post[],
   postFilters: Record<string, any>
 }
 
-export const initialState: PostState = {
+export const initialPostState: PostState = {
   posts: [],
   postFilters: {}
 }
@@ -15,7 +15,7 @@ export const initialState: PostState = {
 export const postFeature = createFeature({
   name: 'postFeature',
   reducer: createReducer(
-    initialState,
+    initialPostState,
     on(postActions.postsLoaded, (state, payload) => {
       return {
         ...state,
