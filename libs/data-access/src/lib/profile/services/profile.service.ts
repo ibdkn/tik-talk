@@ -14,19 +14,18 @@ export class ProfileService {
   #globalStoreService: GlobalStoreService = inject(GlobalStoreService);
 
   me = signal<Profile | null>(null);
-  filteredProfiles = signal<Profile[]>([]);
 
   getTestAccounts(): Observable<Profile[]> {
     return this.http.get<Profile[]>(`${this.baseApiUrl}/account/test_accounts`);
   }
 
   getMe(): Observable<Profile> {
-    return this.http
-      .get<Profile>(`${this.baseApiUrl}/account/me`)
-      .pipe(tap((res) => {
+    return this.http.get<Profile>(`${this.baseApiUrl}/account/me`).pipe(
+      tap((res) => {
         this.me.set(res);
         this.#globalStoreService.me.set(res);
-      }));
+      })
+    );
   }
 
   getAccount(id: string) {
@@ -54,10 +53,11 @@ export class ProfileService {
   }
 
   filterProfiles(params: Record<string, any>) {
-    return this.http
-      .get<Pageable<Profile>>(`${this.baseApiUrl}/account/accounts`, {
+    return this.http.get<Pageable<Profile>>(
+      `${this.baseApiUrl}/account/accounts`,
+      {
         params,
-      })
-      .pipe(tap((res) => this.filteredProfiles.set(res.items)));
+      }
+    );
   }
 }

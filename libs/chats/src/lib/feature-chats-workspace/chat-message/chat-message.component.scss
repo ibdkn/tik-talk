@@ -3,7 +3,7 @@
   grid-template-columns: 32px 1fr;
   grid-gap: 12px;
 
-  &.is-mine {
+  &.owned {
     grid-template-columns: max-content 32px;
     justify-content: end;
 

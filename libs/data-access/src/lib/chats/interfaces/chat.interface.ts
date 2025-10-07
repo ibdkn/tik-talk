@@ -1,4 +1,4 @@
-import {Profile} from '@tt/data-access';
+import { Profile } from '../../profile/interfaces/profile.interface';
 
 export interface Chat {
   id: number;
@@ -17,7 +17,7 @@ export interface Message {
   isRead: boolean;
   updatedAt?: string;
   user?: Profile;
-  isMine?: boolean;
+  isOwnedByCurrentUser?: boolean;
 }
 
 export interface LastMessageResponse {

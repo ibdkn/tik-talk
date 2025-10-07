@@ -1,11 +1,18 @@
 import {
   ChangeDetectionStrategy,
-  Component, ElementRef, forwardRef,
+  Component,
+  ElementRef,
+  forwardRef,
   HostListener,
-  Input, ViewChild
+  input,
+  ViewChild,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ControlValueAccessor, FormsModule, NG_VALUE_ACCESSOR } from '@angular/forms';
+import {
+  ControlValueAccessor,
+  FormsModule,
+  NG_VALUE_ACCESSOR,
+} from '@angular/forms';
 import { SvgIconComponent } from '../svg-icon/svg-icon.component';
 import { BehaviorSubject } from 'rxjs';
 import { CommunityTheme } from '@tt/data-access';
@@ -25,12 +32,13 @@ import { CommunityTheme } from '@tt/data-access';
   ],
 })
 export class SelectControlComponent implements ControlValueAccessor {
-  @Input() labelText!: string;
-  @Input() placeholder!: string;
-  @Input() icon?: string;
+  labelText = input.required<string>();
+  placeholder = input.required<string>();
+  icon = input<string | null>(null);
 
   @ViewChild('wrapper', { static: true }) wrapperRef!: ElementRef<HTMLElement>;
-  @ViewChild('optionsList', { static: true }) optionsRef!: ElementRef<HTMLElement>;
+  @ViewChild('optionsList', { static: true })
+  optionsRef!: ElementRef<HTMLElement>;
 
   selectOptions: CommunityTheme[] = Object.values(CommunityTheme);
   value$ = new BehaviorSubject<string[]>([]);
@@ -41,6 +49,7 @@ export class SelectControlComponent implements ControlValueAccessor {
   open(): void {
     this.isOpen = true;
   }
+
   close(): void {
     this.isOpen = false;
   }
@@ -65,7 +74,7 @@ export class SelectControlComponent implements ControlValueAccessor {
   onToggleOption(opt: string): void {
     const curr = this.value$.value;
     const next = this.isSelected(opt)
-      ? curr.filter(v => v !== opt)
+      ? curr.filter((v) => v !== opt)
       : [...curr, opt];
 
     this.value$.next(next);
@@ -96,6 +105,7 @@ export class SelectControlComponent implements ControlValueAccessor {
 
     this.value$.next(themes);
   }
+
   setDisabledState?(isDisabled: boolean): void {}
 
   onChange(value: string[] | null) {}

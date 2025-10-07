@@ -1,28 +1,27 @@
-import { inject, Injectable, signal } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable, tap } from 'rxjs';
+import { Observable } from 'rxjs';
 import { Community } from '../interfaces/community.interface';
 import { Pageable } from '../../shared/interfaces/pageable.interface';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class CommunityService {
-  http: HttpClient = inject(HttpClient);
+  http = inject(HttpClient);
   baseApiUrl = '/yt-course';
-  filteredCommunities = signal<Community[]>([]);
 
   filterCommunities(params: Record<string, any>) {
-    return this.http
-      .get<Pageable<Community>>(`${this.baseApiUrl}/community/`, {
-        params,
-      }).pipe(
-        tap((res) => this.filteredCommunities.set(res.items))
-      )
+    return this.http.get<Pageable<Community>>(`${this.baseApiUrl}/community/`, {
+      params,
+    });
   }
 
   joinCommunity(id: number): Observable<string> {
-    return this.http.post<string>(`${this.baseApiUrl}/community/${id}/join`, {});
+    return this.http.post<string>(
+      `${this.baseApiUrl}/community/${id}/join`,
+      {}
+    );
   }
 
   leaveCommunity(id: number): Observable<string> {
