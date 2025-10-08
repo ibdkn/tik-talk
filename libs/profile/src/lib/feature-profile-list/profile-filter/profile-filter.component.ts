@@ -1,42 +1,28 @@
-import {ChangeDetectionStrategy, Component, inject, OnInit} from '@angular/core';
+import { ChangeDetectionStrategy, Component, DestroyRef, inject } from '@angular/core';
 import { FormBuilder, FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { debounceTime, startWith } from 'rxjs';
-import { profileActions, SearchFilter, selectProfileFilters } from '@tt/data-access';
+import { debounceTime, distinctUntilChanged, map, startWith } from 'rxjs';
+import { profileActions, selectProfileFilters } from '@tt/data-access';
 import {Store} from '@ngrx/store';
-import { SearchFilterComponent } from '@tt/common-ui';
+import { ListInputControlComponent, TextInputControlComponent } from '@tt/common-ui';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 
 @Component({
   selector: 'app-profile-filter',
-  imports: [FormsModule, ReactiveFormsModule, SearchFilterComponent],
+  imports: [
+    FormsModule,
+    ReactiveFormsModule,
+    ListInputControlComponent,
+    TextInputControlComponent,
+  ],
   templateUrl: './profile-filter.component.html',
   styleUrl: './profile-filter.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ProfileFilterComponent implements OnInit {
+export class ProfileFilterComponent {
   fd: FormBuilder = inject(FormBuilder);
   store: Store = inject(Store);
-
-  searchFilterData: SearchFilter[] = [
-    {
-      labelText: 'Имя пользователя',
-      formControlName: 'firstName',
-      placeholder: 'Введите',
-      icon: 'search',
-    },
-    {
-      labelText: 'Фамилия пользователя',
-      formControlName: 'lastName',
-      placeholder: 'Введите',
-      icon: 'search',
-    },
-    {
-      labelText: 'Навыки',
-      formControlName: 'stack',
-      placeholder: 'Введите',
-      icon: 'search',
-    },
-  ];
+  destroyRef = inject(DestroyRef);
 
   searchForm = this.fd.group({
     firstName: [''],
@@ -44,20 +30,27 @@ export class ProfileFilterComponent implements OnInit {
     stack: [''],
   });
 
-  ngOnInit() {
+  constructor() {
     const filters = this.store.selectSignal(selectProfileFilters)();
     this.searchForm.patchValue(filters);
 
     this.searchForm.valueChanges
-      .pipe(startWith(this.searchForm.value), debounceTime(300))
+      .pipe(
+        startWith(this.searchForm.value),
+        debounceTime(300),
+        map(value => ({
+          ...value,
+          stack: Array.isArray(value.stack)
+            ? [...new Set(value.stack.map((t: string) => t.trim().toLowerCase()))]
+            : [],
+        })),
+        distinctUntilChanged((a, b) => JSON.stringify(a) === JSON.stringify(b)),
+        takeUntilDestroyed(this.destroyRef)
+      )
       .subscribe((formValue) => {
         this.store.dispatch(
           profileActions.filterEvents({ filters: formValue })
         );
       });
-  }
-
-  onFilterChanged(event: Record<string, any>) {
-    this.store.dispatch(profileActions.filterEvents({ filters: event }));
   }
 }

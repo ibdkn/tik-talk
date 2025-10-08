@@ -6,13 +6,13 @@
         @defer (on viewport) {
           <tt-infinite-scroll-trigger
             (loaded)="timeToFetch()"
-          ></tt-infinite-scroll-trigger>
+          />
         } @placeholder {
           <div></div>
         }
       }
 
-      <tt-preview-card [data]="profile"></tt-preview-card>
+      <tt-preview-card [card]="profile"></tt-preview-card>
     }
   </div>
 </div>

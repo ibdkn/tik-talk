@@ -1,7 +1,7 @@
 import {ChangeDetectionStrategy, Component, HostBinding, input, InputSignal} from '@angular/core';
-import { Message } from '../../../../../data-access/src/lib/chats/interfaces/chat.interface';
 import { DatePipe } from '@angular/common';
 import {AvatarCircleComponent} from '@tt/common-ui';
+import { Message } from '@tt/data-access';
 
 @Component({
   selector: 'app-chat-message',
@@ -13,8 +13,8 @@ import {AvatarCircleComponent} from '@tt/common-ui';
 export class ChatMessageComponent {
   message: InputSignal<Message> = input.required<Message>();
 
-  @HostBinding('class.is-mine')
-  get isMine(): boolean | undefined {
-    return this.message().isMine;
+  @HostBinding('class.owned')
+  get isOwnedByCurrentUser(): boolean | undefined {
+    return this.message().isOwnedByCurrentUser;
   }
 }

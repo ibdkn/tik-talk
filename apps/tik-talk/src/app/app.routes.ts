@@ -1,8 +1,7 @@
 import {Routes} from '@angular/router';
 import {canActivateAuth, LoginPageComponent} from '@tt/auth';
 import {
-  CommunityEffects,
-  communityFeature, PostEffects, postFeature,
+  PostEffects, postFeature,
   ProfileEffects,
   profileFeature
 } from '@tt/data-access';
@@ -14,8 +13,8 @@ import {
 import {LayoutComponent} from '@tt/layout';
 import {provideState} from '@ngrx/store';
 import {provideEffects} from '@ngrx/effects';
-import { CommunitySearchPageComponent } from '@tt/community';
 import { chatsRoutes } from '@tt/chats';
+import { communityRotes } from '@tt/community';
 
 export const routes: Routes = [
   {
@@ -45,11 +44,7 @@ export const routes: Routes = [
       },
       {
         path: 'community',
-        component: CommunitySearchPageComponent,
-        providers: [
-          provideState(communityFeature),
-          provideEffects(CommunityEffects)
-        ]
+        loadChildren: () => communityRotes,
       },
     ],
     canActivate: [canActivateAuth],

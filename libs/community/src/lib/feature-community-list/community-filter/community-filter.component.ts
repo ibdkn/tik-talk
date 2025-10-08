@@ -1,43 +1,39 @@
-import { ChangeDetectionStrategy, Component, inject, OnDestroy, OnInit } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  DestroyRef,
+  inject,
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { SearchFilterComponent } from '@tt/common-ui';
-import { FormBuilder } from '@angular/forms';
+import {
+  ListInputControlComponent,
+  SelectControlComponent,
+  TextInputControlComponent
+} from '@tt/common-ui';
+import { FormBuilder, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { Store } from '@ngrx/store';
-import { communityActions, SearchFilter, selectCommunityFilters } from '@tt/data-access';
-import { debounceTime, startWith, Subscription } from 'rxjs';
+import { communityActions, selectCommunityFilters } from '@tt/data-access';
+import { debounceTime, distinctUntilChanged, map, startWith } from 'rxjs';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'tt-community-filter',
-  imports: [CommonModule, SearchFilterComponent],
+  imports: [
+    CommonModule,
+    FormsModule,
+    ListInputControlComponent,
+    SelectControlComponent,
+    TextInputControlComponent,
+    ReactiveFormsModule,
+  ],
   templateUrl: './community-filter.component.html',
   styleUrl: './community-filter.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class CommunityFilterComponent implements OnInit, OnDestroy {
-  private sub = new Subscription();
-  fd: FormBuilder = inject(FormBuilder);
-  store: Store = inject(Store);
-
-  searchFilterData: SearchFilter[] = [
-    {
-      labelText: 'Название сообщества',
-      formControlName: 'name',
-      placeholder: 'Введите',
-      icon: 'search',
-    },
-    {
-      labelText: 'Тема',
-      formControlName: 'themes',
-      placeholder: 'Выберите',
-      icon: 'search',
-    },
-    {
-      labelText: 'Теги',
-      formControlName: 'tags',
-      placeholder: 'Введите',
-      icon: 'search',
-    },
-  ];
+export class CommunityFilterComponent {
+  fd = inject(FormBuilder);
+  store = inject(Store);
+  destroyRef = inject(DestroyRef);
 
   searchForm = this.fd.group({
     name: [''],
@@ -45,22 +41,27 @@ export class CommunityFilterComponent implements OnInit, OnDestroy {
     tags: [''],
   });
 
-  ngOnInit() {
+  constructor() {
     const filters = this.store.selectSignal(selectCommunityFilters)();
     this.searchForm.patchValue(filters);
 
-    this.sub.add(
-      this.searchForm.valueChanges
-        .pipe(startWith(this.searchForm.value), debounceTime(300))
-        .subscribe((formValue) => {
-          this.store.dispatch(
-            communityActions.filterEvents({ filters: formValue })
-          );
-        })
-    )
-  }
-
-  ngOnDestroy() {
-    this.sub.unsubscribe();
+    this.searchForm.valueChanges
+      .pipe(
+        startWith(this.searchForm.value),
+        debounceTime(300),
+        map(value => ({
+          ...value,
+          tags: Array.isArray(value.tags)
+            ? [...new Set(value.tags.map((t: string) => t.trim().toLowerCase()))]
+            : [],
+        })),
+        distinctUntilChanged((a, b) => JSON.stringify(a) === JSON.stringify(b)),
+        takeUntilDestroyed(this.destroyRef)
+      )
+      .subscribe((formValue) => {
+        this.store.dispatch(
+          communityActions.filterEvents({ filters: formValue })
+        );
+      });
   }
 }

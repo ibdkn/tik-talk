@@ -6,7 +6,9 @@
       <svg [icon]="'community'" class="svg16"></svg>
     </button>
   </div>
+
   <tt-community-filter></tt-community-filter>
+
   <div class="community-search-page__cards">
     @for (community of previewCommunities(); track community.id; let last = $last) {
       @if (last) {
@@ -19,7 +21,7 @@
         }
       }
 
-      <tt-preview-card [data]="community" (subscribed)="toggleSubscribe($event, community.isJoined)"></tt-preview-card>
+      <tt-preview-card [card]="community" (subscribed)="toggleSubscribe($event, community.isJoined)"></tt-preview-card>
     }
   </div>
 </div>

@@ -2,7 +2,7 @@ import {
   ChangeDetectionStrategy,
   Component,
   forwardRef,
-  Input,
+  input,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {
@@ -27,9 +27,9 @@ import { SvgIconComponent } from '../svg-icon/svg-icon.component';
   ],
 })
 export class TextInputControlComponent implements ControlValueAccessor {
-  @Input() labelText!: string;
-  @Input() placeholder!: string;
-  @Input() icon?: string;
+  labelText = input.required<string>();
+  placeholder = input.required<string>();
+  icon = input<string | null>(null);
 
   value = '';
 

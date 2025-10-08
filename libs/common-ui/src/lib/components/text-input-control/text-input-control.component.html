@@ -1,11 +1,11 @@
-<label class="tt-form-label" [class.with-icon]="!!icon">
-  <span class="tt-form-label-text">{{ labelText }}</span>
+<label class="tt-form-label" [class.with-icon]="!!icon()">
+  <span class="tt-form-label-text">{{ labelText() }}</span>
   <input type="text" class="tt-form-input"
-    [placeholder]="placeholder"
+    [placeholder]="placeholder()"
     [ngModel]="value"
     (ngModelChange)="onInput($event)"
   />
-  @if (icon) {
+  @if (icon(); as icon) {
     <span class="tt-form-icon">
       <svg [icon]="icon"></svg>
     </span>

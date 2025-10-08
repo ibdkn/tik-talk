@@ -1,7 +1,7 @@
 <label class="select-control tt-form-label">
-  <span class="tt-form-label-text">{{ labelText }}</span>
+  <span class="tt-form-label-text">{{ labelText() }}</span>
   <div #wrapper class="select-control__wrapper"
-       [class.with-icon]="!!icon"
+       [class.with-icon]="!!icon()"
        [class.filled]="value$.value.length > 0"
        (click)="open()"
   >
@@ -15,11 +15,11 @@
     }
 
     <input type="text" class="select-control__ghost-input"
-           [placeholder]="(value$ | async)!.length > 0 ? '' : placeholder"
+           [placeholder]="(value$ | async)!.length > 0 ? '' : placeholder()"
            readonly
     />
 
-    @if (icon) {
+    @if (icon(); as icon) {
       <span class="tt-form-icon">
         <svg [icon]="icon"></svg>
       </span>
