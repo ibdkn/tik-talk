@@ -65,7 +65,7 @@ export class ChatService {
           text: message.data.message,
           createdAt: message.data.created_at,
           isRead: false,
-          isMine: message.data.author === this.me()?.id,
+          isOwnedByCurrentUser: message.data.author === this.me()?.id,
         }
       ])
     }
@@ -91,7 +91,7 @@ export class ChatService {
               chat.userFirst.id === message.userFromId
                 ? chat.userFirst
                 : chat.userSecond,
-            isMine: message.userFromId === this.me()?.id,
+            isOwnedByCurrentUser: message.userFromId === this.me()?.id,
           };
         });
         this.activeChatMessages.set(patchedMessages);

@@ -3,11 +3,15 @@ import {
   Component,
   forwardRef,
   HostListener,
-  Input,
+  input,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { SvgIconComponent } from '../svg-icon/svg-icon.component';
-import { ControlValueAccessor, FormsModule, NG_VALUE_ACCESSOR } from '@angular/forms';
+import {
+  ControlValueAccessor,
+  FormsModule,
+  NG_VALUE_ACCESSOR,
+} from '@angular/forms';
 import { BehaviorSubject } from 'rxjs';
 
 @Component({
@@ -25,9 +29,9 @@ import { BehaviorSubject } from 'rxjs';
   ],
 })
 export class ListInputControlComponent implements ControlValueAccessor {
-  @Input() labelText!: string;
-  @Input() icon?: string;
-  @Input() placeholder!: string;
+  labelText = input.required<string>();
+  placeholder = input.required<string>();
+  icon = input<string | null>(null);
 
   value$ = new BehaviorSubject<string[]>([]);
   innerInput = '';
@@ -38,15 +42,15 @@ export class ListInputControlComponent implements ControlValueAccessor {
     event.preventDefault();
     if (!this.innerInput) return;
 
-    this.value$.next([...this.value$.value, this.innerInput])
+    this.value$.next([...this.value$.value, this.innerInput]);
     this.innerInput = '';
-    this.onChange(this.value$.value)
+    this.onChange(this.value$.value);
   }
 
   onDelete(i: number) {
     const next = this.value$.value.filter((_, idx) => idx !== i);
     this.value$.next(next);
-    this.onChange(this.value$.value)
+    this.onChange(this.value$.value);
   }
 
   registerOnChange(fn: any): void {
@@ -65,6 +69,7 @@ export class ListInputControlComponent implements ControlValueAccessor {
 
     this.value$.next(stack);
   }
+
   setDisabledState?(isDisabled: boolean): void {}
 
   onChange(value: string[] | null) {}

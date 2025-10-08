@@ -1,32 +1,32 @@
-@if (data) {
-  <div class="preview-card">
+@if (card(); as card) {
+  <div [ngClass]="['preview-card', card.isOwnedByCurrentUser ? 'mine' : '']">
     <tt-avatar-name
-      [avatarUrl]="data.avatarUrl"
-      [title]="data.title"
-      [subtitle]="data.subtitle"
+      [avatarUrl]="card.avatarUrl"
+      [title]="card.title"
+      [subtitle]="card.subtitle"
     />
 
-    @if (data.description) {
+    @if (card.description) {
       <div class="preview-card__description">
-        {{ data.description }}
+        {{ card.description }}
       </div>
     }
 
     <div class="preview-card__tags">
-      @for (tag of data.tags; track tag) {
+      @for (tag of card.tags; track tag) {
         <div class="list-item">{{ tag }}</div>
       }
     </div>
 
     <div class="preview-card__action-btns">
-      @if (data.primaryLabel) {
-        <button class="btn">
-          <span>{{ data.primaryLabel }}</span>
-          <svg [icon]="'subscribe'" class="svg16"></svg>
+      @if (!card.isOwnedByCurrentUser && card.primaryLabel) {
+        <button [ngClass]="['btn', card.isJoined ? 'btn-light-transparent' : '']" (click)="subscribeHandler(card.id)">
+          <span>{{ card.primaryLabel }}</span>
+          <svg [icon]="card.icon" class="svg16"></svg>
         </button>
       }
-      @if (data.secondaryLink) {
-        <a class="btn btn-icon" [routerLink]="data.secondaryLink">
+      @if (card.secondaryLink) {
+        <a [ngClass]="['btn btn-icon', card.isJoined ? 'btn-primary-transparent' : '']" [routerLink]="card.secondaryLink">
           <svg [icon]="'arrow-link'" class="svg16"></svg>
         </a>
       }

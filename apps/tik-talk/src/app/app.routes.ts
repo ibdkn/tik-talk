@@ -1,9 +1,9 @@
 import {Routes} from '@angular/router';
-import {chatsRoutes} from '../../../../libs/chats/src/lib/feature-chats-workspace/chats-page/chatsRoutes';
 import {canActivateAuth, LoginPageComponent} from '@tt/auth';
 import {
+  PostEffects, postFeature,
   ProfileEffects,
-  profileFeature,
+  profileFeature
 } from '@tt/data-access';
 import {
   ProfilePageComponent,
@@ -13,8 +13,8 @@ import {
 import {LayoutComponent} from '@tt/layout';
 import {provideState} from '@ngrx/store';
 import {provideEffects} from '@ngrx/effects';
-import {postFeature} from '../../../../libs/data-access/src/lib/posts/store/reducer';
-import {PostEffects} from '../../../../libs/data-access/src/lib/posts/store/effects';
+import { chatsRoutes } from '@tt/chats';
+import { communityRotes } from '@tt/community';
 
 export const routes: Routes = [
   {
@@ -41,6 +41,10 @@ export const routes: Routes = [
       {
         path: 'chats',
         loadChildren: () => chatsRoutes,
+      },
+      {
+        path: 'community',
+        loadChildren: () => communityRotes,
       },
     ],
     canActivate: [canActivateAuth],

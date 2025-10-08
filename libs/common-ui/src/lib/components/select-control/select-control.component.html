@@ -1,0 +1,40 @@
+<label class="select-control tt-form-label">
+  <span class="tt-form-label-text">{{ labelText() }}</span>
+  <div #wrapper class="select-control__wrapper"
+       [class.with-icon]="!!icon()"
+       [class.filled]="value$.value.length > 0"
+       (click)="open()"
+  >
+    @for (item of value$ | async; track item; let i = $index) {
+      <div class="select-control__item list-item">
+        <button class="select-control__btn" (click)="onDelete(i)" type="button">
+          <svg [icon]="'cross'" class="svg10"></svg>
+        </button>
+        <span>{{ item }}</span>
+      </div>
+    }
+
+    <input type="text" class="select-control__ghost-input"
+           [placeholder]="(value$ | async)!.length > 0 ? '' : placeholder()"
+           readonly
+    />
+
+    @if (icon(); as icon) {
+      <span class="tt-form-icon">
+        <svg [icon]="icon"></svg>
+      </span>
+    }
+  </div>
+</label>
+<ul #optionsList class="option-list" role="listbox" [class.opened]="isOpen">
+  @for (option of selectOptions; track option) {
+    <li class="option-list__item"
+        [class.active]="isSelected(option)"
+        [attr.aria-selected]="isSelected(option)"
+        (click)="onToggleOption(option)"
+    >
+      <span class="text list-item">{{ option }}</span>
+      <svg class="icon svg16" [icon]="'selected-arrow'"></svg>
+    </li>
+  }
+</ul>

@@ -4,10 +4,9 @@ import { SubscriberCardComponent } from './subscriber-card/subscriber-card.compo
 import { AsyncPipe } from '@angular/common';
 import {firstValueFrom, Subscription, timer} from 'rxjs';
 import {ImgUrlPipe, SvgIconComponent} from '@tt/common-ui';
-import {ProfileService} from '@tt/data-access';
+import { isErrorMessage, ProfileService } from '@tt/data-access';
 import {ChatService} from '@tt/data-access';
 import {takeUntilDestroyed} from '@angular/core/rxjs-interop';
-import {isErrorMessage} from '../../../../data-access/src/lib/chats/interfaces/type-guards';
 
 @Component({
   selector: 'app-sidebar',
@@ -51,6 +50,11 @@ export class SidebarComponent implements OnInit {
       label: 'Поиск',
       icon: 'search',
       link: 'search',
+    },
+    {
+      label: 'Сообщества',
+      icon: 'community',
+      link: 'community',
     },
   ];
 

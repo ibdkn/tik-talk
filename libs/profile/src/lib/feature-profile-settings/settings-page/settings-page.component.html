@@ -43,10 +43,11 @@
       <span class="tt-form-label-text">Аватар</span>
       <app-avatar-upload></app-avatar-upload>
     </label>
-    <label class="tt-form-label">
-      <span class="tt-form-label-text">Навыки</span>
-      <tt-list-input-control formControlName="stack"></tt-list-input-control>
-    </label>
+    <tt-list-input-control
+      [labelText]="'Навыки'"
+      [placeholder]="'Введите'"
+      formControlName="stack"
+    />
   </div>
   <div class="profile-form__actions">
     <div class="btns__wrapper">

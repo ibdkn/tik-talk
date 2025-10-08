@@ -5,6 +5,7 @@ import { ChatWorkspaceComponent } from "./chat-workspace/chat-workspace.componen
 import { ChatsBtnComponent } from "./chats-btn/chats-btn.component";
 import { ChatsListComponent } from "./chats-list/chats-list.component";
 import { ChatsPageComponent } from "./chats-page/chats.component";
+import { chatsRoutes } from './chats-page/chatsRoutes';
 import { MessageDateGroupComponent } from "./message-date-group/message-date-group.component";
 
 export {
@@ -15,5 +16,6 @@ export {
   ChatMessageComponent,
   ChatsListComponent,
   ChatsPageComponent,
-  MessageDateGroupComponent
+  MessageDateGroupComponent,
+  chatsRoutes
 }
