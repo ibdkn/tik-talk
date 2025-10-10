@@ -41,7 +41,6 @@
       "inputs": ["production", "^production"]
     }
   },
-  "nxCloudId": "686aa3e99e65d371e8849903",
   "generators": {
     "@nx/angular:library": {
       "linter": "eslint",
