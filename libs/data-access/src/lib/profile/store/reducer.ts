@@ -1,6 +1,6 @@
-import {Profile} from '@tt/data-access';
 import {createFeature, createReducer, on} from '@ngrx/store';
 import {profileActions} from './actions';
+import { Profile } from '../interfaces/profile.interface';
 
 export interface ProfileState {
   profiles: Profile[],
@@ -9,7 +9,7 @@ export interface ProfileState {
   size: number
 }
 
-export const initialState: ProfileState = {
+export const initialProfileState: ProfileState = {
   profiles: [],
   profileFilters: {},
   page: 1,
@@ -19,7 +19,7 @@ export const initialState: ProfileState = {
 export const profileFeature = createFeature({
   name: 'profileFeature',
   reducer: createReducer(
-    initialState,
+    initialProfileState,
     on(profileActions.profilesLoaded, (state, payload) => {
       return {
         ...state,

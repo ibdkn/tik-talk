@@ -1,0 +1,27 @@
+<div class="community-search-page">
+  <div class="community-search-page__header">
+    <h2 class="community-search-page__title">Сообщества</h2>
+    <button class="btn community-search-page__btn">
+      <span>Создать сообщество</span>
+      <svg [icon]="'community'" class="svg16"></svg>
+    </button>
+  </div>
+
+  <tt-community-filter></tt-community-filter>
+
+  <div class="community-search-page__cards">
+    @for (community of previewCommunities(); track community.id; let last = $last) {
+      @if (last) {
+        @defer (on viewport) {
+          <tt-infinite-scroll-trigger
+            (loaded)="timeToFetch()"
+          ></tt-infinite-scroll-trigger>
+        } @placeholder {
+          <div></div>
+        }
+      }
+
+      <tt-preview-card [card]="community" (subscribed)="toggleSubscribe($event, community.isJoined)"></tt-preview-card>
+    }
+  </div>
+</div>

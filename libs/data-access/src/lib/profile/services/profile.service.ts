@@ -1,34 +1,31 @@
 import {inject, Injectable, signal} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {map, Observable, tap} from 'rxjs';
-import {GlobalStoreService, Pageable} from '@tt/data-access';
-import { Profile } from '@tt/data-access';
+import { GlobalStoreService } from '../../shared/services/global-store.service';
+import { Profile } from '../interfaces/profile.interface';
+import { Pageable } from '../../shared/interfaces/pageable.interface';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ProfileService {
   http: HttpClient = inject(HttpClient);
-  baseApiUrl: string = '/yt-course';
+  baseApiUrl = '/yt-course';
   #globalStoreService: GlobalStoreService = inject(GlobalStoreService);
 
   me = signal<Profile | null>(null);
-  filteredProfiles = signal<Profile[]>([]);
-
-  constructor() {
-  }
 
   getTestAccounts(): Observable<Profile[]> {
     return this.http.get<Profile[]>(`${this.baseApiUrl}/account/test_accounts`);
   }
 
   getMe(): Observable<Profile> {
-    return this.http
-      .get<Profile>(`${this.baseApiUrl}/account/me`)
-      .pipe(tap((res) => {
+    return this.http.get<Profile>(`${this.baseApiUrl}/account/me`).pipe(
+      tap((res) => {
         this.me.set(res);
         this.#globalStoreService.me.set(res);
-      }));
+      })
+    );
   }
 
   getAccount(id: string) {
@@ -56,10 +53,11 @@ export class ProfileService {
   }
 
   filterProfiles(params: Record<string, any>) {
-    return this.http
-      .get<Pageable<Profile>>(`${this.baseApiUrl}/account/accounts`, {
+    return this.http.get<Pageable<Profile>>(
+      `${this.baseApiUrl}/account/accounts`,
+      {
         params,
-      })
-      .pipe(tap((res) => this.filteredProfiles.set(res.items)));
+      }
+    );
   }
 }
