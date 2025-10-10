@@ -1,8 +1,26 @@
 stages:
   - dependencies
+  - lint
   - build
   - deploy
   - deploy-test-stand
+
+lint:
+  image: node:20.11-alpine
+  stage: lint
+  tags:
+    - docker
+  script:
+    - yarn lint
+  cache:
+    key:
+      files:
+        - yarn.lock
+    paths:
+      - node_modules
+  only:
+    - main
+    - merge_requests
 
 install_dependencies:
   stage: dependencies
