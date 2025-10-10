@@ -6,7 +6,7 @@ import {
 } from '@tt/common-ui';
 import { ProfileFilterComponent } from '../profile-filter/profile-filter.component';
 import {
-  PreviewCardData,
+  PreviewCard,
   Profile,
   profileActions, ProfileService,
   selectFilteredProfiles,
@@ -32,7 +32,7 @@ export class ProfileSearchPageComponent {
   me = this.profileService.me;
   meId = computed(() => this.me()?.id ?? null);
 
-  private mapProfile = (p: Profile, myId: number): PreviewCardData => ({
+  private mapProfile = (p: Profile, myId: number): PreviewCard => ({
     id: p.id,
     avatarUrl: p.avatarUrl,
     title: `${p.firstName ?? ''} ${p.lastName ?? ''}`.trim() || '',
@@ -43,13 +43,12 @@ export class ProfileSearchPageComponent {
     icon: 'subscribe', // todo аналогично реализовать тернарник
     secondaryLink: `/profile/${p.id}`,
     isJoined: false,
-    isMine: p.id === myId
+    isOwnedByCurrentUser: p.id === myId
   });
 
   previewProfiles = computed(() => {
     const myId = this.meId();
     if (myId == null) return [];
-    console.log(this.profiles());
     return this.profiles().map(c => this.mapProfile(c, myId));
   });
 

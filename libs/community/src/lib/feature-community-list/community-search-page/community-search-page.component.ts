@@ -1,10 +1,10 @@
 import { ChangeDetectionStrategy, Component, computed, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { InfiniteScrollTriggerComponent, PreviewCardComponent, SvgIconComponent } from '@tt/common-ui';
+import { formatCount, InfiniteScrollTriggerComponent, PreviewCardComponent, SvgIconComponent } from '@tt/common-ui';
 import { Store } from '@ngrx/store';
 import {
   Community, communityActions,
-  PreviewCardData,
+  PreviewCard,
   ProfileService,
   selectCommunityFilters,
   selectFilteredCommunities
@@ -32,17 +32,17 @@ export class CommunitySearchPageComponent {
   me = this.profileService.me;
   meId = computed(() => this.me()?.id ?? null);
 
-  private mapCommunity = (c: Community, myId: number): PreviewCardData => ({
+  private mapCommunity = (c: Community, myId: number): PreviewCard => ({
     id: c.id,
     avatarUrl: c.avatarUrl,
     title: c.name || 'Без названия',
-    subtitle: c.description,
+    subtitle: formatCount(c.subscribersAmount, ['подписчик', 'подписчика', 'подписчиков']),
     tags: c.tags ?? [],
     primaryLabel: c.isJoined ? 'Отписаться' : 'Подписаться',
     icon: c.isJoined ? 'unsubscribe' : 'subscribe',
     secondaryLink: `/community/${c.id}`,
     isJoined: c.isJoined,
-    isMine: c.admin.id === myId,
+    isOwnedByCurrentUser: c.admin.id === myId,
   });
 
   previewCommunities = computed(() => {

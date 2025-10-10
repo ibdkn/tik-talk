@@ -1,7 +1,22 @@
-<div class="profile-filter">
-  <tt-search-filter
-    [searchFilterData]="searchFilterData"
-    [formGroupData]="searchForm"
-    (filtersChanged)="onFilterChanged($event)"
-  />
+<div class="profile-filter search-filter">
+  <form class="search-filter__form" [formGroup]="searchForm">
+    <tt-text-input-control
+      [labelText]="'Имя пользователя'"
+      [icon]="'search'"
+      [placeholder]="'Введите'"
+      formControlName="firstName"
+    />
+    <tt-text-input-control
+      [labelText]="'Фамилия пользователя'"
+      [icon]="'search'"
+      [placeholder]="'Введите'"
+      formControlName="lastName"
+    />
+    <tt-list-input-control
+      [labelText]="'Навыки'"
+      [icon]="'search'"
+      [placeholder]="'Введите'"
+      formControlName="stack"
+    />
+  </form>
 </div>

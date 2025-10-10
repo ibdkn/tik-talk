@@ -1,4 +1,4 @@
-export interface PreviewCardData {
+export interface PreviewCard {
   id: number;
   avatarUrl?: string;
   title: string;
@@ -9,5 +9,5 @@ export interface PreviewCardData {
   icon: string;
   secondaryLink?: string;
   isJoined: boolean;
-  isMine: boolean
+  isOwnedByCurrentUser: boolean;
 }
