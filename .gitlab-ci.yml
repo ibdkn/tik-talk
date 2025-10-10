@@ -21,7 +21,7 @@ install_dependencies:
     - main
 
 build_angular:
-  image: node:20-11-alpine
+  image: node:20.11-alpine
   stage: build
   tags:
     - docker
