@@ -29,6 +29,7 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
   templateUrl: './community-filter.component.html',
   styleUrl: './community-filter.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: true
 })
 export class CommunityFilterComponent {
   fd = inject(FormBuilder);

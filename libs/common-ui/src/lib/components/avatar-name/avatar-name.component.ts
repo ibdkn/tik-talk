@@ -8,6 +8,7 @@ import { ImgUrlPipe } from '../../pipes';
   templateUrl: './avatar-name.component.html',
   styleUrl: './avatar-name.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: true
 })
 export class AvatarNameComponent {
   @Input() avatarUrl?: string;

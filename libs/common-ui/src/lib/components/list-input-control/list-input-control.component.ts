@@ -20,6 +20,7 @@ import { BehaviorSubject } from 'rxjs';
   templateUrl: './list-input-control.component.html',
   styleUrl: './list-input-control.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: true,
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,
