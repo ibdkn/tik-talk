@@ -1,0 +1,12 @@
+@if (participant(); as participant) {
+  <div class="participant-card">
+    <header>Участник</header>
+    <main>
+      <h3 class="participant-name">{{ participant.name }}</h3>
+      <p class="participant-role">{{ participant.role }}</p>
+    </main>
+    <footer>
+      <ng-content></ng-content>
+    </footer>
+  </div>
+}

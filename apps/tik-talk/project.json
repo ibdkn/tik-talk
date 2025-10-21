@@ -87,6 +87,17 @@
         "styles": ["apps/tik-talk/src/styles.scss"],
         "scripts": []
       }
+    },
+    "lint": {
+      "executor": "@nx/eslint:lint",
+      "options": {
+        "lintFilePatterns": [
+          "apps/tik-talk/**/*.ts",
+          "apps/tik-talk/**/*.tsx",
+          "apps/tik-talk/**/*.js",
+          "apps/tik-talk/**/*.jsx"
+        ]
+      }
     }
   }
 }
