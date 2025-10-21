@@ -1,0 +1,22 @@
+<h2 class="h1">Доска участников</h2>
+
+<form [formGroup]="participantForm" (ngSubmit)="addParticipant()">
+  <input class="tt-input" formControlName="name" placeholder="Имя">
+  <input class="tt-input" formControlName="role" placeholder="Роль">
+
+  <button type="submit" [disabled]="participantForm.invalid" class="btn">
+    Добавить
+  </button>
+</form>
+
+<hr />
+
+<h2 class="participants-header" #h2>Список участников</h2>
+
+<main class="card_wrapper">
+  @for (participant of participants(); track participant.name) {
+    <tt-participant-card [participant]="participant">
+      <span>{{participant.about}}</span>
+    </tt-participant-card>
+  }
+</main>
