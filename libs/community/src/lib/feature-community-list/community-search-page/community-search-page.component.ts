@@ -1,15 +1,28 @@
-import { ChangeDetectionStrategy, Component, computed, inject } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  computed,
+  inject,
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { formatCount, InfiniteScrollTriggerComponent, PreviewCardComponent, SvgIconComponent } from '@tt/common-ui';
+import {
+  formatCount,
+  InfiniteScrollTriggerComponent,
+  ModalService,
+  PreviewCardComponent,
+  SvgIconComponent,
+} from '@tt/common-ui';
 import { Store } from '@ngrx/store';
 import {
-  Community, communityActions,
+  Community,
+  communityActions,
   PreviewCard,
   ProfileService,
   selectCommunityFilters,
-  selectFilteredCommunities
+  selectFilteredCommunities,
 } from '@tt/data-access';
 import { CommunityFilterComponent } from '../community-filter/community-filter.component';
+import { CreateCommunityModalComponent } from '../../ui/create-community-modal/create-community-modal.component';
 
 @Component({
   selector: 'tt-community-search-page',
@@ -23,10 +36,13 @@ import { CommunityFilterComponent } from '../community-filter/community-filter.c
   templateUrl: './community-search-page.component.html',
   styleUrl: './community-search-page.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: true,
 })
 export class CommunitySearchPageComponent {
   store: Store = inject(Store);
   profileService: ProfileService = inject(ProfileService);
+  #modalService = inject(ModalService);
+
   communities = this.store.selectSignal(selectFilteredCommunities);
   filters = this.store.selectSignal(selectCommunityFilters);
   me = this.profileService.me;
@@ -36,7 +52,11 @@ export class CommunitySearchPageComponent {
     id: c.id,
     avatarUrl: c.avatarUrl,
     title: c.name || 'Без названия',
-    subtitle: formatCount(c.subscribersAmount, ['подписчик', 'подписчика', 'подписчиков']),
+    subtitle: formatCount(c.subscribersAmount, [
+      'подписчик',
+      'подписчика',
+      'подписчиков',
+    ]),
     tags: c.tags ?? [],
     primaryLabel: c.isJoined ? 'Отписаться' : 'Подписаться',
     icon: c.isJoined ? 'unsubscribe' : 'subscribe',
@@ -61,5 +81,9 @@ export class CommunitySearchPageComponent {
 
   timeToFetch(): void {
     this.store.dispatch(communityActions.setPage({}));
+  }
+
+  showCreateCommunity() {
+    this.#modalService.show(CreateCommunityModalComponent);
   }
 }
