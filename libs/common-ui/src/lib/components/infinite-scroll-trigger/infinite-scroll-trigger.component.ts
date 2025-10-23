@@ -6,6 +6,7 @@ import { CommonModule } from '@angular/common';
   imports: [CommonModule],
   templateUrl: './infinite-scroll-trigger.component.html',
   styleUrl: './infinite-scroll-trigger.component.scss',
+  standalone: true
 })
 export class InfiniteScrollTriggerComponent implements OnInit {
   loaded = output<void>();

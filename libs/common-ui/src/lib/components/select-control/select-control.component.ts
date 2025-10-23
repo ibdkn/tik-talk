@@ -23,6 +23,7 @@ import { CommunityTheme } from '@tt/data-access';
   templateUrl: './select-control.component.html',
   styleUrl: './select-control.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: true,
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,

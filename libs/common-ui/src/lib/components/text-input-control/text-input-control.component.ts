@@ -18,6 +18,7 @@ import { SvgIconComponent } from '../svg-icon/svg-icon.component';
   templateUrl: './text-input-control.component.html',
   styleUrl: './text-input-control.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: true,
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,

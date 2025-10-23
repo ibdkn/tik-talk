@@ -16,6 +16,7 @@ import { AvatarNameComponent } from '../avatar-name/avatar-name.component';
   templateUrl: './preview-card.component.html',
   styleUrl: './preview-card.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: true
 })
 export class PreviewCardComponent {
   card = input.required<PreviewCard>();
