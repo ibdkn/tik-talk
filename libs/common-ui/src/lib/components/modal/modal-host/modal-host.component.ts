@@ -7,12 +7,11 @@ import {
   ViewContainerRef,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ModalBaseComponent } from '../modal-base/modal-base.component';
 import { ModalService } from '../service/modal.service';
 
 @Component({
   selector: 'tt-modal-host',
-  imports: [CommonModule, ModalBaseComponent],
+  imports: [CommonModule],
   templateUrl: './modal-host.component.html',
   styleUrl: './modal-host.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
