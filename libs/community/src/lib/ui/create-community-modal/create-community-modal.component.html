@@ -1,3 +1,41 @@
 <tt-modal-base>
-  <p>Hello, world!</p>
+  <button class="create-community-close-btn" type="button" (click)="hide()">
+    <svg [icon]="'cross'" class="svg10"></svg>
+  </button>
+  <form class="create-community-form" [formGroup]="createCommunityForm" (ngSubmit)="createCommunity()">
+    <tt-text-input-control
+      [labelText]="'Название сообщества'"
+      [icon]="'search'"
+      [placeholder]="'Введите'"
+      formControlName="name"
+    >
+      @if (createCommunityForm.get('name')?.invalid && (createCommunityForm.get('name')?.touched || createCommunityForm.get('name')?.dirty)) {
+        <p class="input-tooltip">Поле обязательно для заполнения!</p>
+      }
+    </tt-text-input-control>
+    <tt-select-control
+      [labelText]="'Тема'"
+      [icon]="'search'"
+      [placeholder]="'Выберите'"
+      formControlName="themes"
+    />
+    <tt-list-input-control
+      [labelText]="'Теги'"
+      [icon]="'search'"
+      [placeholder]="'Введите'"
+      formControlName="tags"
+    />
+    <label class="tt-form-label">
+      <span class="tt-form-label-text">Описание</span>
+      <textarea
+        class="tt-form-textarea"
+        placeholder="Введите"
+        formControlName="description"
+      ></textarea>
+    </label>
+    <div class="create-community-form__btns">
+      <button class="btn btn-light-transparent" (click)="hide()">Отмена</button>
+      <button class="btn">Сохранить</button>
+    </div>
+  </form>
 </tt-modal-base>

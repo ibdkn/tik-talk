@@ -1,13 +1,7 @@
 import { inject, Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
-import {
-  filter,
-  map,
-  switchMap,
-  take,
-  withLatestFrom,
-} from 'rxjs';
+import { filter, map, switchMap, take, withLatestFrom } from 'rxjs';
 import { communityActions } from './actions';
 import { CommunityService } from '../services/community.service';
 import {
@@ -73,6 +67,18 @@ export class CommunityEffects {
               .pipe(map(() => communityActions.communityLeft({ id })))
           )
         )
+      )
+    )
+  );
+  createCommunity = createEffect(() =>
+    this.actions$.pipe(
+      ofType(communityActions.createCommunity),
+      switchMap(({ community }) =>
+        this.communityService
+          .createCommunity(community)
+          .pipe(
+            map((community) => communityActions.communityCreated({ community }))
+          )
       )
     )
   );

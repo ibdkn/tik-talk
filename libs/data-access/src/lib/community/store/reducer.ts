@@ -77,6 +77,10 @@ export const communityFeature = createFeature({
             }
           : c
       ),
-    }))
+    })),
+    on(communityActions.communityCreated, (state, payload) => ({
+      ...state,
+      communities: [payload.community, ...state.communities]
+    })),
   ),
 });
