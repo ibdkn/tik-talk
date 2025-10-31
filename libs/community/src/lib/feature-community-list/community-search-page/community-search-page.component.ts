@@ -15,7 +15,6 @@ import {
 import { Store } from '@ngrx/store';
 import {
   Community,
-  COMMUNITY_PAGE_SIZE,
   communityActions,
   PreviewCard,
   ProfileService,
@@ -81,9 +80,7 @@ export class CommunitySearchPageComponent {
   }
 
   timeToFetch(): void {
-    if (this.previewCommunities().length % COMMUNITY_PAGE_SIZE === 0) {
-      this.store.dispatch(communityActions.setPage({}));
-    }
+    this.store.dispatch(communityActions.setPage({}));
   }
 
   showCreateCommunity() {

@@ -75,24 +75,10 @@ export class CommunityEffects {
       ofType(communityActions.createCommunity),
       switchMap(({ community }) =>
         this.communityService.createCommunity(community).pipe(
-          withLatestFrom(
-            this.store.select(selectCommunityFilters),
-            this.store.select(selectCommunityPageable)
-          ),
-          switchMap(([_, filters, pageable]) => {
-            return this.communityService
-              .filterCommunities({
-                ...filters,
-                ...pageable,
-              })
-              .pipe(
-                map((res) =>
-                  communityActions.communitiesLoadedAfterCreating({
-                    communities: res.items,
-                  })
-                )
-              );
-          })
+          withLatestFrom(this.store.select(selectCommunityFilters)),
+          map(([_, filters]) =>
+            communityActions.filterEvents({ filters })
+          )
         )
       )
     )

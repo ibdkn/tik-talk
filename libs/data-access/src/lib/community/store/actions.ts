@@ -12,6 +12,5 @@ export const communityActions = createActionGroup({
     'community left': props<{id: number}>(),
     'set page':  props<{page?: number}>(),
     'create community': props<{community: CommunityCreateDto}>(),
-    'communities loaded after creating': props<{communities: Community[]}>(),
   }
 })
