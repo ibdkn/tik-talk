@@ -1,0 +1,8 @@
+<label class="tt-form-label">
+  <span class="tt-form-label-text">{{ labelText() }}</span>
+  <textarea class="tt-form-textarea"
+            [placeholder]="placeholder()"
+            [ngModel]="value"
+            (ngModelChange)="onInput($event)"
+  ></textarea>
+</label>

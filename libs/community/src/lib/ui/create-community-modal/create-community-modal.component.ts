@@ -1,10 +1,17 @@
-import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  inject,
+  QueryList,
+  ViewChildren
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {
-  ListInputControlComponent,
+  ListInputComponent,
   ModalBaseComponent, ModalService,
-  SelectControlComponent, SvgIconComponent,
-  TextInputControlComponent
+  SelectComponent, SvgIconComponent,
+  InputComponent, TextareaComponent
 } from '@tt/common-ui';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { communityActions, CommunityForm } from '@tt/data-access';
@@ -15,11 +22,12 @@ import { Store } from '@ngrx/store';
   imports: [
     CommonModule,
     ModalBaseComponent,
-    ListInputControlComponent,
+    ListInputComponent,
     ReactiveFormsModule,
-    TextInputControlComponent,
-    SelectControlComponent,
-    SvgIconComponent
+    InputComponent,
+    SelectComponent,
+    SvgIconComponent,
+    TextareaComponent,
   ],
   templateUrl: './create-community-modal.component.html',
   styleUrl: './create-community-modal.component.scss',
@@ -28,6 +36,8 @@ import { Store } from '@ngrx/store';
 export class CreateCommunityModalComponent {
   store = inject(Store);
   #modalService = inject(ModalService);
+
+  @ViewChildren(InputComponent) inputs!: QueryList<InputComponent>;
 
   createCommunityForm = new FormGroup<CommunityForm>({
     name: new FormControl('', { nonNullable: true, validators: [Validators.required] }),
@@ -42,6 +52,7 @@ export class CreateCommunityModalComponent {
 
   createCommunity() {
     this.createCommunityForm.markAllAsTouched();
+    this.inputs.forEach(c => c['cdr'].markForCheck());
 
     if (this.createCommunityForm.valid) {
       this.store.dispatch(communityActions.createCommunity({ community: this.createCommunityForm.getRawValue() }));

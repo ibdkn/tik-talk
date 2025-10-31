@@ -74,11 +74,26 @@ export class CommunityEffects {
     this.actions$.pipe(
       ofType(communityActions.createCommunity),
       switchMap(({ community }) =>
-        this.communityService
-          .createCommunity(community)
-          .pipe(
-            map((community) => communityActions.communityCreated({ community }))
-          )
+        this.communityService.createCommunity(community).pipe(
+          withLatestFrom(
+            this.store.select(selectCommunityFilters),
+            this.store.select(selectCommunityPageable)
+          ),
+          switchMap(([_, filters, pageable]) => {
+            return this.communityService
+              .filterCommunities({
+                ...filters,
+                ...pageable,
+              })
+              .pipe(
+                map((res) =>
+                  communityActions.communitiesLoadedAfterCreating({
+                    communities: res.items,
+                  })
+                )
+              );
+          })
+        )
       )
     )
   );

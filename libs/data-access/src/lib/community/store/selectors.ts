@@ -32,5 +32,3 @@ export const selectCommunityById = (id: number) =>
     (list) => list.find((c) => c.id === id) ?? null
   );
 
-export const selectIsJoining = (id: number) =>
-  createSelector(selectJoiningIds, (ids) => ids.includes(id));

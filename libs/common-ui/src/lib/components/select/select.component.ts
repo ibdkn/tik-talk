@@ -1,6 +1,7 @@
 import {
   ChangeDetectionStrategy,
   Component,
+  contentChild,
   ElementRef,
   forwardRef,
   HostListener,
@@ -18,24 +19,24 @@ import { BehaviorSubject } from 'rxjs';
 import { CommunityTheme } from '@tt/data-access';
 
 @Component({
-  selector: 'tt-select-control',
+  selector: 'tt-select',
   imports: [CommonModule, FormsModule, SvgIconComponent],
-  templateUrl: './select-control.component.html',
-  styleUrl: './select-control.component.scss',
+  templateUrl: './select.component.html',
+  styleUrl: './select.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,
       multi: true,
-      useExisting: forwardRef(() => SelectControlComponent),
+      useExisting: forwardRef(() => SelectComponent),
     },
   ],
 })
-export class SelectControlComponent implements ControlValueAccessor {
+export class SelectComponent implements ControlValueAccessor {
   labelText = input.required<string>();
   placeholder = input.required<string>();
-  icon = input<string | null>(null);
+  icon = contentChild('[icon]', { read: ElementRef });
 
   @ViewChild('wrapper', { static: true }) wrapperRef!: ElementRef<HTMLElement>;
   @ViewChild('optionsList', { static: true })

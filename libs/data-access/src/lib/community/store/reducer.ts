@@ -10,12 +10,14 @@ export interface CommunityState {
   size: number;
 }
 
+export const COMMUNITY_PAGE_SIZE = 10;
+
 export const initialCommunityState: CommunityState = {
   communities: [],
   communityFilters: {},
   joiningIds: [],
   page: 1,
-  size: 10,
+  size: COMMUNITY_PAGE_SIZE,
 };
 
 export const communityFeature = createFeature({
@@ -78,9 +80,11 @@ export const communityFeature = createFeature({
           : c
       ),
     })),
-    on(communityActions.communityCreated, (state, payload) => ({
-      ...state,
-      communities: [payload.community, ...state.communities]
-    })),
+    on(communityActions.communitiesLoadedAfterCreating, (state, payload) => {
+      return {
+        ...state,
+        communities: payload.communities,
+      };
+    })
   ),
 });

@@ -1,22 +1,32 @@
 <div class="community-filter search-filter">
   <form class="search-filter__form" [formGroup]="searchForm">
-    <tt-text-input-control
+    <tt-input
+      [type]="'text'"
       [labelText]="'Название сообщества'"
-      [icon]="'search'"
       [placeholder]="'Введите'"
       formControlName="name"
-    />
-    <tt-select-control
+    >
+      <span class="tt-form-icon" icon>
+        <svg [icon]="'search'"></svg>
+      </span>
+    </tt-input>
+    <tt-select
       [labelText]="'Тема'"
-      [icon]="'search'"
       [placeholder]="'Выберите'"
       formControlName="themes"
-    />
-    <tt-list-input-control
+    >
+      <span class="tt-form-icon" icon>
+        <svg [icon]="'search'"></svg>
+      </span>
+    </tt-select>
+    <tt-list-input
       [labelText]="'Теги'"
-      [icon]="'search'"
       [placeholder]="'Введите'"
       formControlName="tags"
-    />
+    >
+      <span class="tt-form-icon" icon>
+        <svg [icon]="'search'"></svg>
+      </span>
+    </tt-list-input>
   </form>
 </div>
