@@ -1,6 +1,8 @@
 import {
   ChangeDetectionStrategy,
   Component,
+  contentChild,
+  ElementRef,
   forwardRef,
   HostListener,
   input,
@@ -15,24 +17,24 @@ import {
 import { BehaviorSubject } from 'rxjs';
 
 @Component({
-  selector: 'tt-list-input-control',
+  selector: 'tt-list-input',
   imports: [CommonModule, SvgIconComponent, FormsModule],
-  templateUrl: './list-input-control.component.html',
-  styleUrl: './list-input-control.component.scss',
+  templateUrl: './list-input.component.html',
+  styleUrl: './list-input.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,
       multi: true,
-      useExisting: forwardRef(() => ListInputControlComponent),
+      useExisting: forwardRef(() => ListInputComponent),
     },
   ],
 })
-export class ListInputControlComponent implements ControlValueAccessor {
+export class ListInputComponent implements ControlValueAccessor {
   labelText = input.required<string>();
   placeholder = input.required<string>();
-  icon = input<string | null>(null);
+  icon = contentChild('[icon]', { read: ElementRef });
 
   value$ = new BehaviorSubject<string[]>([]);
   innerInput = '';

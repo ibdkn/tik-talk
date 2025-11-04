@@ -17,4 +17,10 @@ export class ModalService {
 
     this.containerRef.createComponent(component);
   }
+
+  hide() {
+    if (!this.containerRef) return;
+
+    this.containerRef.clear();
+  }
 }
