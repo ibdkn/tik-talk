@@ -2,7 +2,7 @@
   position: relative;
 }
 
-.select-control {
+.select {
   position: relative;
 
   &__wrapper {
@@ -27,7 +27,7 @@
         color: var(--primary-color);
       }
 
-      .select-control__ghost-input {
+      .select__ghost-input {
         width: 0;
       }
     }

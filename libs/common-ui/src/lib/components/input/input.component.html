@@ -1,0 +1,15 @@
+<label class="tt-form-label" [class.with-icon]="!!icon()">
+  <span class="tt-form-label-text">{{ labelText() }}</span>
+  <input class="tt-form-input"
+    [type]="type()"
+    [placeholder]="placeholder()"
+    [ngModel]="value"
+    (ngModelChange)="onInput($event)"
+    (blur)="onTouched()"
+  />
+  <ng-content select='[icon]'></ng-content>
+</label>
+@if (ngControl?.invalid && (ngControl?.touched || ngControl?.dirty)) {
+  <p class="input-tooltip">Поле обязательно к заполнению!</p>
+}
+

@@ -8,7 +8,7 @@ import {
 import {firstValueFrom} from 'rxjs';
 import {AvatarUploadComponent} from '../../ui/avatar-upload/avatar-upload.component';
 import {ProfileService} from '@tt/data-access';
-import { ListInputControlComponent, SvgIconComponent } from '@tt/common-ui';
+import { ListInputComponent, SvgIconComponent } from '@tt/common-ui';
 
 @Component({
   selector: 'app-settings-page',
@@ -17,7 +17,7 @@ import { ListInputControlComponent, SvgIconComponent } from '@tt/common-ui';
     ReactiveFormsModule,
     SvgIconComponent,
     AvatarUploadComponent,
-    ListInputControlComponent,
+    ListInputComponent,
   ],
   templateUrl: './settings-page.component.html',
   styleUrl: './settings-page.component.scss',

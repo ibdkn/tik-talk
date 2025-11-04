@@ -1,4 +1,4 @@
-import { createActionGroup, props } from '@ngrx/store';
+import { createActionGroup, emptyProps, props } from '@ngrx/store';
 import { Community, CommunityCreateDto } from '../interfaces/community.interface';
 
 export const communityActions = createActionGroup({
@@ -12,6 +12,5 @@ export const communityActions = createActionGroup({
     'community left': props<{id: number}>(),
     'set page':  props<{page?: number}>(),
     'create community': props<{community: CommunityCreateDto}>(),
-    'community created': props<{community: Community}>(),
   }
 })
