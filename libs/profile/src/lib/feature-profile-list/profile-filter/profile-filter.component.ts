@@ -3,7 +3,7 @@ import { FormBuilder, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { debounceTime, distinctUntilChanged, map, startWith } from 'rxjs';
 import { profileActions, selectProfileFilters } from '@tt/data-access';
 import {Store} from '@ngrx/store';
-import { ListInputControlComponent, TextInputControlComponent } from '@tt/common-ui';
+import { ListInputComponent, InputComponent, SvgIconComponent } from '@tt/common-ui';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 
@@ -12,8 +12,9 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
   imports: [
     FormsModule,
     ReactiveFormsModule,
-    ListInputControlComponent,
-    TextInputControlComponent,
+    ListInputComponent,
+    InputComponent,
+    SvgIconComponent,
   ],
   templateUrl: './profile-filter.component.html',
   styleUrl: './profile-filter.component.scss',
@@ -38,10 +39,14 @@ export class ProfileFilterComponent {
       .pipe(
         startWith(this.searchForm.value),
         debounceTime(300),
-        map(value => ({
+        map((value) => ({
           ...value,
           stack: Array.isArray(value.stack)
-            ? [...new Set(value.stack.map((t: string) => t.trim().toLowerCase()))]
+            ? [
+                ...new Set(
+                  value.stack.map((t: string) => t.trim().toLowerCase())
+                ),
+              ]
             : [],
         })),
         distinctUntilChanged((a, b) => JSON.stringify(a) === JSON.stringify(b)),

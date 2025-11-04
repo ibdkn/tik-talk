@@ -6,9 +6,9 @@ import {
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {
-  ListInputControlComponent,
-  SelectControlComponent,
-  TextInputControlComponent
+  ListInputComponent,
+  SelectComponent,
+  InputComponent, SvgIconComponent
 } from '@tt/common-ui';
 import { FormBuilder, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { Store } from '@ngrx/store';
@@ -21,10 +21,11 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
   imports: [
     CommonModule,
     FormsModule,
-    ListInputControlComponent,
-    SelectControlComponent,
-    TextInputControlComponent,
+    ListInputComponent,
+    SelectComponent,
+    InputComponent,
     ReactiveFormsModule,
+    SvgIconComponent,
   ],
   templateUrl: './community-filter.component.html',
   styleUrl: './community-filter.component.scss',

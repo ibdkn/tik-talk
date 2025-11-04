@@ -1,22 +1,33 @@
 <div class="profile-filter search-filter">
   <form class="search-filter__form" [formGroup]="searchForm">
-    <tt-text-input-control
+    <tt-input
+      [type]="'text'"
       [labelText]="'Имя пользователя'"
-      [icon]="'search'"
       [placeholder]="'Введите'"
       formControlName="firstName"
-    />
-    <tt-text-input-control
+    >
+      <span class="tt-form-icon" icon>
+        <svg [icon]="'search'"></svg>
+      </span>
+    </tt-input>
+    <tt-input
+      [type]="'text'"
       [labelText]="'Фамилия пользователя'"
-      [icon]="'search'"
       [placeholder]="'Введите'"
       formControlName="lastName"
-    />
-    <tt-list-input-control
+    >
+      <span class="tt-form-icon" icon>
+        <svg [icon]="'search'"></svg>
+      </span>
+    </tt-input>
+    <tt-list-input
       [labelText]="'Навыки'"
-      [icon]="'search'"
       [placeholder]="'Введите'"
       formControlName="stack"
-    />
+    >
+      <span class="tt-form-icon" icon>
+        <svg [icon]="'search'"></svg>
+      </span>
+    </tt-list-input>
   </form>
 </div>
