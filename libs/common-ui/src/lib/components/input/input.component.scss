@@ -1,0 +1,7 @@
+:host {
+  &.ng-invalid.ng-touched {
+    .tt-form-input {
+      border-color: var(--error-color);
+    }
+  }
+}
