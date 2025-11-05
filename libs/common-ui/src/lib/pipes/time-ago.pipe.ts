@@ -8,13 +8,25 @@ export class TimeAgoPipe implements PipeTransform {
   transform(value: string | null): string | null {
     if (!value) return null;
 
-    // Преобразуем дату из ISO-строки в локальное время пользователя
+    // Дата из ISO (в UTC) в локальное время
     const date = DateTime.fromISO(value, { zone: 'utc' }).toLocal();
     const now = DateTime.local();
 
-    const diffSec = Math.floor(now.diff(date, 'seconds').seconds);
+    // Если дата в будущем или некорректная - просто выводим ее как есть
+    if (!date.isValid || date > now) {
+      return date.toFormat("dd.MM.yyyy 'в' HH:mm");
+    }
 
-    // Меньше минуты
+    const diffSec = Math.floor(now.diff(date, 'seconds').seconds);
+    const diffMin = Math.floor(now.diff(date, 'minutes').minutes);
+    const diffHours = Math.floor(now.diff(date, 'hours').hours);
+
+    // если прошло более суток — возвращаем абсолютную дату
+    if (diffHours >= 24) {
+      return date.toFormat("dd.MM.yyyy 'в' HH:mm");
+    }
+
+    // меньше минуты
     if (diffSec < 60) {
       if (diffSec < 5) return 'только что';
       return `${diffSec} ${this.pluralize(diffSec, [
@@ -24,9 +36,7 @@ export class TimeAgoPipe implements PipeTransform {
       ])} назад`;
     }
 
-    const diffMin = Math.floor(now.diff(date, 'minutes').minutes);
-
-    // Меньше часа
+    // меньше часа
     if (diffMin < 60) {
       return `${diffMin} ${this.pluralize(diffMin, [
         'минута',
@@ -35,10 +45,9 @@ export class TimeAgoPipe implements PipeTransform {
       ])} назад`;
     }
 
-    const diffHours = Math.floor(now.diff(date, 'hours').hours);
+    // часы + минуты (в пределах одних суток)
     const remMin = diffMin % 60;
 
-    // Часы и минуты
     let result = `${diffHours} ${this.pluralize(diffHours, [
       'час',
       'часа',
