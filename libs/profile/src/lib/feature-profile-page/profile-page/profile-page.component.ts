@@ -1,12 +1,19 @@
-import {ChangeDetectionStrategy, Component, inject, signal} from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  inject,
+  signal,
+} from '@angular/core';
 import { ProfileHeaderComponent } from '../../ui/profile-header/profile-header.component';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
-import { switchMap } from 'rxjs';
+import { switchMap, tap } from 'rxjs';
 import { toObservable } from '@angular/core/rxjs-interop';
 import { AsyncPipe } from '@angular/common';
-import {ImgUrlPipe, SvgIconComponent} from '@tt/common-ui';
-import {PostFeedComponent} from '@tt/posts';
+import { ImgUrlPipe, SvgIconComponent } from '@tt/common-ui';
+import { PostFeedComponent } from '@tt/posts';
 import { ProfileService } from '../../../../../data-access/src/lib/profile';
+import { postActions, selectPosts } from '@tt/data-access';
+import { Store } from '@ngrx/store';
 
 @Component({
   selector: 'app-profile-page',
@@ -20,17 +27,20 @@ import { ProfileService } from '../../../../../data-access/src/lib/profile';
   ],
   templateUrl: './profile-page.component.html',
   styleUrl: './profile-page.component.scss',
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ProfilePageComponent {
   router: Router = inject(Router);
   profileService: ProfileService = inject(ProfileService);
   route: ActivatedRoute = inject(ActivatedRoute);
-  subscribers$ = this.profileService.getSubscribersShortList(5);
+  store = inject(Store);
+
+  subscribers$ = this.profileService.getSubscribersShortList(6);
 
   me$ = toObservable(this.profileService.me);
 
   isMyPage = signal(false);
+  posts = this.store.selectSignal(selectPosts);
 
   profile$ = this.route.params.pipe(
     switchMap(({ id }) => {
@@ -38,10 +48,15 @@ export class ProfilePageComponent {
       if (id === 'me') return this.me$;
 
       return this.profileService.getAccount(id);
+    }),
+    tap((profile) => {
+      this.store.dispatch(
+        postActions.filterEvents({ filters: { user_id: profile?.id } })
+      );
     })
   );
 
   async sendMessage(userId: number) {
-    this.router.navigate(['/chats', 'new'], {queryParams: {userId}})
+    this.router.navigate(['/chats', 'new'], { queryParams: { userId } });
   }
 }

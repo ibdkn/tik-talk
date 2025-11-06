@@ -8,7 +8,8 @@
   --primary-hover-color: #9c6de4;
   --dark-hover-color: #161616;
   --message-bg-color: #404040;
-  --error-color: #E99898;
+  --light-negative-color: #E99898;
+  --light-success-color: #98e9ab;
 }
 
 * {
@@ -224,7 +225,7 @@ svg {
 .input-tooltip {
   margin-top: 4px;
   font-size: 12px;
-  color: var(--error-color);
+  color: var(--light-negative-color);
 }
 
 .tt-form-input,

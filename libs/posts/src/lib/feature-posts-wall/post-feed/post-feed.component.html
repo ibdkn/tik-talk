@@ -1,7 +1,9 @@
-<app-common-input
-  [profile]="profile()"
-  (created)="onCreatePost($event)"
-></app-common-input>
+@if (isMyPage()) {
+  <app-common-input
+    [profile]="profile()"
+    (created)="onCreatePost($event)"
+  ></app-common-input>
+}
 
 <div #feedWrapper class="post-feed__wrapper">
   @for (post of feed(); track post.id) {

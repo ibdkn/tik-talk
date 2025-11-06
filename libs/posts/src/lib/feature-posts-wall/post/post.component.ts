@@ -15,7 +15,7 @@ import { NgClass } from '@angular/common';
 import {AvatarCircleComponent, ClickOutsideDirective, SvgIconComponent, TimeAgoPipe} from '@tt/common-ui';
 import {CommentComponent, PostInputComponent } from '../../ui';
 import { Post, PostComment, PostService } from '../../../../../data-access/src/lib/posts';
-import {Profile} from '@tt/data-access';
+import { GlobalStoreService, Profile } from '@tt/data-access';
 
 @Component({
   selector: 'app-post',
@@ -36,6 +36,7 @@ export class PostComponent implements OnInit {
   // @ts-ignore
   profile: InputSignal<Profile | null> = input<Profile>();
   post: InputSignal<Post | undefined> = input<Post>();
+  myProfile: WritableSignal<Profile | null> = inject(GlobalStoreService).me;
 
   comments: WritableSignal<PostComment[]> = signal<PostComment[]>([]);
 
