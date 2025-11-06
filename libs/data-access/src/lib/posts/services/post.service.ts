@@ -7,7 +7,7 @@ import {
   PostCreateDto,
   PostUpdateDto,
 } from '../interfaces/post.interface';
-import { map, Observable, switchMap, tap } from 'rxjs';
+import { map, Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -26,10 +26,8 @@ export class PostService {
     return this.http.patch<Post>(`${this.baseApiUrl}/post/${id}`, payload);
   }
 
-  fetchPosts() {
-    return this.http
-      .get<Post[]>(`${this.baseApiUrl}/post/`)
-      .pipe(tap((res: Post[]) => this.posts.set(res)));
+  fetchPosts(params: Record<string, any>) {
+    return this.http.get<Post[]>(`${this.baseApiUrl}/post/`, { params });
   }
 
   deletePost(id: number): Observable<Post> {

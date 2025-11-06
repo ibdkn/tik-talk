@@ -1,47 +1,42 @@
 import {
-  AfterViewInit, ChangeDetectionStrategy,
+  AfterViewInit,
+  ChangeDetectionStrategy,
   Component,
   ElementRef,
-  inject, OnInit,
+  inject,
+  input,
   QueryList,
   Renderer2,
   ViewChild,
   ViewChildren,
-  WritableSignal,
 } from '@angular/core';
 import { debounceTime, firstValueFrom, fromEvent } from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { PostInputComponent } from '../../ui';
 import { PostComponent } from '../post/post.component';
-import {Post, PostService } from '../../../../../data-access/src/lib/posts';
-import {Profile} from '@tt/data-access';
-import {GlobalStoreService} from '@tt/data-access';
-import {Store} from '@ngrx/store';
-import {postActions} from '../../../../../data-access/src/lib/posts/store/actions';
-import {selectPosts} from '../../../../../data-access/src/lib/posts/store/selectors';
+import { Post, postActions, PostService, Profile } from '@tt/data-access';
+import { Store } from '@ngrx/store';
 
 @Component({
   selector: 'app-post-feed',
   imports: [PostInputComponent, PostComponent],
   templateUrl: './post-feed.component.html',
   styleUrl: './post-feed.component.scss',
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class PostFeedComponent implements AfterViewInit, OnInit {
+export class PostFeedComponent implements AfterViewInit {
   store = inject(Store);
-  profile: WritableSignal<Profile | null> = inject(GlobalStoreService).me;
   postService: PostService = inject(PostService);
   r2: Renderer2 = inject(Renderer2);
-  feed = this.store.selectSignal(selectPosts);
+
+  profile = input.required<Profile>();
+  feed = input.required<Post[]>();
+  isMyPage = input.required<boolean>();
 
   @ViewChild('feedWrapper', { static: true, read: ElementRef<HTMLDivElement> })
   feedWrapperRef!: ElementRef<HTMLDivElement>;
 
   @ViewChildren('postComp') postComponents!: QueryList<PostComponent>;
-
-  ngOnInit() {
-    this.store.dispatch(postActions.filterEvents({ filters: {} }));
-  }
 
   ngAfterViewInit(): void {
     this.resizeFeed();
@@ -66,17 +61,19 @@ export class PostFeedComponent implements AfterViewInit, OnInit {
   async onCreatePost(postText: string): Promise<void> {
     if (!postText) return;
 
-    this.store.dispatch(postActions.createPost({
-      post: {
-        title: 'Клевый пост',
-        content: postText,
-        authorId: this.profile()!.id,
-      }
-    }));
+    this.store.dispatch(
+      postActions.createPost({
+        post: {
+          title: 'Клевый пост',
+          content: postText,
+          authorId: this.profile()!.id,
+        },
+      })
+    );
   }
 
   async onDeletePost(id: number): Promise<void> {
-    this.store.dispatch(postActions.deletePost({id}))
+    this.store.dispatch(postActions.deletePost({ id }));
   }
 
   async updatePost(id: number, content: string): Promise<void> {

@@ -6,9 +6,9 @@
 
 <div class="comment-body">
   <header class="comment-header">
-    <span class="medium-text">{{ comment.author.username }}</span>
+    <span class="medium-text">{{ comment.author.firstName }} {{ comment.author.lastName }}</span>
     <span class="medium-text">{{
-      comment.createdAt | date : 'dd.MM.yyyy'
+      comment.createdAt | timeAgo
     }}</span>
   </header>
   <div class="comment-text medium-text">{{ comment.text }}</div>

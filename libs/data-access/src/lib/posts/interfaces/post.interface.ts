@@ -30,6 +30,8 @@ export interface PostComment {
   text: string;
   author: {
     id: number;
+    firstName: string;
+    lastName: string;
     username: string;
     avatarUrl: string;
     subscribersAmount: number;

@@ -1,21 +1,24 @@
 import {inject, Injectable} from '@angular/core';
-import {Post, PostService} from '@tt/data-access';
+import { Post, PostService, selectFilteredPosts } from '@tt/data-access';
 import {Actions, createEffect, ofType} from '@ngrx/effects';
 import {postActions} from './actions';
-import {concatMap, map, switchMap} from 'rxjs';
+import { map, switchMap, withLatestFrom } from 'rxjs';
+import { Store } from '@ngrx/store';
 
 @Injectable({
   providedIn: 'root'
 })
 export class PostEffects {
+  store = inject(Store);
   postService = inject(PostService);
   actions$ = inject(Actions);
 
   filterPosts = createEffect(() => {
     return this.actions$.pipe(
       ofType(postActions.filterEvents),
-      switchMap(({filters}) =>
-        this.postService.fetchPosts().pipe(
+      withLatestFrom(this.store.select(selectFilteredPosts)),
+      switchMap(([_, filters]) =>
+        this.postService.fetchPosts(filters).pipe(
           map(posts => postActions.postsLoaded({posts}))
         )
       )
@@ -27,8 +30,10 @@ export class PostEffects {
       ofType(postActions.createPost),
       switchMap(({ post }) =>
         this.postService.createPost(post).pipe(
-          concatMap(() => this.postService.fetchPosts()),
-          map(posts => postActions.postsLoaded({ posts }))
+          withLatestFrom(this.store.select(selectFilteredPosts)),
+          map(([_, filters]) =>
+            postActions.filterEvents({ filters })
+          )
         )
       )
     )
@@ -39,8 +44,10 @@ export class PostEffects {
       ofType(postActions.deletePost),
       switchMap(({ id }) =>
         this.postService.deletePost(id).pipe(
-          concatMap(() => this.postService.fetchPosts()),
-          map(posts => postActions.postsLoaded({ posts }))
+          withLatestFrom(this.store.select(selectFilteredPosts)),
+          map(([_, filters]) =>
+            postActions.filterEvents({ filters })
+          )
         )
       )
     )
