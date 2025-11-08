@@ -1,16 +1,16 @@
-import {createFeature, createReducer, on} from '@ngrx/store';
-import {postActions} from './actions';
+import { createFeature, createReducer, on } from '@ngrx/store';
+import { postActions } from './actions';
 import { Post } from '../interfaces/post.interface';
 
 export interface PostState {
-  posts: Post[],
-  postFilters: Record<string, any>
+  posts: Post[];
+  postFilters: Record<string, any>;
 }
 
 export const initialPostState: PostState = {
   posts: [],
-  postFilters: {}
-}
+  postFilters: {},
+};
 
 export const postFeature = createFeature({
   name: 'postFeature',
@@ -19,20 +19,16 @@ export const postFeature = createFeature({
     on(postActions.postsLoaded, (state, payload) => {
       return {
         ...state,
-        posts: payload.posts
-      }
+        posts: payload.posts,
+      };
     }),
     on(postActions.filterEvents, (state, payload) => ({
       ...state,
-      postFilters: payload.filters
+      postFilters: payload.filters,
     })),
-    on(postActions.postCreated, (state, payload) => ({
+    on(postActions.postDeleted, (state, { id }) => ({
       ...state,
-      posts: [payload.post, ...state.posts]
-    })),
-    on(postActions.postUpdated, (state, payload) => ({
-      ...state,
-      posts: state.posts.map(p => p.id === payload.post.id ? payload.post : p)
+      posts: state.posts.filter((p) => p.id !== id),
     }))
-  )
-})
+  ),
+});

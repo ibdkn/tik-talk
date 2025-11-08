@@ -8,7 +8,11 @@
   <div class="post__body">
     <div>
       <strong class="post__author">
-        <span> {{ post.author.firstName }} {{ post.author.lastName }}</span>
+        @if (isProfile(post.author)) {
+          <span>{{ post.author.firstName }} {{ post.author.lastName }}</span>
+        } @else {
+          <span>{{ post.author.name }}</span>
+        }
         <span class="post-created-at">{{ post.createdAt | timeAgo }}</span>
       </strong>
       @if (isEditable) {

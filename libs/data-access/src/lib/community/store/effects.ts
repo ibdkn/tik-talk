@@ -76,8 +76,18 @@ export class CommunityEffects {
       switchMap(({ community }) =>
         this.communityService.createCommunity(community).pipe(
           withLatestFrom(this.store.select(selectCommunityFilters)),
-          map(([_, filters]) =>
-            communityActions.filterEvents({ filters })
+          map(([_, filters]) => communityActions.filterEvents({ filters }))
+        )
+      )
+    )
+  );
+  getCommunity = createEffect(() =>
+    this.actions$.pipe(
+      ofType(communityActions.getCommunity),
+      switchMap(({ id }) =>
+        this.communityService.getCommunity(id).pipe(
+          map((community) =>
+            communityActions.communityLoaded({ community })
           )
         )
       )

@@ -15,7 +15,7 @@ import { NgClass } from '@angular/common';
 import {AvatarCircleComponent, ClickOutsideDirective, SvgIconComponent, TimeAgoPipe} from '@tt/common-ui';
 import {CommentComponent, PostInputComponent } from '../../ui';
 import { Post, PostComment, PostService } from '../../../../../data-access/src/lib/posts';
-import { GlobalStoreService, Profile } from '@tt/data-access';
+import { Community, GlobalStoreService, Profile } from '@tt/data-access';
 
 @Component({
   selector: 'app-post',
@@ -39,6 +39,10 @@ export class PostComponent implements OnInit {
   myProfile: WritableSignal<Profile | null> = inject(GlobalStoreService).me;
 
   comments: WritableSignal<PostComment[]> = signal<PostComment[]>([]);
+
+  isProfile(author: Profile | Community): author is Profile {
+    return 'firstName' in author && 'lastName' in author;
+  }
 
   postService: PostService = inject(PostService);
   isShowPostModal: boolean = false;

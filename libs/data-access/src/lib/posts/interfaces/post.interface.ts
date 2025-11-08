@@ -1,4 +1,4 @@
-import {Profile} from '@tt/data-access';
+import { Community, Profile } from '@tt/data-access';
 
 export interface PostCreateDto {
   title: string;
@@ -17,7 +17,7 @@ export interface Post {
   title: string;
   communityId: number;
   content: string;
-  author: Profile;
+  author: Profile | Community;
   images: string[];
   createdAt: string;
   updatedAt: string;

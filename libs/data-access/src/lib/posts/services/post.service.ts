@@ -8,6 +8,7 @@ import {
   PostUpdateDto,
 } from '../interfaces/post.interface';
 import { map, Observable } from 'rxjs';
+import { Pageable } from '@tt/data-access';
 
 @Injectable({
   providedIn: 'root',
@@ -27,6 +28,16 @@ export class PostService {
   }
 
   fetchPosts(params: Record<string, any>) {
+    const { community_id } = params;
+
+    if (community_id) {
+      return this.http.get<Pageable<Post>>(
+        `${this.baseApiUrl}/community/${community_id}/posts`,
+      ).pipe(
+        map((res) => res.items)
+      );
+    }
+
     return this.http.get<Post[]>(`${this.baseApiUrl}/post/`, { params });
   }
 
@@ -34,7 +45,7 @@ export class PostService {
     return this.http.delete<Post>(`${this.baseApiUrl}/post/${id}`);
   }
 
-  createComments(payload: CommentCreateDto): Observable<PostComment> {
+  createComment(payload: CommentCreateDto): Observable<PostComment> {
     return this.http.post<PostComment>(`${this.baseApiUrl}/comment/`, payload);
   }
 

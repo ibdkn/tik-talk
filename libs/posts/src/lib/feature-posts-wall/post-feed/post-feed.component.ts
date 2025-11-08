@@ -4,17 +4,17 @@ import {
   Component,
   ElementRef,
   inject,
-  input,
+  input, output,
   QueryList,
   Renderer2,
   ViewChild,
-  ViewChildren,
+  ViewChildren
 } from '@angular/core';
-import { debounceTime, firstValueFrom, fromEvent } from 'rxjs';
+import { debounceTime, fromEvent } from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { PostInputComponent } from '../../ui';
 import { PostComponent } from '../post/post.component';
-import { Post, postActions, PostService, Profile } from '@tt/data-access';
+import { Post, Profile } from '@tt/data-access';
 import { Store } from '@ngrx/store';
 
 @Component({
@@ -26,12 +26,16 @@ import { Store } from '@ngrx/store';
 })
 export class PostFeedComponent implements AfterViewInit {
   store = inject(Store);
-  postService: PostService = inject(PostService);
   r2: Renderer2 = inject(Renderer2);
 
   profile = input.required<Profile>();
   feed = input.required<Post[]>();
-  isMyPage = input.required<boolean>();
+  canPost = input.required<boolean>();
+
+  createPost = output<string>();
+  deletePost = output<number>();
+  updatePost = output<{ id: number; content: string }>();
+  createComment = output<{ postId: number; commentText: string }>();
 
   @ViewChild('feedWrapper', { static: true, read: ElementRef<HTMLDivElement> })
   feedWrapperRef!: ElementRef<HTMLDivElement>;
@@ -58,39 +62,25 @@ export class PostFeedComponent implements AfterViewInit {
     );
   }
 
-  async onCreatePost(postText: string): Promise<void> {
+  onCreatePost(postText: string): void {
     if (!postText) return;
-
-    this.store.dispatch(
-      postActions.createPost({
-        post: {
-          title: 'Клевый пост',
-          content: postText,
-          authorId: this.profile()!.id,
-        },
-      })
-    );
+    this.createPost.emit(postText);
   }
 
-  async onDeletePost(id: number): Promise<void> {
-    this.store.dispatch(postActions.deletePost({ id }));
+  onDeletePost(id: number): void {
+    this.deletePost.emit(id);
   }
 
-  async updatePost(id: number, content: string): Promise<void> {
-    this.store.dispatch(postActions.updatePost({ id, post: { content } }));
+  onUpdatePost(id: number, content: string): void {
+    this.updatePost.emit({ id, content });
   }
 
-  async onCreateComment(postId: number, commentText: string): Promise<void> {
+  onCreateComment(postId: number, commentText: string): void {
     if (!commentText) return;
+    this.createComment.emit({ postId, commentText });
+  }
 
-    await firstValueFrom(
-      this.postService.createComments({
-        text: commentText,
-        authorId: this.profile()!.id,
-        postId: postId,
-      })
-    );
-
+  updatePostComments(postId: number) {
     const postComp = this.postComponents.find(
       (comp) => comp.post()?.id === postId
     );
