@@ -23,6 +23,11 @@
   color: var(--light-color);
 }
 
+.content-empty {
+  font-style: italic;
+  color: var(--light-color-transparrent);
+}
+
 .chat-user {
   display: flex;
   align-items: center;

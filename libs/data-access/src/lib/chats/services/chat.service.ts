@@ -1,17 +1,17 @@
-import {inject, Injectable, signal} from '@angular/core';
-import {HttpClient} from '@angular/common/http';
-import {map, Observable} from 'rxjs';
+import { inject, Injectable, signal } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { map, Observable } from 'rxjs';
 import {
   Chat,
   LastMessageResponse,
   Message,
 } from '../interfaces/chat.interface';
-import {ProfileService} from '@tt/data-access';
-import {ChatWsService} from '../interfaces/chat-ws-service';
-import {AuthService} from '@tt/data-access';
-import {isNewMessage, isUnreadMessage} from '../interfaces/type-guards';
-import {ChatWsRxjsService} from '../interfaces/chat-ws-rxjs.service';
-import {ChatWSMessage} from '../interfaces/chat-ws-message.interface';
+import { ProfileService } from '@tt/data-access';
+import { ChatWsService } from '../interfaces/chat-ws-service';
+import { AuthService } from '@tt/data-access';
+import { isNewMessage, isUnreadMessage } from '../interfaces/type-guards';
+import { ChatWsRxjsService } from '../interfaces/chat-ws-rxjs.service';
+import { ChatWSMessage } from '../interfaces/chat-ws-message.interface';
 
 @Injectable({
   providedIn: 'root',
@@ -21,7 +21,8 @@ export class ChatService {
   authService: AuthService = inject(AuthService);
   me = inject(ProfileService).me;
   baseApiUrl: string = '/yt-course';
-  chatsUrl: string = '/yt-course';
+  chatsUrl: string = `${this.baseApiUrl}/chat`;
+  messageUrl: string = `${this.baseApiUrl}/message`;
   wsAdapter: ChatWsService = new ChatWsRxjsService();
 
   activeChatMessages = signal<Message[]>([]);
@@ -30,9 +31,9 @@ export class ChatService {
 
   connectWs() {
     return this.wsAdapter.connect({
-      url: `${this.chatsUrl}/chat/ws`,
+      url: `${this.chatsUrl}/ws`,
       token: this.authService.token ?? '',
-      handleMessage: this.handleWSMessage
+      handleMessage: this.handleWSMessage,
     }) as Observable<ChatWSMessage>;
   }
 
@@ -40,7 +41,7 @@ export class ChatService {
     if (!('action' in message)) return;
 
     if (isUnreadMessage(message)) {
-      this.unreadMessageCount.set(message.data.count)
+      this.unreadMessageCount.set(message.data.count);
     }
 
     if (isNewMessage(message)) {
@@ -66,23 +67,23 @@ export class ChatService {
           createdAt: message.data.created_at,
           isRead: false,
           isOwnedByCurrentUser: message.data.author === this.me()?.id,
-        }
-      ])
+        },
+      ]);
     }
-  }
+  };
 
   createChat(userId: number): Observable<Chat> {
-    return this.http.post<Chat>(`${this.baseApiUrl}/chat/${userId}`, {});
+    return this.http.post<Chat>(`${this.chatsUrl}/${userId}`, {});
   }
 
   getMyChats(): Observable<LastMessageResponse[]> {
     return this.http.get<LastMessageResponse[]>(
-      `${this.baseApiUrl}/chat/get_my_chats/`
+      `${this.chatsUrl}/get_my_chats/`
     );
   }
 
   getChatById(chatId: number): Observable<Chat> {
-    return this.http.get<Chat>(`${this.baseApiUrl}/chat/${chatId}`).pipe(
+    return this.http.get<Chat>(`${this.chatsUrl}/${chatId}`).pipe(
       map((chat) => {
         const patchedMessages = chat.messages.map((message) => {
           return {
@@ -105,6 +106,12 @@ export class ChatService {
         };
       })
     );
+  }
+
+  sendMessage(chatId: number, message: string) {
+    return this.http.post<Message>(`${this.messageUrl}/send/${chatId}`, {}, {
+      params: { message },
+    });
   }
 
   deleteUnreadMessage(chatId: number) {

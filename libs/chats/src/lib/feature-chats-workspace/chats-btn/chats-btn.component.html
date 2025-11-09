@@ -7,10 +7,14 @@
   <div class="last-message__wrapper">
     <p class="medium-text chat-user">
       <span class="username">{{ chat.userFrom.firstName }} {{ chat.userFrom.lastName }}</span>
-      <span class="date-message">{{ chat.createdAt | date: 'd.m.y' }}</span>
+      <span class="date-message">{{ chat.createdAt | date:'dd.MM.yyyy' }}</span>
     </p>
     <p class="medium-text message-info">
-      <span class="message-text">{{ chat.message || 'start chatting...' }}</span>
+      @if (chat.message) {
+        <span class="message-text">{{ chat.message }}</span>
+      } @else {
+        <span class="message-text content-empty">У вас пока нет сообщений. Напишите первым!</span>
+      }
       @if (chat.unreadMessages) {
         <span class="message-count">{{chat.unreadMessages}}</span>
       }
