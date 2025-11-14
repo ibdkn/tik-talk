@@ -6,13 +6,13 @@ import {
 } from '@angular/core';
 import { ProfileHeaderComponent } from '../../ui/profile-header/profile-header.component';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
-import { switchMap, tap } from 'rxjs';
+import { firstValueFrom, switchMap, tap } from 'rxjs';
 import { toObservable } from '@angular/core/rxjs-interop';
 import { AsyncPipe } from '@angular/common';
 import { ImgUrlPipe, SvgIconComponent } from '@tt/common-ui';
 import { PostFeedComponent } from '@tt/posts';
 import { ProfileService } from '../../../../../data-access/src/lib/profile';
-import { postActions, selectPosts } from '@tt/data-access';
+import { ChatService, postActions, selectPosts } from '@tt/data-access';
 import { Store } from '@ngrx/store';
 
 @Component({
@@ -32,6 +32,7 @@ import { Store } from '@ngrx/store';
 export class ProfilePageComponent {
   router: Router = inject(Router);
   profileService: ProfileService = inject(ProfileService);
+  chatService: ChatService = inject(ChatService);
   route: ActivatedRoute = inject(ActivatedRoute);
   store = inject(Store);
 
@@ -57,6 +58,9 @@ export class ProfilePageComponent {
   );
 
   async sendMessage(userId: number) {
-    this.router.navigate(['/chats', 'new'], { queryParams: { userId } });
+    firstValueFrom(this.chatService.createChat(userId))
+      .then((res) => {
+        this.router.navigate(['/chats', 'new'], { queryParams: { id: res.id } });
+      })
   }
 }
