@@ -6,7 +6,7 @@ import {
   CommunityCreateDto,
 } from '../interfaces/community.interface';
 import { Pageable } from '../../shared/interfaces/pageable.interface';
-import { Profile } from '@tt/data-access';
+import { Post, Profile } from '@tt/data-access';
 
 @Injectable({
   providedIn: 'root',
@@ -44,5 +44,14 @@ export class CommunityService {
 
   createCommunity(payload: CommunityCreateDto): Observable<Community> {
     return this.http.post<Community>(`${this.baseApiUrl}/community/`, payload);
+  }
+
+  fetchCommunityPosts(communityId: number, params: Record<string, any>) {
+    return this.http
+      .get<Pageable<Post>>(
+        `${this.baseApiUrl}/community/${communityId}/posts`,
+        { params }
+      )
+      .pipe(map((res) => res.items));
   }
 }

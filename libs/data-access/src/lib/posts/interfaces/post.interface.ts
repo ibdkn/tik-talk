@@ -3,7 +3,7 @@ import { Community, Profile } from '@tt/data-access';
 export interface PostCreateDto {
   title: string;
   content: string;
-  authorId: number;
+  authorId?: number;
   communityId?: number;
 }
 

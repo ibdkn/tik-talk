@@ -1,6 +1,6 @@
 @if (canPost()) {
   <app-common-input
-    [profile]="profile()"
+    [currentAuthor]="currentAuthor()"
     (created)="onCreatePost($event)"
   ></app-common-input>
 }
@@ -9,7 +9,7 @@
   @for (post of feed(); track post.id) {
     <app-post
       #postComp
-      [profile]="profile()"
+      [currentAuthor]="currentAuthor()"
       [post]="post"
       (commentCreated)="onCreateComment($event.postId, $event.commentText)"
       (postDeleted)="onDeletePost($event.postId)"
