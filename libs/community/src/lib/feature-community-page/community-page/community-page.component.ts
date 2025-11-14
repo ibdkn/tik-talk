@@ -1,22 +1,28 @@
 import {
   ChangeDetectionStrategy,
   Component,
+  computed,
+  effect,
   inject,
   input,
+  Signal,
   signal,
   viewChild,
+  WritableSignal
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Router, RouterLink } from '@angular/router';
+import { RouterLink } from '@angular/router';
 import {
+  Community,
+  communityActions,
   CommunityService,
+  Post,
   postActions,
   PostService,
   Profile,
-  ProfileService,
-  selectPosts,
+  ProfileService, selectCommunityPostsById,
 } from '@tt/data-access';
-import { firstValueFrom, Observable, of, switchMap, tap } from 'rxjs';
+import { firstValueFrom } from 'rxjs';
 import {
   AvatarCircleComponent,
   ImgUrlPipe,
@@ -24,7 +30,6 @@ import {
 } from '@tt/common-ui';
 import { PostFeedComponent } from '@tt/posts';
 import { Store } from '@ngrx/store';
-import { toObservable } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'tt-community-page',
@@ -41,42 +46,42 @@ import { toObservable } from '@angular/core/rxjs-interop';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CommunityPageComponent {
-  router = inject(Router);
   communityService = inject(CommunityService);
   profileService = inject(ProfileService);
   postService: PostService = inject(PostService);
   store = inject(Store);
-  subscribers$: Observable<Profile[]> = of([]);
-
-  isMyCommunity = signal(false);
-  posts = this.store.selectSignal(selectPosts);
+  subscribers: WritableSignal<Profile[] | null> = signal(null);
+  community: WritableSignal<Community | null> = signal(null);
+  posts: Signal<Post[]> = signal([]);
   id = input.required<string>();
   postFeed = viewChild.required<PostFeedComponent>('postFeed');
 
-  community$ = toObservable(this.id).pipe(
-    switchMap((id) => {
-      this.subscribers$ = this.communityService.getSubscribersShortList(+id, 5);
+  constructor() {
+    effect(() => {
+      const id = +this.id();
+      if (!id) return;
 
-      return this.communityService.getCommunity(+id).pipe(
-        tap((res) => {
-          this.isMyCommunity.set(res.admin.id === this.profileService.me()?.id);
-          this.store.dispatch(
-            postActions.filterEvents({ filters: { community_id: res.id } })
-          );
-        })
-      );
+      this.posts = this.store.selectSignal(selectCommunityPostsById(id));
+
+      firstValueFrom(this.communityService.getSubscribersShortList(id, 5))
+        .then((res) => this.subscribers.set(res));
+
+      firstValueFrom(this.communityService.getCommunity(id))
+        .then((res) => this.community.set(res));
+
+      this.store.dispatch(communityActions.filterCommunityPostsEvent({ communityId: id, filters: {} }))
     })
-  );
+  }
 
-  profile$ = this.community$.pipe(
-    switchMap((community) =>
-      this.profileService.getAccount(community.admin.id.toString())
-    )
-  );
+  isMyCommunity = computed(() => {
+    const community = this.community();
+    const me = this.profileService.me();
+
+    return !!community && community.admin.id === me?.id;
+  });
 
   async onCreatePost(
     postText: string,
-    profileId: number,
     communityId: number
   ): Promise<void> {
     if (!postText) return;
@@ -86,31 +91,20 @@ export class CommunityPageComponent {
         post: {
           title: 'Пост для комьюнити',
           content: postText,
-          authorId: profileId,
           communityId,
         },
       })
     );
   }
 
-  onDeletePost(id: number): void {
-    this.store.dispatch(postActions.deletePost({ id }));
-  }
-
-  onUpdatePost(event: { id: number; content: string }): void {
-    this.store.dispatch(
-      postActions.updatePost({ id: event.id, post: { content: event.content } })
-    );
-  }
-
   async onCreateComment(
     event: { postId: number; commentText: string },
-    profileId: number
+    adminId: number
   ) {
     await firstValueFrom(
       this.postService.createComment({
         text: event.commentText,
-        authorId: profileId,
+        authorId: adminId,
         postId: event.postId,
       })
     );

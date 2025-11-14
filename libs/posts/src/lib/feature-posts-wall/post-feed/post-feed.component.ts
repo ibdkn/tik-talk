@@ -2,19 +2,21 @@ import {
   AfterViewInit,
   ChangeDetectionStrategy,
   Component,
+  computed,
   ElementRef,
   inject,
   input, output,
   QueryList,
   Renderer2,
   ViewChild,
-  ViewChildren
+  ViewChildren,
+  WritableSignal
 } from '@angular/core';
 import { debounceTime, fromEvent } from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { PostInputComponent } from '../../ui';
 import { PostComponent } from '../post/post.component';
-import { Post, Profile } from '@tt/data-access';
+import { Community, GlobalStoreService, Post, postActions, Profile } from '@tt/data-access';
 import { Store } from '@ngrx/store';
 
 @Component({
@@ -27,14 +29,27 @@ import { Store } from '@ngrx/store';
 export class PostFeedComponent implements AfterViewInit {
   store = inject(Store);
   r2: Renderer2 = inject(Renderer2);
+  me: WritableSignal<Profile | null> = inject(GlobalStoreService).me;
 
-  profile = input.required<Profile>();
   feed = input.required<Post[]>();
-  canPost = input.required<boolean>();
+  community = input<Community | null>(null);
+  profile = input<Profile | null>(null);
+  currentAuthor = computed(() =>
+    this.community() ? this.community() : this.profile()
+  );
+
+  canPost = computed(() => {
+    const community = this.community();
+    const profile = this.profile();
+
+    if (community) {
+      return community.admin.id === this.me()?.id;
+    }
+
+    return profile?.id === this.me()?.id;
+  });
 
   createPost = output<string>();
-  deletePost = output<number>();
-  updatePost = output<{ id: number; content: string }>();
   createComment = output<{ postId: number; commentText: string }>();
 
   @ViewChild('feedWrapper', { static: true, read: ElementRef<HTMLDivElement> })
@@ -68,11 +83,11 @@ export class PostFeedComponent implements AfterViewInit {
   }
 
   onDeletePost(id: number): void {
-    this.deletePost.emit(id);
+    this.store.dispatch(postActions.deletePost({ id }));
   }
 
   onUpdatePost(id: number, content: string): void {
-    this.updatePost.emit({ id, content });
+    this.store.dispatch(postActions.updatePost({ id, post: { content } }));
   }
 
   onCreateComment(postId: number, commentText: string): void {

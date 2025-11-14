@@ -8,8 +8,10 @@ export const postActions = createActionGroup({
     'filter events': props<{ filters: Record<string, any> }>(),
     'posts loaded': props<{ posts: Post[] }>(),
     'create post': props<{ post: PostCreateDto }>(),
+    'post created': props<{ post: Post }>(),
     'delete post': props<{ id: number }>(),
     'post deleted': props<{ id: number }>(),
     'update post': props<{ id: number; post: PostUpdateDto }>(),
+    'post updated': props<{ post: Post }>(),
   },
 });

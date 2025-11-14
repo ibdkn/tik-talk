@@ -1,93 +1,91 @@
-@if (profile$ | async; as profile) {
-  @if (community$ | async; as community) {
-    <div
-      class="community-banner mb24"
-      [style.background-image]="'url(' + ((community.bannerUrl | imgUrl) || '/assets/images/banner-placeholder.png') + ')'"
-    ></div>
+@if (community(); as community) {
+  <div class="community-banner mb24">
+    @if (community.bannerUrl) {
+      <img [src]="community.bannerUrl | imgUrl" class="community-banner__image"/>
+    } @else {
+      <img src="/assets/images/banner-placeholder.png" class="community-banner__image"/>
+    }
+  </div>
 
-    <header class="community-page__header">
-      <div class="community-info">
-        <app-avatar-circle [avatarUrl]="community.avatarUrl"></app-avatar-circle>
-        <div class="user-info">
-          <p class="user-full-name h4">
-            {{ community.name }}
-          </p>
-        </div>
-      </div>
-
-      <div class="community-page__btns">
-        @if (isMyCommunity()) {
-          <a [routerLink]="['/settings']" class="btn to-settings-btn">
-            <span>Редактировать</span>
-            <svg icon="settings" class="to-settings-icon"></svg>
-          </a>
-        }
-      </div>
-    </header>
-
-    <main class="community-page__body">
-      <app-post-feed
-        #postFeed
-        [profile]="profile"
-        [feed]="posts()"
-        [canPost]="isMyCommunity()"
-        (createPost)="onCreatePost($event, profile.id, community.id)"
-        (deletePost)="onDeletePost($event)"
-        (updatePost)="onUpdatePost($event)"
-        (createComment)="onCreateComment($event, profile.id)"
-      />
-      <div class="community-page__right-bar">
-        <h6 class="h6 mb16">Подписчики</h6>
-        <div class="subscribers-wrapper mb32">
-          @if (subscribers$ | async; as subscribers) {
-            @for (subscriber of subscribers$ | async; track subscriber.id) {
-              <a
-                [routerLink]="['/profile', subscriber.id]"
-                class="subscriber-avatar-btn"
-              >
-                @if (subscriber.avatarUrl) {
-                  <img
-                    [src]="subscriber.avatarUrl | imgUrl"
-                    [alt]="subscriber.username"
-                    class="subscriber-avatar"
-                  />
-                } @else {
-                  <img
-                    src="/assets/images/avatar-placeholder.png"
-                    [alt]="subscriber.username"
-                    class="subscriber-avatar"
-                  />
-                }
-              </a>
-            }
-            @if (subscribers.length > 0) {
-              <a [routerLink]="['/search']" class="to-subscribers-search">
-                <span class="to-subscribers-search-btn"></span>
-              </a>
-            } @else {
-              <span class="medium-text">Нет подписчиков</span>
-            }
-          }
-        </div>
-        <h6 class="h6 mb16">Тема</h6>
-        <div class="community-page__tags mb32">
-          @if(community.themes.length > 0) {
-            @for (theme of community.themes; track theme) {
-              <div class="list-item">{{ theme }}</div>
-            }
-          } @else {
-            <span class="medium-text">Нет темы</span>
-          }
-        </div>
-        <h6 class="h6 mb16">Описание</h6>
-        <p class="medium-text">
-          @if (community.description) {
-            {{ community.description }}
-          } @else {
-            Нет описания
-          }
+  <header class="community-page__header">
+    <div class="community-info">
+      <app-avatar-circle [avatarUrl]="community.avatarUrl"></app-avatar-circle>
+      <div class="user-info">
+        <p class="user-full-name h4">
+          {{ community.name }}
         </p>
       </div>
-    </main>
-  }
+    </div>
+
+    <div class="community-page__btns">
+      @if (isMyCommunity()) {
+        <a class="btn to-settings-btn">
+          <span>Редактировать</span>
+          <svg icon="settings" class="to-settings-icon"></svg>
+        </a>
+      }
+    </div>
+  </header>
+
+  <main class="community-page__body">
+    <app-post-feed
+      #postFeed
+      [feed]="posts()"
+      [community]="community"
+      (createPost)="onCreatePost($event, community.id)"
+      (createComment)="onCreateComment($event, community.admin.id)"
+    />
+    <div class="community-page__right-bar">
+      <h6 class="h6 mb16">Подписчики</h6>
+      <div class="subscribers-wrapper mb32">
+        @if (subscribers(); as subscribers) {
+          @for (subscriber of subscribers; track subscriber.id) {
+            <a
+              [routerLink]="['/profile', subscriber.id]"
+              class="subscriber-avatar-btn"
+            >
+              @if (subscriber.avatarUrl) {
+                <img
+                  [src]="subscriber.avatarUrl | imgUrl"
+                  [alt]="subscriber.username"
+                  class="subscriber-avatar"
+                />
+              } @else {
+                <img
+                  src="/assets/images/avatar-placeholder.png"
+                  [alt]="subscriber.username"
+                  class="subscriber-avatar"
+                />
+              }
+            </a>
+          }
+          @if (subscribers.length > 0) {
+            <a [routerLink]="['/search']" class="to-subscribers-search">
+              <span class="to-subscribers-search-btn"></span>
+            </a>
+          } @else {
+            <span class="medium-text">Нет подписчиков</span>
+          }
+        }
+      </div>
+      <h6 class="h6 mb16">Тема</h6>
+      <div class="community-page__tags mb32">
+        @if(community.themes.length > 0) {
+          @for (theme of community.themes; track theme) {
+            <div class="list-item">{{ theme }}</div>
+          }
+        } @else {
+          <span class="medium-text">Нет темы</span>
+        }
+      </div>
+      <h6 class="h6 mb16">Описание</h6>
+      <p class="medium-text">
+        @if (community.description) {
+          {{ community.description }}
+        } @else {
+          Нет описания
+        }
+      </p>
+    </div>
+  </main>
 }

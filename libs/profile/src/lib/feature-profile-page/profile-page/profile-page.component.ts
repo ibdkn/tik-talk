@@ -90,16 +90,6 @@ export class ProfilePageComponent {
     );
   }
 
-  onDeletePost(id: number): void {
-    this.store.dispatch(postActions.deletePost({ id }));
-  }
-
-  onUpdatePost(event: { id: number; content: string }): void {
-    this.store.dispatch(
-      postActions.updatePost({ id: event.id, post: { content: event.content } })
-    );
-  }
-
   async onCreateComment(
     event: { postId: number; commentText: string },
     profileId: number

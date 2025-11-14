@@ -1,8 +1,9 @@
-@if (currentProfile(); as profile) {
-<app-avatar-circle
-  class="size32"
-  [avatarUrl]="profile.avatarUrl"
-></app-avatar-circle>
+@if (currentProfile(); as currentProfile) {
+  <app-avatar-circle
+    class="size32"
+    [avatarUrl]="currentProfile.avatarUrl">
+    {{ currentProfile.avatarUrl }}
+  </app-avatar-circle>
 }
 
 <textarea
