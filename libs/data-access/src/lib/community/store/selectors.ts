@@ -21,14 +21,15 @@ export const selectCommunityPageable = createSelector(
   }
 );
 
-export const selectJoiningIds = createSelector(
-  communityFeature.selectJoiningIds,
-  (ids) => ids
-);
-
 export const selectCommunityById = (id: number) =>
   createSelector(
     communityFeature.selectCommunities,
     (list) => list.find((c) => c.id === id) ?? null
+  );
+
+export const selectCommunityPostsById = (communityId: number) =>
+  createSelector(
+    communityFeature.selectCommunityFeatureState,
+    (state) => state.communityPostsById[communityId] ?? []
   );
 

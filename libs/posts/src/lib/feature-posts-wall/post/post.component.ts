@@ -1,6 +1,7 @@
 import {
   ChangeDetectionStrategy,
   Component,
+  computed,
   EventEmitter,
   inject,
   input,
@@ -15,7 +16,7 @@ import { NgClass } from '@angular/common';
 import {AvatarCircleComponent, ClickOutsideDirective, SvgIconComponent, TimeAgoPipe} from '@tt/common-ui';
 import {CommentComponent, PostInputComponent } from '../../ui';
 import { Post, PostComment, PostService } from '../../../../../data-access/src/lib/posts';
-import { GlobalStoreService, Profile } from '@tt/data-access';
+import { Community, GlobalStoreService, Profile } from '@tt/data-access';
 
 @Component({
   selector: 'app-post',
@@ -34,11 +35,25 @@ import { GlobalStoreService, Profile } from '@tt/data-access';
 })
 export class PostComponent implements OnInit {
   // @ts-ignore
-  profile: InputSignal<Profile | null> = input<Profile>();
+  currentAuthor: InputSignal<Profile | Community | null> = input<Profile>();
   post: InputSignal<Post | undefined> = input<Post>();
   myProfile: WritableSignal<Profile | null> = inject(GlobalStoreService).me;
-
   comments: WritableSignal<PostComment[]> = signal<PostComment[]>([]);
+
+  get authorName(): string {
+    const author = this.post()?.author;
+    if (!author) return '';
+
+    return 'firstName' in author ? `${author.firstName} ${author.lastName}` : author.name;
+  }
+
+  isMyPost = computed(() => {
+    const post = this.post();
+    const myProfile = this.myProfile();
+    if (!post || !myProfile) return false;
+
+    return 'admin' in post.author ? (post.author.admin.id === myProfile.id) : (post.author.id === myProfile.id);
+  })
 
   postService: PostService = inject(PostService);
   isShowPostModal: boolean = false;

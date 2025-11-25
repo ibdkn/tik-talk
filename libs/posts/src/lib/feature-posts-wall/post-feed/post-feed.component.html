@@ -1,19 +1,19 @@
-@if (isMyPage()) {
+@if (canPost()) {
   <app-common-input
-    [profile]="profile()"
+    [currentAuthor]="currentAuthor()"
     (created)="onCreatePost($event)"
   ></app-common-input>
 }
 
 <div #feedWrapper class="post-feed__wrapper">
   @for (post of feed(); track post.id) {
-  <app-post
-    #postComp
-    [profile]="profile()"
-    [post]="post"
-    (commentCreated)="onCreateComment($event.postId, $event.commentText)"
-    (postDeleted)="onDeletePost($event.postId)"
-    (postUpdated)="updatePost($event.postId, $event.text)"
-  ></app-post>
+    <app-post
+      #postComp
+      [currentAuthor]="currentAuthor()"
+      [post]="post"
+      (commentCreated)="onCreateComment($event.postId, $event.commentText)"
+      (postDeleted)="onDeletePost($event.postId)"
+      (postUpdated)="onUpdatePost($event.postId, $event.text)"
+    ></app-post>
   }
 </div>

@@ -18,7 +18,13 @@
   </header>
 
   <main class="profile-page__body">
-    <app-post-feed [profile]="profile" [feed]="posts()" [isMyPage]="isMyPage()"></app-post-feed>
+    <app-post-feed
+      #postFeed
+      [feed]="posts()"
+      [profile]="profile"
+      (createPost)="onCreatePost($event, profile.id)"
+      (createComment)="onCreateComment($event, profile.id)"
+    />
     <div class="profile-page__right-bar">
       <h6 class="h6 subscribers-preview mb16">
         Подписчики
