@@ -15,7 +15,7 @@ import {
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import {AvatarCircleComponent, SvgIconComponent} from '@tt/common-ui';
-import {Profile} from '@tt/data-access';
+import { Community, Profile } from '@tt/data-access';
 import {GlobalStoreService} from '@tt/data-access';
 
 @Component({
@@ -31,7 +31,7 @@ export class PostInputComponent implements OnInit {
 
   text: string = '';
   //@ts-ignore
-  profile: InputSignal<Profile | null | undefined> = input<Profile>();
+  currentAuthor: InputSignal<Community | Profile | null> = input();
   isCommentInput: InputSignal<boolean> = input(false);
   isEditableInput: InputSignal<boolean> = input(false);
   isChatInput: InputSignal<boolean> = input(false);
@@ -52,8 +52,8 @@ export class PostInputComponent implements OnInit {
     return this.isEditableInput();
   }
 
-  currentProfile: Signal<Profile | null | undefined> = computed(() =>
-    this.isChatInput() ? this.me() : this.profile()
+  currentProfile: Signal<Profile | Community | null | undefined> = computed(() =>
+    this.isChatInput() ? this.me() : this.currentAuthor()
   );
 
   ngOnInit(): void {

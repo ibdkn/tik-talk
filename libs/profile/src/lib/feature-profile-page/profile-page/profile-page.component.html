@@ -20,12 +20,9 @@
   <main class="profile-page__body">
     <app-post-feed
       #postFeed
-      [profile]="profile"
       [feed]="posts()"
-      [canPost]="isMyPage()"
+      [profile]="profile"
       (createPost)="onCreatePost($event, profile.id)"
-      (deletePost)="onDeletePost($event)"
-      (updatePost)="onUpdatePost($event)"
       (createComment)="onCreateComment($event, profile.id)"
     />
     <div class="profile-page__right-bar">

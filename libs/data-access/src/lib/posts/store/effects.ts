@@ -1,9 +1,9 @@
 import { inject, Injectable } from '@angular/core';
-import { PostService, selectFilteredPosts } from '@tt/data-access';
+import { communityActions, PostService } from '@tt/data-access';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { postActions } from './actions';
-import { map, switchMap, withLatestFrom } from 'rxjs';
-import { Store } from '@ngrx/store';
+import { from, map, mergeMap, switchMap } from 'rxjs';
+import { Action, Store } from '@ngrx/store';
 
 @Injectable({
   providedIn: 'root',
@@ -29,8 +29,22 @@ export class PostEffects {
       ofType(postActions.createPost),
       switchMap(({ post }) =>
         this.postService.createPost(post).pipe(
-          withLatestFrom(this.store.select(selectFilteredPosts)),
-          map(([_, filters]) => postActions.filterEvents({ filters }))
+          mergeMap((createdPost) => {
+            const actions: Action[] = [
+              postActions.postCreated({ post: createdPost }),
+            ];
+
+            if (createdPost.communityId) {
+              actions.push(
+                communityActions.filterCommunityPostsEvent({
+                  communityId: createdPost.communityId,
+                  filters: {},
+                })
+              );
+            }
+
+            return from(actions);
+          }),
         )
       )
     )
@@ -41,8 +55,7 @@ export class PostEffects {
       ofType(postActions.deletePost),
       switchMap(({ id }) =>
         this.postService.deletePost(id).pipe(
-          withLatestFrom(this.store.select(selectFilteredPosts)),
-          map(([_, filters]) => postActions.filterEvents({ filters }))
+          map(() => postActions.postDeleted({ id }))
         )
       )
     )
@@ -53,8 +66,7 @@ export class PostEffects {
       ofType(postActions.updatePost),
       switchMap(({ id, post }) =>
         this.postService.updatePost(id, post).pipe(
-          withLatestFrom(this.store.select(selectFilteredPosts)),
-          map(([_, filters]) => postActions.filterEvents({ filters }))
+          map((updatedPost) => postActions.postUpdated({ post: updatedPost }))
         )
       )
     );

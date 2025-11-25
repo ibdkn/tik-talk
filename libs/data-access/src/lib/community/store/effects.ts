@@ -93,4 +93,14 @@ export class CommunityEffects {
       )
     )
   );
+  filterPosts = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(communityActions.filterCommunityPostsEvent),
+      switchMap(({ communityId, filters }) =>
+        this.communityService
+          .fetchCommunityPosts(communityId, filters)
+          .pipe(map((posts) => communityActions.communityPostsLoaded({ communityId, posts })))
+      )
+    );
+  });
 }

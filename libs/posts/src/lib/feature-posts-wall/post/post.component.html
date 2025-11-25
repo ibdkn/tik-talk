@@ -8,16 +8,12 @@
   <div class="post__body">
     <div>
       <strong class="post__author">
-        @if (isProfile(post.author)) {
-          <span>{{ post.author.firstName }} {{ post.author.lastName }}</span>
-        } @else {
-          <span>{{ post.author.name }}</span>
-        }
+        <span>{{ authorName }}</span>
         <span class="post-created-at">{{ post.createdAt | timeAgo }}</span>
       </strong>
       @if (isEditable) {
       <app-common-input
-        [profile]="profile()"
+        [currentAuthor]="currentAuthor()"
         [content]="post.content"
         [isEditableInput]="true"
         (canceled)="isEditable = $event"
@@ -27,30 +23,32 @@
       <p class="medium-text">{{ post.content }}</p>
       }
     </div>
-    <button
-      class="btn btn-post-menu"
-      [ngClass]="isShowPostModal ? 'active' : ''"
-      (click)="isShowPostModal = !isShowPostModal"
-    >
-      <svg icon="dots" class="svg14"></svg>
-
-      @if (isShowPostModal) {
-      <ul
-        class="post-modal"
-        clickOutside
-        (clickOutside)="isShowPostModal = false"
+    @if(isMyPost()) {
+      <button
+        class="btn btn-post-menu"
+        [ngClass]="isShowPostModal ? 'active' : ''"
+        (click)="isShowPostModal = !isShowPostModal"
       >
-        <li class="post-modal-text" (click)="isEditable = !isEditable">
-          <svg icon="edit-pen" class="svg14"></svg>
-          <span>Редактировать</span>
-        </li>
-        <li class="post-modal-text" (click)="onDeletePost()">
-          <svg icon="trash" class="svg14"></svg>
-          <span>Удалить</span>
-        </li>
-      </ul>
-      }
-    </button>
+        <svg icon="dots" class="svg14"></svg>
+
+        @if (isShowPostModal) {
+          <ul
+            class="post-modal"
+            clickOutside
+            (clickOutside)="isShowPostModal = false"
+          >
+            <li class="post-modal-text" (click)="isEditable = !isEditable">
+              <svg icon="edit-pen" class="svg14"></svg>
+              <span>Редактировать</span>
+            </li>
+            <li class="post-modal-text" (click)="onDeletePost()">
+              <svg icon="trash" class="svg14"></svg>
+              <span>Удалить</span>
+            </li>
+          </ul>
+        }
+      </button>
+    }
   </div>
 
   <div class="post-counters">
@@ -67,7 +65,7 @@
   </div>
 
   <app-common-input
-    [profile]="myProfile()"
+    [currentAuthor]="myProfile()"
     [isCommentInput]="true"
     [postId]="post.id"
     (created)="onCreateComment($event)"

@@ -26,6 +26,14 @@ export const postFeature = createFeature({
       ...state,
       postFilters: payload.filters,
     })),
+    on(postActions.postCreated, (state, { post }) => ({
+      ...state,
+      posts: [post, ...state.posts],
+    })),
+    on(postActions.postUpdated, (state, { post }) => ({
+      ...state,
+      posts: state.posts.map((p) => (p.id === post.id ? post : p)),
+    })),
     on(postActions.postDeleted, (state, { id }) => ({
       ...state,
       posts: state.posts.filter((p) => p.id !== id),
