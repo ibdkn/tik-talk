@@ -1,6 +1,6 @@
-import {createActionGroup, props} from '@ngrx/store';
-import {Post} from '@tt/data-access';
-import {PostCreateDto, PostUpdateDto} from '../interfaces/post.interface';
+import { createActionGroup, props } from '@ngrx/store';
+import { Post } from '@tt/data-access';
+import { PostCreateDto, PostUpdateDto } from '../interfaces/post.interface';
 
 export const postActions = createActionGroup({
   source: 'posts',
@@ -10,7 +10,8 @@ export const postActions = createActionGroup({
     'create post': props<{ post: PostCreateDto }>(),
     'post created': props<{ post: Post }>(),
     'delete post': props<{ id: number }>(),
-    'update post': props<{ id: number, post: PostUpdateDto }>(),
+    'post deleted': props<{ id: number }>(),
+    'update post': props<{ id: number; post: PostUpdateDto }>(),
     'post updated': props<{ post: Post }>(),
-  }
-})
+  },
+});

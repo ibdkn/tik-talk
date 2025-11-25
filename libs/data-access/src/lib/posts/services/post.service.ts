@@ -34,7 +34,7 @@ export class PostService {
     return this.http.delete<Post>(`${this.baseApiUrl}/post/${id}`);
   }
 
-  createComments(payload: CommentCreateDto): Observable<PostComment> {
+  createComment(payload: CommentCreateDto): Observable<PostComment> {
     return this.http.post<PostComment>(`${this.baseApiUrl}/comment/`, payload);
   }
 

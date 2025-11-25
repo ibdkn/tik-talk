@@ -1,6 +1,7 @@
 import { Community } from '../interfaces/community.interface';
 import { createFeature, createReducer, on } from '@ngrx/store';
 import { communityActions } from './actions';
+import { Post, postActions } from '../../posts';
 
 export interface CommunityState {
   communities: Community[];
@@ -8,6 +9,7 @@ export interface CommunityState {
   joiningIds: number[];
   page: number;
   size: number;
+  communityPostsById: Record<number, Post[]>;
 }
 
 export const initialCommunityState: CommunityState = {
@@ -16,6 +18,7 @@ export const initialCommunityState: CommunityState = {
   joiningIds: [],
   page: 1,
   size: 10,
+  communityPostsById: {},
 };
 
 export const communityFeature = createFeature({
@@ -76,6 +79,43 @@ export const communityFeature = createFeature({
               subscribersAmount: Math.max(0, (c.subscribersAmount ?? 0) - 1),
             }
           : c
+      ),
+    })),
+    on(communityActions.communityPostsLoaded, (state, payload) => {
+      return {
+        ...state,
+        communityPostsById: {
+          ...state.communityPostsById,
+          [payload.communityId]: payload.posts,
+        },
+      };
+    }),
+    on(communityActions.communityPostAdded, (state, { communityId, post }) => {
+      const prev = state.communityPostsById[communityId] ?? [];
+      return {
+        ...state,
+        communityPostsById: {
+          ...state.communityPostsById,
+          [communityId]: [post, ...prev],
+        },
+      };
+    }),
+    on(postActions.postDeleted, (state, { id }) => ({
+      ...state,
+      communityPostsById: Object.fromEntries(
+        Object.entries(state.communityPostsById).map(([communityId, posts]) => [
+          communityId,
+          posts.filter((p) => p.id !== id),
+        ])
+      ),
+    })),
+    on(postActions.postUpdated, (state, { post }) => ({
+      ...state,
+      communityPostsById: Object.fromEntries(
+        Object.entries(state.communityPostsById).map(([communityId, posts]) => [
+          communityId,
+          posts.map((p) => p.id === post.id ? { ...p, content: post.content } : p),
+        ])
       ),
     }))
   ),
