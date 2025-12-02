@@ -1,4 +1,6 @@
 import { Injectable, Type, ViewContainerRef } from '@angular/core';
+import { finalize, Observable, take } from 'rxjs';
+import { outputToObservable } from '@angular/core/rxjs-interop';
 
 @Injectable({
   providedIn: 'root',
@@ -13,9 +15,20 @@ export class ModalService {
   show<T>(component: Type<T>) {
     if (!this.containerRef) return;
 
-    this.containerRef.clear();
+    const componentRef = this.containerRef.createComponent(component);
+    const instance: any = componentRef.instance;
 
-    this.containerRef.createComponent(component);
+    if (!instance.result) return;
+
+    return outputToObservable(instance.result).pipe(
+      take(1),
+      finalize(() => {
+        const index = this.containerRef.indexOf(componentRef.hostView);
+        if (index !== -1) {
+          this.containerRef.remove(index);
+        }
+      })
+    );
   }
 
   hide() {

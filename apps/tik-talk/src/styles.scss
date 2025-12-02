@@ -105,6 +105,7 @@ svg {
 }
 
 .btn-light-transparent {
+  position: relative;
   color: var(--light-color-transparrent);
   border: 1px solid var(--light-color-transparrent);
   background-color: var(--dark-color);
@@ -122,6 +123,33 @@ svg {
     }
   }
 }
+
+.btn-transparent-with-icon {
+  position: relative;
+  color: var(--light-color-transparrent);
+  border: 1px solid var(--light-color-transparrent);
+  background-color: var(--dark-color);
+
+  .tt-form-icon {
+    right: auto;
+    bottom: auto;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+
+    svg {
+      color: var(--light-negative-color);
+    }
+  }
+
+  &:hover {
+    color: var(--light-color-transparrent);
+    border: 1px solid var(--light-color-transparrent);
+    background-color: var(--dark-color);
+    opacity: .8;
+  }
+}
+
 
 .btn-primary-transparent {
   color: var(--primary-color);

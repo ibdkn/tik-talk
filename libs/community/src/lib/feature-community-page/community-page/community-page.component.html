@@ -19,7 +19,7 @@
 
     <div class="community-page__btns">
       @if (isMyCommunity()) {
-        <a class="btn to-settings-btn">
+        <a class="btn to-settings-btn" (click)="showUpdateCommunity()">
           <span>Редактировать</span>
           <svg icon="settings" class="to-settings-icon"></svg>
         </a>

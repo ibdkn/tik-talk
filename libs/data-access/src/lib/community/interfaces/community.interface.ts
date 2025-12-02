@@ -22,6 +22,8 @@ export interface CommunityCreateDto {
   description: string | null
 }
 
+export interface CommunityUpdateDto extends CommunityCreateDto {}
+
 export interface CommunityForm {
   name: FormControl<string>,
   themes: FormControl<string[] | null>,

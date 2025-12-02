@@ -1,0 +1,51 @@
+<tt-modal-base>
+  <button class="update-community-close-btn" type="button" (click)="hide()">
+    <svg [icon]="'cross'" class="svg10"></svg>
+  </button>
+  <form class="update-community-form" [formGroup]="updateCommunityForm" (ngSubmit)="updateCommunity()">
+    <tt-input
+      [type]="'text'"
+      [labelText]="'Название сообщества'"
+      [placeholder]="'Введите'"
+      formControlName="name"
+    >
+      <span class="tt-form-icon" icon>
+        <svg [icon]="'search'"></svg>
+      </span>
+    </tt-input>
+    <tt-select
+      [labelText]="'Тема'"
+      [placeholder]="'Выберите'"
+      formControlName="themes"
+    >
+      <span class="tt-form-icon" icon>
+        <svg [icon]="'search'"></svg>
+      </span>
+    </tt-select>
+    <tt-list-input
+      [labelText]="'Теги'"
+      [placeholder]="'Введите'"
+      formControlName="tags"
+    >
+      <span class="tt-form-icon" icon>
+        <svg [icon]="'search'"></svg>
+      </span>
+    </tt-list-input>
+    <tt-textarea
+      [labelText]="'Описание'"
+      [placeholder]="'Введите'"
+      formControlName="description"
+    />
+    <div class="update-community-form__btns">
+      <button type="button" class="btn btn-transparent-with-icon" (click)="openDeleteModal()">
+        <span class="tt-form-icon" icon>
+          <svg [icon]="'delete'"></svg>
+        </span>
+      </button>
+      <div class="update-community-form__controls">
+        <button type="button" class="btn btn-light-transparent" (click)="hide()">Отмена</button>
+        <button class="btn">Сохранить</button>
+      </div>
+    </div>
+  </form>
+</tt-modal-base>

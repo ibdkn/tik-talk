@@ -1,0 +1,10 @@
+<tt-modal-base>
+  <button class="delete-community-close-btn" type="button" (click)="onCancel()">
+    <svg [icon]="'cross'" class="svg10"></svg>
+  </button>
+  <p class="medium-text mb20">Вы уверены, что хотите удалить сообщество?</p>
+  <div class="delete-community-form__btns">
+    <button type="button" class="btn btn-light-transparent" (click)="onCancel()">Отмена</button>
+    <button type="button" class="btn" (click)="onConfirm()">Удалить</button>
+  </div>
+</tt-modal-base>

@@ -10,6 +10,7 @@ export interface CommunityState {
   page: number;
   size: number;
   communityPostsById: Record<number, Post[]>;
+  community: Community | null;
 }
 
 export const initialCommunityState: CommunityState = {
@@ -19,6 +20,7 @@ export const initialCommunityState: CommunityState = {
   page: 1,
   size: 10,
   communityPostsById: {},
+  community: null
 };
 
 export const communityFeature = createFeature({
@@ -117,6 +119,10 @@ export const communityFeature = createFeature({
           posts.map((p) => p.id === post.id ? { ...p, content: post.content } : p),
         ])
       ),
+    })),
+    on(communityActions.communityLoaded, (state, { community }) => ({
+      ...state,
+      community,
     }))
   ),
 });

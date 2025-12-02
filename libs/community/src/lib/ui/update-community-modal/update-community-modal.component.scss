@@ -1,0 +1,26 @@
+.update-community-close-btn {
+  position: absolute;
+  top: 32px;
+  right: 32px;
+  background-color: transparent;
+  border: none;
+  color: white;
+  cursor: pointer;
+}
+
+.update-community-form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+
+  &__btns {
+    margin-top: 23px;
+    display: flex;
+    justify-content: space-between;
+  }
+
+  &__controls {
+    display: flex;
+    gap: 20px;
+  }
+}
