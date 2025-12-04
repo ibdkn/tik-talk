@@ -32,7 +32,7 @@ import {
 } from '@tt/common-ui';
 import { PostFeedComponent } from '@tt/posts';
 import { Store } from '@ngrx/store';
-import { UpdateCommunityModalComponent } from '@tt/community';
+import { CommunitySettingsModalComponent } from '@tt/community';
 
 @Component({
   selector: 'tt-community-page',
@@ -115,6 +115,9 @@ export class CommunityPageComponent {
   }
 
   showUpdateCommunity() {
-    this.#modalService.show(UpdateCommunityModalComponent);
+    const community = this.community();
+    if (!community) return;
+
+    this.#modalService.show(CommunitySettingsModalComponent, { community });
   }
 }

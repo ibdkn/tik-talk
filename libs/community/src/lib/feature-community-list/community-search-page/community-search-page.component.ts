@@ -22,7 +22,7 @@ import {
   selectFilteredCommunities,
 } from '@tt/data-access';
 import { CommunityFilterComponent } from '../community-filter/community-filter.component';
-import { CreateCommunityModalComponent } from '../../ui/create-community-modal/create-community-modal.component';
+import { CommunitySettingsModalComponent } from '../../ui/community-settings-modal/community-settings-modal.component';
 
 @Component({
   selector: 'tt-community-search-page',
@@ -84,6 +84,6 @@ export class CommunitySearchPageComponent {
   }
 
   showCreateCommunity() {
-    this.#modalService.show(CreateCommunityModalComponent);
+    this.#modalService.show(CommunitySettingsModalComponent);
   }
 }

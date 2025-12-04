@@ -2,6 +2,8 @@ import {
   ChangeDetectionStrategy,
   Component,
   inject,
+  input,
+  InputSignal,
   OnInit,
   QueryList,
   ViewChildren,
@@ -11,48 +13,45 @@ import {
   ListInputComponent,
   ModalBaseComponent, ModalService,
   SelectComponent, SvgIconComponent,
-  InputComponent, TextareaComponent
+  InputComponent, TextareaComponent,
+  ModalConfirmComponent
 } from '@tt/common-ui';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import {
+  Community,
   communityActions,
   CommunityForm,
-  selectCommunity,
 } from '@tt/data-access';
 import { Store } from '@ngrx/store';
-import { DeleteCommunityModalComponent } from '../delete-community-modal/delete-community-modal.component';
 import { firstValueFrom } from 'rxjs';
 import { Router } from '@angular/router';
 
 @Component({
-  selector: 'tt-update-community-modal',
+  selector: 'tt-community-settings-modal',
   imports: [
     CommonModule,
-    ReactiveFormsModule,
     ModalBaseComponent,
-    SvgIconComponent,
+    ListInputComponent,
+    ReactiveFormsModule,
     InputComponent,
     SelectComponent,
-    ListInputComponent,
+    SvgIconComponent,
     TextareaComponent,
   ],
-  templateUrl: './update-community-modal.component.html',
-  styleUrl: './update-community-modal.component.scss',
-  changeDetection: ChangeDetectionStrategy.OnPush,
+  templateUrl: './community-settings-modal.component.html',
+  styleUrl: './community-settings-modal.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class UpdateCommunityModalComponent implements OnInit {
+export class CommunitySettingsModalComponent implements OnInit {
   store = inject(Store);
   #modalService = inject(ModalService);
-  community = this.store.selectSignal(selectCommunity);
   router = inject(Router);
+  community: InputSignal<Community | null> = input<Community | null>(null);
 
   @ViewChildren(InputComponent) inputs!: QueryList<InputComponent>;
 
-  updateCommunityForm = new FormGroup<CommunityForm>({
-    name: new FormControl('', {
-      nonNullable: true,
-      validators: [Validators.required],
-    }),
+  communityForm = new FormGroup<CommunityForm>({
+    name: new FormControl('', { nonNullable: true, validators: [Validators.required] }),
     themes: new FormControl<string[] | null>(null),
     tags: new FormControl<string[] | null>(null),
     description: new FormControl<string | null>(null),
@@ -60,10 +59,8 @@ export class UpdateCommunityModalComponent implements OnInit {
 
   ngOnInit() {
     const community = this.community();
-    if (!community) return;
-
     if (community) {
-      this.updateCommunityForm.patchValue({
+      this.communityForm.patchValue({
         name: community.name,
         themes: community.themes,
         tags: community.tags,
@@ -76,24 +73,25 @@ export class UpdateCommunityModalComponent implements OnInit {
     this.#modalService.hide();
   }
 
-  updateCommunity() {
-    this.updateCommunityForm.markAllAsTouched();
-    this.inputs.forEach((c) => c['cdr'].markForCheck());
+  onSubmit() {
+    this.communityForm.markAllAsTouched();
+    this.inputs.forEach(c => c['cdr'].markForCheck());
 
-    if (this.updateCommunityForm.valid) {
+    if (this.communityForm.valid) {
       const community = this.community();
-      if (!community) return;
 
-      this.store.dispatch(communityActions.updateCommunity({ id: community.id, community: this.updateCommunityForm.getRawValue() }));
+      if (community) {
+        this.store.dispatch(communityActions.updateCommunity({ id: community.id, community: this.communityForm.getRawValue() }));
+      } else {
+        this.store.dispatch(communityActions.createCommunity({ community: this.communityForm.getRawValue() }));
+      }
+
       this.hide();
     }
   }
 
   async openDeleteModal() {
-    const modal = this.#modalService.show(DeleteCommunityModalComponent);
-    if (!modal) return;
-
-    const res = await firstValueFrom(modal);
+    const res = await firstValueFrom(this.#modalService.show(ModalConfirmComponent));
     if (!res) return;
 
     this.store.dispatch(communityActions.deleteCommunity({ id: this.community()!.id }));
