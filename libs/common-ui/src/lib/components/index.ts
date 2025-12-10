@@ -7,6 +7,7 @@ import { InputComponent } from './input/input.component';
 import { SelectComponent } from './select/select.component';
 import { ListInputComponent } from './list-input/list-input.component';
 import { TextareaComponent } from './textarea/textarea.component';
+import { ModalConfirmComponent } from './modal-confirm/modal-confirm.component';
 
 export {
   AvatarCircleComponent,
@@ -17,5 +18,6 @@ export {
   ListInputComponent,
   InputComponent,
   SelectComponent,
-  TextareaComponent
+  TextareaComponent,
+  ModalConfirmComponent
 }

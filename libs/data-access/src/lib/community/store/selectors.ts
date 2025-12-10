@@ -33,3 +33,8 @@ export const selectCommunityPostsById = (communityId: number) =>
     (state) => state.communityPostsById[communityId] ?? []
   );
 
+export const selectCommunity = createSelector(
+  communityFeature.selectCommunityFeatureState,
+  (state) => state.community
+);
+

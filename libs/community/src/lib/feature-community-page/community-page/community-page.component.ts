@@ -13,23 +13,26 @@ import {
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import {
-  Community,
   communityActions,
   CommunityService,
   Post,
   postActions,
   PostService,
   Profile,
-  ProfileService, selectCommunityPostsById,
+  ProfileService,
+  selectCommunity,
+  selectCommunityPostsById
 } from '@tt/data-access';
 import { firstValueFrom } from 'rxjs';
 import {
   AvatarCircleComponent,
   ImgUrlPipe,
-  SvgIconComponent,
+  ModalService,
+  SvgIconComponent
 } from '@tt/common-ui';
 import { PostFeedComponent } from '@tt/posts';
 import { Store } from '@ngrx/store';
+import { CommunitySettingsModalComponent } from '@tt/community';
 
 @Component({
   selector: 'tt-community-page',
@@ -50,8 +53,9 @@ export class CommunityPageComponent {
   profileService = inject(ProfileService);
   postService: PostService = inject(PostService);
   store = inject(Store);
+  #modalService = inject(ModalService);
   subscribers: WritableSignal<Profile[] | null> = signal(null);
-  community: WritableSignal<Community | null> = signal(null);
+  community = this.store.selectSignal(selectCommunity);
   posts: Signal<Post[]> = signal([]);
   id = input.required<string>();
   postFeed = viewChild.required<PostFeedComponent>('postFeed');
@@ -63,14 +67,12 @@ export class CommunityPageComponent {
 
       this.posts = this.store.selectSignal(selectCommunityPostsById(id));
 
+      this.store.dispatch(communityActions.getCommunity({ id }));
+      this.store.dispatch(communityActions.filterCommunityPostsEvent({ communityId: id, filters: {} }));
+
       firstValueFrom(this.communityService.getSubscribersShortList(id, 5))
         .then((res) => this.subscribers.set(res));
-
-      firstValueFrom(this.communityService.getCommunity(id))
-        .then((res) => this.community.set(res));
-
-      this.store.dispatch(communityActions.filterCommunityPostsEvent({ communityId: id, filters: {} }))
-    })
+    });
   }
 
   isMyCommunity = computed(() => {
@@ -110,5 +112,12 @@ export class CommunityPageComponent {
     );
 
     this.postFeed().updatePostComments(event.postId);
+  }
+
+  showUpdateCommunity() {
+    const community = this.community();
+    if (!community) return;
+
+    this.#modalService.show(CommunitySettingsModalComponent, { community });
   }
 }
