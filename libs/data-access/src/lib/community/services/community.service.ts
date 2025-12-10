@@ -4,6 +4,7 @@ import { map, Observable } from 'rxjs';
 import {
   Community,
   CommunityCreateDto,
+  CommunityUpdateDto
 } from '../interfaces/community.interface';
 import { Pageable } from '../../shared/interfaces/pageable.interface';
 import { Post, Profile } from '@tt/data-access';
@@ -53,5 +54,13 @@ export class CommunityService {
         { params }
       )
       .pipe(map((res) => res.items));
+  }
+
+  updateCommunity(id: number, payload: CommunityUpdateDto): Observable<Community> {
+    return this.http.patch<Community>(`${this.baseApiUrl}/community/${id}`, payload);
+  }
+
+  deleteCommunity(id: number) {
+    return this.http.delete(`${this.baseApiUrl}/community/${id}`);
   }
 }

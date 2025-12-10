@@ -1,5 +1,5 @@
-import { CreateCommunityModalComponent } from './create-community-modal/create-community-modal.component';
+import { CommunitySettingsModalComponent } from './community-settings-modal/community-settings-modal.component';
 
 export {
-  CreateCommunityModalComponent
+  CommunitySettingsModalComponent,
 }

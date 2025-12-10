@@ -1,13 +1,14 @@
 import { inject, Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { Store } from '@ngrx/store';
-import { filter, map, switchMap, take, withLatestFrom } from 'rxjs';
+import {  Store } from '@ngrx/store';
+import { filter, from, map, mergeMap, switchMap, take, withLatestFrom } from 'rxjs';
 import { communityActions } from './actions';
 import { CommunityService } from '../services/community.service';
 import {
   selectCommunityById,
   selectCommunityFilters,
   selectCommunityPageable,
+  selectCommunityPostsById
 } from './selectors';
 
 @Injectable({
@@ -100,6 +101,36 @@ export class CommunityEffects {
         this.communityService
           .fetchCommunityPosts(communityId, filters)
           .pipe(map((posts) => communityActions.communityPostsLoaded({ communityId, posts })))
+      )
+    );
+  });
+  updateCommunity = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(communityActions.updateCommunity),
+      withLatestFrom(this.store.select(selectCommunityPostsById)),
+      switchMap(([{ id, community }, filters]) =>
+        this.communityService.updateCommunity(id, community).pipe(
+          mergeMap((updatedCommunity) =>
+            from([
+              communityActions.communityLoaded({ community: updatedCommunity }),
+              communityActions.filterCommunityPostsEvent({
+                communityId: updatedCommunity.id,
+                filters,
+              }),
+            ])
+          )
+        )
+      )
+    );
+  });
+  deleteCommunity = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(communityActions.deleteCommunity),
+      switchMap(({ id }) =>
+        this.communityService.deleteCommunity(id).pipe(
+          withLatestFrom(this.store.select(selectCommunityFilters)),
+          map(([_, filters]) => communityActions.filterEvents({ filters }))
+        )
       )
     );
   });

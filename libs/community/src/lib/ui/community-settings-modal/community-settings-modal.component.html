@@ -1,8 +1,8 @@
 <tt-modal-base>
-  <button class="create-community-close-btn" type="button" (click)="hide()">
+  <button class="community-settings-modal-close-btn" type="button" (click)="hide()">
     <svg [icon]="'cross'" class="svg10"></svg>
   </button>
-  <form class="create-community-form" [formGroup]="createCommunityForm" (ngSubmit)="createCommunity()">
+  <form class="community-settings-modal-form" [formGroup]="communityForm" (ngSubmit)="onSubmit()">
     <tt-input
       [type]="'text'"
       [labelText]="'Название сообщества'"
@@ -36,9 +36,20 @@
       [placeholder]="'Введите'"
       formControlName="description"
     />
-    <div class="create-community-form__btns">
-      <button class="btn btn-light-transparent" (click)="hide()">Отмена</button>
-      <button class="btn">Сохранить</button>
+    <div class="community-settings-modal-form__btns">
+      <div>
+        @if (community(); as community) {
+          <button type="button" class="btn btn-transparent-with-icon" (click)="openDeleteModal()">
+          <span class="tt-form-icon" icon>
+            <svg [icon]="'delete'"></svg>
+          </span>
+          </button>
+        }
+      </div>
+      <div class="community-settings-modal-form__controls">
+        <button type="button" class="btn btn-light-transparent" (click)="hide()">Отмена</button>
+        <button class="btn">Сохранить</button>
+      </div>
     </div>
   </form>
 </tt-modal-base>

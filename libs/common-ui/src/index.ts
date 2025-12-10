@@ -8,6 +8,7 @@ export * from './lib/components/input/input.component';
 export * from './lib/components/select/select.component';
 export * from './lib/components/textarea/textarea.component';
 export * from './lib/components/modal';
+export * from './lib/components/modal-confirm/modal-confirm.component';
 export * from './lib/pipes';
 export * from './lib/directives';
 export * from './lib/helpers';
