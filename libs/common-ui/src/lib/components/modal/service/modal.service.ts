@@ -1,5 +1,5 @@
 import { Injectable, Type, ViewContainerRef } from '@angular/core';
-import { finalize, Observable, take } from 'rxjs';
+import { finalize, Observable, of, take } from 'rxjs';
 import { outputToObservable } from '@angular/core/rxjs-interop';
 
 @Injectable({
@@ -12,15 +12,23 @@ export class ModalService {
     this.containerRef = viewRef;
   }
 
-  show<T>(component: Type<T>) {
-    if (!this.containerRef) return;
+  show<T>(component: Type<T>, props?: Record<string, any>): Observable<boolean> {
+    if (!this.containerRef) return of(false);
 
     const componentRef = this.containerRef.createComponent(component);
     const instance: any = componentRef.instance;
 
-    if (!instance.result) return;
+    if (props) {
+      Object.entries(props).forEach(([key, value]) => {
+        componentRef.setInput(key as any, value);
+      });
 
-    return outputToObservable(instance.result).pipe(
+      return of(true);
+    }
+
+    if (!instance.result) return of(false);
+
+    return outputToObservable<boolean>(instance.result).pipe(
       take(1),
       finalize(() => {
         const index = this.containerRef.indexOf(componentRef.hostView);

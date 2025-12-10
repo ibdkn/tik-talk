@@ -1,4 +1,4 @@
-.delete-community-close-btn {
+.community-settings-modal-close-btn {
   position: absolute;
   top: 32px;
   right: 32px;
@@ -7,8 +7,7 @@
   color: white;
   cursor: pointer;
 }
-
-.delete-community-form {
+.community-settings-modal-form {
   display: flex;
   flex-direction: column;
   gap: 20px;
@@ -16,7 +15,11 @@
   &__btns {
     margin-top: 23px;
     display: flex;
-    justify-content: flex-end;
+    justify-content: space-between;
+  }
+
+  &__controls {
+    display: flex;
     gap: 20px;
   }
 }
