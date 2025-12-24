@@ -65,9 +65,17 @@ export class ChatWorkspaceMessagesWrapperComponent implements AfterViewInit, OnC
     this.r2.setStyle(this.chatWrapper.nativeElement, 'height', `${height}px`);
   }
 
+  // async onSendMessage(messageText: string): Promise<void> {
+  //   this.chatService.wsAdapter.sendMessage(messageText, this.chat().id);
+  //   this.chatService.sendMessage(this.chat().id, messageText);
+  //   await firstValueFrom(this.chatService.getChatById(this.chat().id));
+  //   this.scrollBottom();
+  // }
+
   async onSendMessage(messageText: string): Promise<void> {
-    this.chatService.wsAdapter.sendMessage(messageText, this.chat().id);
-    await firstValueFrom(this.chatService.getChatById(this.chat().id));
+    await firstValueFrom(this.chatService.sendMessage(this.chat().id, messageText));
+    const chat = await firstValueFrom(this.chatService.getChatById(this.chat().id));
+    this.dateAndMessages.set(this.groupMessage(chat.messages))
     this.scrollBottom();
   }
 

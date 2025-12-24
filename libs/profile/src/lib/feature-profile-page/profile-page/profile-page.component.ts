@@ -7,17 +7,18 @@ import {
   ViewChild
 } from '@angular/core';
 import { ProfileHeaderComponent } from '../../ui/profile-header/profile-header.component';
-import { Router, RouterLink } from '@angular/router';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { firstValueFrom, switchMap, tap } from 'rxjs';
 import { toObservable } from '@angular/core/rxjs-interop';
 import { AsyncPipe } from '@angular/common';
 import { ImgUrlPipe, SvgIconComponent } from '@tt/common-ui';
 import { PostFeedComponent } from '@tt/posts';
 import {
+  ChatService,
   postActions,
   PostService,
   ProfileService,
-  selectPosts,
+  selectPosts
 } from '@tt/data-access';
 import { Store } from '@ngrx/store';
 
@@ -39,6 +40,8 @@ export class ProfilePageComponent {
   router: Router = inject(Router);
   profileService: ProfileService = inject(ProfileService);
   postService: PostService = inject(PostService);
+  chatService: ChatService = inject(ChatService);
+  route: ActivatedRoute = inject(ActivatedRoute);
   store = inject(Store);
 
   subscribers$ = this.profileService.getSubscribersShortList(6);
@@ -73,7 +76,10 @@ export class ProfilePageComponent {
   );
 
   async sendMessage(userId: number) {
-    this.router.navigate(['/chats', 'new'], { queryParams: { userId } });
+    firstValueFrom(this.chatService.createChat(userId))
+      .then((res) => {
+        this.router.navigate(['/chats', 'new'], { queryParams: { id: res.id } });
+      })
   }
 
   async onCreatePost(postText: string, profileId: number): Promise<void> {

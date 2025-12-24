@@ -1,6 +1,7 @@
 :host {
   display: block;
   border-right: 1px solid var(--light-color);
+  //overflow: hidden;
 }
 
 .chats-filters-input__wrapper {
@@ -11,5 +12,7 @@
 }
 
 .chat-list-wrapper {
+  //max-height: calc(100% - 76px);
+  //height: auto;
   overflow-y: scroll;
 }
