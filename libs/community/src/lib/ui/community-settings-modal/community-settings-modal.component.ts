@@ -5,8 +5,6 @@ import {
   input,
   InputSignal,
   OnInit,
-  QueryList,
-  ViewChildren,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {
@@ -48,8 +46,6 @@ export class CommunitySettingsModalComponent implements OnInit {
   router = inject(Router);
   community: InputSignal<Community | null> = input<Community | null>(null);
 
-  @ViewChildren(InputComponent) inputs!: QueryList<InputComponent>;
-
   communityForm = new FormGroup<CommunityForm>({
     name: new FormControl('', { nonNullable: true, validators: [Validators.required] }),
     themes: new FormControl<string[] | null>(null),
@@ -75,7 +71,6 @@ export class CommunitySettingsModalComponent implements OnInit {
 
   onSubmit() {
     this.communityForm.markAllAsTouched();
-    this.inputs.forEach(c => c['cdr'].markForCheck());
 
     if (this.communityForm.valid) {
       const community = this.community();
