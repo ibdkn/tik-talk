@@ -3,6 +3,7 @@ import {
   ChangeDetectorRef,
   Component,
   contentChild,
+  DestroyRef,
   ElementRef,
   inject,
   input,
@@ -10,8 +11,10 @@ import {
   Self,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ControlValueAccessor, FormsModule, NgControl } from '@angular/forms';
+import { ControlValueAccessor, FormGroupDirective, FormsModule, NgControl, NgForm } from '@angular/forms';
 import { InputType } from '@tt/data-access';
+import { EMPTY } from 'rxjs';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'tt-input',
@@ -22,6 +25,9 @@ import { InputType } from '@tt/data-access';
   standalone: true,
 })
 export class InputComponent implements ControlValueAccessor {
+  destroyRef = inject(DestroyRef);
+  cdr = inject(ChangeDetectorRef);
+
   type = input.required<InputType>();
   labelText = input.required<string>();
   placeholder = input.required<string>();
@@ -29,12 +35,18 @@ export class InputComponent implements ControlValueAccessor {
 
   value = '';
 
-  cdr = inject(ChangeDetectorRef);
-
-  constructor(@Optional() @Self() public ngControl: NgControl | null) {
+  constructor(
+    @Optional() @Self() public ngControl: NgControl | null,
+    @Optional() private formGroupDir: FormGroupDirective,
+    @Optional() private ngForm: NgForm,
+  ) {
     if (this.ngControl) {
       this.ngControl.valueAccessor = this;
     }
+
+    (this.formGroupDir?.ngSubmit ?? this.ngForm?.ngSubmit ?? EMPTY)
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe(() => this.cdr.markForCheck());
   }
 
   onChange = (value: string) => {};

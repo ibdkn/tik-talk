@@ -330,3 +330,69 @@ svg {
     }
   }
 }
+
+// common-modal
+.common-modal {
+  &__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    margin-bottom: 28px;
+  }
+
+  &__title {
+    margin: 0;
+    font-size: 24px;
+    line-height: 1.2;
+  }
+
+  &__close {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    background: transparent;
+    border: none;
+    padding: 0;
+    color: #fff;
+    cursor: pointer;
+
+    &:focus-visible {
+      outline: 2px solid currentColor;
+      outline-offset: 2px;
+      border-radius: 6px;
+    }
+  }
+
+  &__body {
+    display: flex;
+    flex-direction: column;
+  }
+
+  &__form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  &__footer {
+    margin-top: 23px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+  }
+
+  &__footer-left {
+    display: flex;
+    align-items: center;
+    min-width: 40px;
+  }
+
+  &__actions {
+    display: flex;
+    gap: 20px;
+  }
+}
+
