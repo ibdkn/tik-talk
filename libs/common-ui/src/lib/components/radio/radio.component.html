@@ -1,0 +1,18 @@
+<label
+  class="tt-form-label tt-form-label__checkbox"
+  *ngFor="let opt of options()"
+>
+  <input
+    class="tt-radio"
+    type="radio"
+    [attr.name]="groupName"
+    [value]="opt.value"
+    [checked]="value === opt.value"
+    [disabled]="disabled"
+    (change)="select(opt.value)"
+    (blur)="onTouched()"
+  />
+
+  <span class="tt-form-label-text">{{ opt.label }}</span>
+</label>
+

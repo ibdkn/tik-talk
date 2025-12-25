@@ -32,6 +32,12 @@ export class ProfileService {
     return this.http.get<Profile>(`${this.baseApiUrl}/account/${id}`);
   }
 
+  getSubscribers() {
+    return this.http
+      .get<Pageable<Profile>>(`${this.baseApiUrl}/account/subscribers/`)
+      .pipe(map((res) => res.items));
+  }
+
   getSubscribersShortList(subsAmount = 3) {
     return this.http
       .get<Pageable<Profile>>(`${this.baseApiUrl}/account/subscribers/`)

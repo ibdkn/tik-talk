@@ -64,7 +64,12 @@
               <span class="to-subscribers-search-btn"></span>
             </a>
           } @else {
-            <span class="medium-text">Нет подписчиков</span>
+            <div class="subscribers-empty" (click)="showShareCommunity()">
+              Найти
+              <div class="to-subscribers-search">
+                <span class="to-subscribers-search-btn"></span>
+              </div>
+            </div>
           }
         }
       </div>

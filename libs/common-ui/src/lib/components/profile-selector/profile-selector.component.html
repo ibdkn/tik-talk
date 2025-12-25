@@ -1,0 +1,44 @@
+<label class="select tt-form-label">
+  <span class="tt-form-label-text">{{ labelText() }}</span>
+
+  <div class="select__wrapper">
+    <input
+      type="text"
+      class="select__ghost-input"
+      [placeholder]="placeholder()"
+      [value]="query()"
+      (input)="onQueryInput($event)"
+      [disabled]="disabled()"
+    />
+
+    <ng-content select="[icon]"></ng-content>
+
+    <span class="tt-form-icon" icon>
+      <svg [icon]="'search'"></svg>
+    </span>
+  </div>
+</label>
+
+<div class="subscribers-panel">
+  <div class="subscribers-wrapper">
+    @for (subscriber of filteredSubscribers(); track subscriber.id) {
+      <button
+        type="button"
+        class="subscriber-avatar-btn"
+        [class.selected]="isSelected(subscriber.id)"
+        (click)="toggle(subscriber.id)"
+        [attr.aria-pressed]="isSelected(subscriber.id)"
+        [title]="subscriber.firstName + ' ' + subscriber.lastName"
+      >
+        <img
+          [src]="subscriber.avatarUrl | imgUrl"
+          [alt]="subscriber.username"
+          class="subscriber-avatar"
+        />
+      </button>
+    }
+  </div>
+</div>
+@if (ngControl?.invalid && (ngControl?.touched || ngControl?.dirty)) {
+  <p class="input-tooltip">Необходимо выбрать хотя бы одного пользователя!</p>
+}

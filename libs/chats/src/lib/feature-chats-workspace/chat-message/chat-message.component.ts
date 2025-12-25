@@ -1,11 +1,11 @@
 import {ChangeDetectionStrategy, Component, HostBinding, input, InputSignal} from '@angular/core';
 import { DatePipe } from '@angular/common';
-import {AvatarCircleComponent} from '@tt/common-ui';
+import { AvatarCircleComponent, MarkdownLinksPipe } from '@tt/common-ui';
 import { Message } from '@tt/data-access';
 
 @Component({
   selector: 'app-chat-message',
-  imports: [AvatarCircleComponent, DatePipe],
+  imports: [AvatarCircleComponent, DatePipe, MarkdownLinksPipe],
   templateUrl: './chat-message.component.html',
   styleUrl: './chat-message.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush

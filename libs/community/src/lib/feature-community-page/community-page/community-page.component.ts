@@ -33,6 +33,7 @@ import {
 import { PostFeedComponent } from '@tt/posts';
 import { Store } from '@ngrx/store';
 import { CommunitySettingsModalComponent } from '@tt/community';
+import { CommunityShareModalComponent } from '../../ui/community-share-modal/community-share-modal.component';
 
 @Component({
   selector: 'tt-community-page',
@@ -119,5 +120,12 @@ export class CommunityPageComponent {
     if (!community) return;
 
     this.#modalService.show(CommunitySettingsModalComponent, { community });
+  }
+
+  showShareCommunity() {
+    const community = this.community();
+    if (!community) return;
+
+    this.#modalService.show(CommunityShareModalComponent, { community });
   }
 }

@@ -13,7 +13,13 @@ import {
 } from '@angular/core';
 import { firstValueFrom } from 'rxjs';
 import { NgClass } from '@angular/common';
-import {AvatarCircleComponent, ClickOutsideDirective, SvgIconComponent, TimeAgoPipe} from '@tt/common-ui';
+import {
+  AvatarCircleComponent,
+  ClickOutsideDirective,
+  MarkdownLinksPipe,
+  SvgIconComponent,
+  TimeAgoPipe
+} from '@tt/common-ui';
 import {CommentComponent, PostInputComponent } from '../../ui';
 import { Post, PostComment, PostService } from '../../../../../data-access/src/lib/posts';
 import { Community, GlobalStoreService, Profile } from '@tt/data-access';
@@ -28,6 +34,7 @@ import { Community, GlobalStoreService, Profile } from '@tt/data-access';
     TimeAgoPipe,
     NgClass,
     ClickOutsideDirective,
+    MarkdownLinksPipe,
   ],
   templateUrl: './post.component.html',
   styleUrl: './post.component.scss',

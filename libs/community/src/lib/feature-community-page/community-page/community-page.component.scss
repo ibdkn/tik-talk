@@ -75,6 +75,20 @@
   border-radius: 50%;
 }
 
+.subscribers-empty {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+
+  &:hover {
+    color: var(--primary-color);
+
+    .to-subscribers-search-btn {
+      background-color: var(--primary-color);
+    }
+  }
+}
+
 .to-subscribers-search {
   display: flex;
   align-items: center;
