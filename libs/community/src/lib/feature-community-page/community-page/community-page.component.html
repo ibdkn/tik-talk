@@ -46,7 +46,7 @@
                 class="subscriber-avatar-btn"
               >
                 <img
-                  [src]="subscriber.avatarUrl || '/assets/images/avatar-placeholder.png' | imgUrl"
+                  [src]="subscriber.avatarUrl ? (subscriber.avatarUrl | imgUrl) : '/assets/images/avatar-placeholder.png'"
                   [alt]="subscriber.username"
                   class="subscriber-avatar"
                 />
