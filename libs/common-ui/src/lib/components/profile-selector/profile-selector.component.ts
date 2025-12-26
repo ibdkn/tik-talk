@@ -3,8 +3,6 @@ import {
   Component,
   computed, DestroyRef, inject,
   input,
-  Optional,
-  Self,
   signal
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
@@ -18,7 +16,6 @@ import {
 } from '@angular/forms';
 import { SvgIconComponent } from '../svg-icon/svg-icon.component';
 import { Profile } from '@tt/data-access';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { EMPTY } from 'rxjs';
 
 @Component({
@@ -29,6 +26,9 @@ import { EMPTY } from 'rxjs';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ProfileSelectorComponent implements ControlValueAccessor {
+  readonly ngControl = inject(NgControl, { self: true, optional: true });
+  private readonly formGroupDir = inject(FormGroupDirective, { optional: true });
+  private readonly ngForm = inject(NgForm, { optional: true });
   destroyRef = inject(DestroyRef);
   cdr = inject(ChangeDetectorRef);
 
@@ -40,18 +40,15 @@ export class ProfileSelectorComponent implements ControlValueAccessor {
   selectedIds = signal<number[]>([]);
   disabled = signal(false);
 
-  constructor(
-    @Optional() @Self() public ngControl: NgControl | null,
-    @Optional() private formGroupDir: FormGroupDirective,
-    @Optional() private ngForm: NgForm,
-  ) {
+  constructor() {
     if (this.ngControl) {
       this.ngControl.valueAccessor = this;
     }
 
-    (this.formGroupDir?.ngSubmit ?? this.ngForm?.ngSubmit ?? EMPTY)
-      .pipe(takeUntilDestroyed(this.destroyRef))
+    const sub = (this.formGroupDir?.ngSubmit ?? this.ngForm?.ngSubmit ?? EMPTY)
       .subscribe(() => this.cdr.markForCheck());
+
+    this.destroyRef.onDestroy(() => sub.unsubscribe());
   }
 
   filteredSubscribers = computed(() => {
