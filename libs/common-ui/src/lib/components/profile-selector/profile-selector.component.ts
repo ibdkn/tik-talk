@@ -1,7 +1,7 @@
 import {
-  ChangeDetectionStrategy, ChangeDetectorRef,
+  ChangeDetectionStrategy,
   Component,
-  computed, DestroyRef, inject,
+  computed, inject,
   input,
   signal
 } from '@angular/core';
@@ -9,14 +9,11 @@ import { CommonModule } from '@angular/common';
 import { ImgUrlPipe } from '../../pipes';
 import {
   ControlValueAccessor,
-  FormGroupDirective,
   NgControl,
-  NgForm,
   ReactiveFormsModule,
 } from '@angular/forms';
 import { SvgIconComponent } from '../svg-icon/svg-icon.component';
 import { Profile } from '@tt/data-access';
-import { EMPTY } from 'rxjs';
 
 @Component({
   selector: 'tt-profile-selector',
@@ -27,10 +24,6 @@ import { EMPTY } from 'rxjs';
 })
 export class ProfileSelectorComponent implements ControlValueAccessor {
   readonly ngControl = inject(NgControl, { self: true, optional: true });
-  private readonly formGroupDir = inject(FormGroupDirective, { optional: true });
-  private readonly ngForm = inject(NgForm, { optional: true });
-  destroyRef = inject(DestroyRef);
-  cdr = inject(ChangeDetectorRef);
 
   labelText = input.required<string>();
   placeholder = input.required<string>();
@@ -44,11 +37,6 @@ export class ProfileSelectorComponent implements ControlValueAccessor {
     if (this.ngControl) {
       this.ngControl.valueAccessor = this;
     }
-
-    const sub = (this.formGroupDir?.ngSubmit ?? this.ngForm?.ngSubmit ?? EMPTY)
-      .subscribe(() => this.cdr.markForCheck());
-
-    this.destroyRef.onDestroy(() => sub.unsubscribe());
   }
 
   filteredSubscribers = computed(() => {
