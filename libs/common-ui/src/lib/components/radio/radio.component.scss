@@ -1,0 +1,62 @@
+:host {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.tt-form-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+  user-select: none;
+}
+
+.tt-form-label-text {
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 14px;
+  color: var(--light-color);
+}
+
+.tt-radio {
+  appearance: none;
+  -webkit-appearance: none;
+  margin: 0;
+
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+
+  border: 2px solid var(--light-color);
+  background: transparent;
+
+  cursor: pointer;
+  transition:
+    border-color 0.15s ease,
+    border-width 0.15s ease;
+}
+
+.tt-radio:checked {
+  border-color: var(--primary-color);
+  border-width: 6px;
+}
+
+.tt-form-label:hover .tt-radio:not(:disabled) {
+  border-color: var(--primary-color);
+}
+
+.tt-radio:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(147, 120, 194, 0.35);
+}
+
+.tt-radio:disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+.tt-radio:disabled + .tt-form-label-text {
+  opacity: 0.5;
+  cursor: not-allowed;
+}

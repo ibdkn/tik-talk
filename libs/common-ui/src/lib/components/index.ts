@@ -8,16 +8,22 @@ import { SelectComponent } from './select/select.component';
 import { ListInputComponent } from './list-input/list-input.component';
 import { TextareaComponent } from './textarea/textarea.component';
 import { ModalConfirmComponent } from './modal-confirm/modal-confirm.component';
+import { RadioComponent } from './radio/radio.component';
+import { ProfileSelectorComponent } from './profile-selector/profile-selector.component';
+import { EmojiTextareaComponent } from './emoji-textarea/emoji-textarea.component';
 
 export {
   AvatarCircleComponent,
   AvatarNameComponent,
+  EmojiTextareaComponent,
   SvgIconComponent,
   InfiniteScrollTriggerComponent,
   PreviewCardComponent,
   ListInputComponent,
   InputComponent,
   SelectComponent,
+  RadioComponent,
+  ProfileSelectorComponent,
   TextareaComponent,
   ModalConfirmComponent
 }

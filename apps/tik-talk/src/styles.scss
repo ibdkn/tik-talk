@@ -199,6 +199,10 @@ svg {
   line-height: 16px;
 }
 
+.community-link {
+  text-decoration: underline;
+}
+
 .regular {
   font-style: normal;
   font-weight: 400;
@@ -227,11 +231,33 @@ svg {
   border-radius: 2px;
 }
 
+.tt-radio {
+  position: relative;
+  width: 20px;
+  height: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: none;
+  border-radius: 50%;
+  border: 1px solid var(--light-color);
+  transition: .5s;
+  cursor: pointer;
+}
+
 .tt-form-label {
   position: relative;
   display: flex;
   flex-direction: column;
   gap: 4px;
+
+  &__checkbox {
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+    gap: 10px;
+    cursor: pointer;
+  }
 }
 
 .tt-form-label-text {

@@ -11,7 +11,7 @@
     </p>
     <p class="medium-text message-info">
       @if (chat.message) {
-        <span class="message-text">{{ chat.message }}</span>
+        <span class="message-text" [innerHTML]="chat.message | markdownLinks"></span>
       } @else {
         <span class="message-text content-empty">У вас пока нет сообщений. Напишите первым!</span>
       }

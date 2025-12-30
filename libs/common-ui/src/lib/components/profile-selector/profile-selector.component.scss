@@ -1,0 +1,141 @@
+:host {
+  display: block;
+
+  &.ng-invalid.ng-touched {
+    .subscribers-wrapper {
+      border-color: var(--light-negative-color);
+    }
+  }
+}
+
+.select {
+  position: relative;
+
+  &__wrapper {
+    padding: 12px 0;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 6px;
+
+    border-bottom: 1px solid var(--light-color);
+    background-color: var(--dark-color);
+
+    cursor: text;
+
+    &.with-icon {
+      padding-right: 20px;
+    }
+  }
+
+  &__item {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+
+    padding: 2px 8px;
+    border-radius: 2px;
+
+    background-color: var(--dark-hover-color);
+    border: 1px solid var(--light-color);
+  }
+
+  &__btn {
+    border: none;
+    background: transparent;
+    cursor: pointer;
+
+    display: inline-flex;
+    padding: 0;
+
+    svg {
+      color: var(--light-color);
+    }
+
+    &:hover svg {
+      color: var(--primary-color);
+    }
+  }
+
+  &__ghost-input {
+    flex: 1 1 160px;
+    min-width: 160px;
+
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 14px;
+    color: var(--light-color);
+
+    border: none;
+    background: none;
+    outline: none;
+
+    cursor: text;
+
+    &::placeholder {
+      color: var(--light-color);
+      opacity: 0.7;
+    }
+
+    &:disabled {
+      cursor: not-allowed;
+      opacity: 0.6;
+    }
+  }
+}
+
+.subscribers-wrapper {
+  margin-top: 12px;
+
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+
+  max-height: 120px;
+  overflow: auto;
+  padding-right: 4px;
+  border-bottom: 1px solid transparent;
+}
+
+.subscribers-wrapper::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+.subscribers-wrapper::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.25);
+  border-radius: 3px;
+}
+
+.subscriber-avatar-btn {
+  background-color: transparent;
+  border: 2px solid transparent;
+  border-radius: 50%;
+  padding: 0;
+
+  cursor: pointer;
+
+  transition: border-color 0.15s ease, transform 0.15s ease;
+
+  &:hover {
+    transform: translateY(-1px);
+  }
+
+  &.selected {
+    border-color: var(--primary-color);
+  }
+
+  &:focus-visible {
+    outline: none;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.35);
+  }
+}
+
+.subscriber-avatar {
+  display: block;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+}

@@ -1,0 +1,12 @@
+<textarea
+  class="hidden-textarea"
+  placeholder="Напишите что-нибудь"
+  (input)="onTextAreaInput($event)"
+  [ngModel]="value"
+  (ngModelChange)="onInput($event)"
+  (blur)="onTouched()"
+></textarea>
+
+<div class="emojis-btn">
+  <svg icon="emojis" class="svg16"></svg>
+</div>

@@ -1,0 +1,53 @@
+<tt-modal-base>
+  <div class="common-modal">
+    <div class="common-modal__header">
+      <h2 class="common-modal__title">Поделиться</h2>
+
+      <button
+        class="common-modal__close"
+        type="button"
+        (click)="hide()"
+      >
+        <svg [icon]="'cross'" class="svg10"></svg>
+      </button>
+    </div>
+
+    <div class="common-modal__body">
+      <form class="common-modal__form" [formGroup]="form" (ngSubmit)="onSubmit()">
+        <tt-radio
+          [options]="options"
+          formControlName="type"
+        />
+
+        @if (isDirectMessage()) {
+          <tt-profile-selector
+            [labelText]="'Подписчики'"
+            [placeholder]="'Выберите'"
+            [subscribers]="subscribers()"
+            formControlName="subscriberIds"
+          >
+          <span class="tt-form-icon" icon>
+            <svg [icon]="'search'"></svg>
+          </span>
+          </tt-profile-selector>
+        }
+
+        <tt-emoji-textarea
+          formControlName="message"
+        />
+
+        <div class="common-modal__footer">
+          <div class="common-modal__footer-left"></div>
+
+          <div class="common-modal__actions">
+            <button type="button" class="btn btn-light-transparent" (click)="hide()">Отмена</button>
+            <button type="submit" class="btn">
+              <span>Отправить</span>
+              <svg icon="send" class="svg16"></svg>
+            </button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</tt-modal-base>

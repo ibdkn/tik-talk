@@ -20,7 +20,7 @@
         (saved)="onUpdatePost($event)"
       ></app-common-input>
       } @else {
-      <p class="medium-text">{{ post.content }}</p>
+        <p class="medium-text" [innerHTML]="post.content | markdownLinks"></p>
       }
     </div>
     @if(isMyPost()) {
