@@ -75,7 +75,7 @@
   border-radius: 50%;
 }
 
-.subscribers-empty {
+.subscribers-search-empty {
   display: flex;
   align-items: center;
   cursor: pointer;
@@ -87,6 +87,11 @@
       background-color: var(--primary-color);
     }
   }
+}
+
+
+.to-subscribers-search-btn:hover {
+  background-color: var(--primary-color);
 }
 
 .to-subscribers-search {
@@ -104,6 +109,7 @@
   height: 14px;
   border-radius: 50%;
   background-color: var(--light-color);
+  cursor: pointer;
 
   &::before {
     content: '+';

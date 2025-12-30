@@ -1,25 +1,19 @@
 import {
-  ChangeDetectionStrategy, ChangeDetectorRef,
+  ChangeDetectionStrategy,
   Component,
-  computed, DestroyRef, inject,
+  computed, inject,
   input,
-  Optional,
-  Self,
   signal
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ImgUrlPipe } from '../../pipes';
 import {
   ControlValueAccessor,
-  FormGroupDirective,
   NgControl,
-  NgForm,
   ReactiveFormsModule,
 } from '@angular/forms';
 import { SvgIconComponent } from '../svg-icon/svg-icon.component';
 import { Profile } from '@tt/data-access';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { EMPTY } from 'rxjs';
 
 @Component({
   selector: 'tt-profile-selector',
@@ -29,8 +23,7 @@ import { EMPTY } from 'rxjs';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ProfileSelectorComponent implements ControlValueAccessor {
-  destroyRef = inject(DestroyRef);
-  cdr = inject(ChangeDetectorRef);
+  readonly ngControl = inject(NgControl, { self: true, optional: true });
 
   labelText = input.required<string>();
   placeholder = input.required<string>();
@@ -40,18 +33,10 @@ export class ProfileSelectorComponent implements ControlValueAccessor {
   selectedIds = signal<number[]>([]);
   disabled = signal(false);
 
-  constructor(
-    @Optional() @Self() public ngControl: NgControl | null,
-    @Optional() private formGroupDir: FormGroupDirective,
-    @Optional() private ngForm: NgForm,
-  ) {
+  constructor() {
     if (this.ngControl) {
       this.ngControl.valueAccessor = this;
     }
-
-    (this.formGroupDir?.ngSubmit ?? this.ngForm?.ngSubmit ?? EMPTY)
-      .pipe(takeUntilDestroyed(this.destroyRef))
-      .subscribe(() => this.cdr.markForCheck());
   }
 
   filteredSubscribers = computed(() => {

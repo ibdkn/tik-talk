@@ -39,33 +39,34 @@
       <h6 class="h6 mb16">Подписчики</h6>
       <div class="subscribers-wrapper mb32">
         @if (subscribers(); as subscribers) {
-          @for (subscriber of subscribers; track subscriber.id) {
-            <a
-              [routerLink]="['/profile', subscriber.id]"
-              class="subscriber-avatar-btn"
-            >
-              @if (subscriber.avatarUrl) {
-                <img
-                  [src]="subscriber.avatarUrl | imgUrl"
-                  [alt]="subscriber.username"
-                  class="subscriber-avatar"
-                />
-              } @else {
-                <img
-                  src="/assets/images/avatar-placeholder.png"
-                  [alt]="subscriber.username"
-                  class="subscriber-avatar"
-                />
-              }
-            </a>
-          }
           @if (subscribers.length > 0) {
-            <a [routerLink]="['/search']" class="to-subscribers-search">
-              <span class="to-subscribers-search-btn"></span>
-            </a>
+            @for (subscriber of subscribers; track subscriber.id) {
+              <a
+                [routerLink]="['/profile', subscriber.id]"
+                class="subscriber-avatar-btn"
+              >
+                <img
+                  [src]="subscriber.avatarUrl ? (subscriber.avatarUrl | imgUrl) : '/assets/images/avatar-placeholder.png'"
+                  [alt]="subscriber.username"
+                  class="subscriber-avatar"
+                />
+              </a>
+            }
           } @else {
-            <div class="subscribers-empty" (click)="showShareCommunity()">
-              Найти
+            @if (!isMyCommunity()) {
+              <p class="medium-text">Нет подписчиков</p>
+            }
+          }
+          @if (isMyCommunity()) {
+            <div
+              class="subscribers-search"
+              [class.subscribers-search-empty]="subscribers.length === 0"
+              (click)="showShareCommunity()"
+            >
+              @if (subscribers.length === 0) {
+                <span class="subscribers-search__text">Найти</span>
+              }
+
               <div class="to-subscribers-search">
                 <span class="to-subscribers-search-btn"></span>
               </div>
